@@ -1,0 +1,208 @@
+unit UFrmConsultarCliente;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmConsultarPai, RzButton, ExtCtrls, RzPanel, StdCtrls, Mask,
+  RzEdit, RzLabel, Grids, DBGrids, RzDBGrid, UFrmCadastroCliente, UDM, DB, UClienteJuridico, UClienteFisico,
+  UCtrlCliente,UCheca_IE_All_UF_BR ;
+
+type
+  TFrmConsultarCliente = class(TFrmConsultarPai)
+    TGroupBoxCliente: TRzGroupBox;
+    TLblCliente: TRzLabel;
+    TEdtCliente: TRzEdit;
+    TBtnBuscarCliente: TRzButton;
+    TDBGridCliente: TRzDBGrid;
+    TLblIdCidade: TRzLabel;
+    TEdtIdCidade: TRzEdit;
+    procedure TBtnNovoClick(Sender: TObject);
+    procedure TEdtIdCidadeExit(Sender: TObject);
+    procedure TBtnCancelarClick(Sender: TObject);
+    procedure TBtnEditarClick(Sender: TObject);
+    procedure TBtnExcluirClick(Sender: TObject);
+  private
+    { Private declarations }
+  protected
+    UmFrmCadCliente:TFrmCadastroCliente;
+    UmaCtrlCliente:TCtrlCliente;
+    UmClienteJuridico:TClienteJuridico;
+    UmClienteFisico:TClienteFisico;
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmConsultarCliente: TFrmConsultarCliente;
+
+implementation
+
+uses UCheca_IE_ALL_UF_BR;
+
+{$R *.dfm}
+
+procedure TFrmConsultarCliente.ReconhecaObjeto(OClienteF: TClienteFisico;
+  OClinteJ: TClienteJuridico);
+begin
+   UmClienteJuridico:= OClinteJ;
+   UmClienteFisico:= OClienteF;
+   UmaCtrlCliente:= TCtrlCliente.Create;
+   UmFrmCadCliente:= TFrmCadastroCliente.Create(nil);
+   Self.TDBGridCliente.DataSource:=UmaCtrlCliente.GetDs;
+end;
+
+procedure TFrmConsultarCliente.TBtnCancelarClick(Sender: TObject);
+begin
+  inherited;
+  UmaCtrlCliente.Destroy;
+  UmFrmCadCliente.Destroy;
+end;
+
+procedure TFrmConsultarCliente.TBtnEditarClick(Sender: TObject);
+begin
+  inherited;
+   UmFrmCadCliente.ReconhecaObjeto(UmClienteFisico,UmClienteJuridico,UmaCtrlCliente);
+  if UmaCtrlCliente.GetTipoCliente = 'Fisico' then
+  begin
+     UmaCtrlCliente.Carregar(UmClienteFisico);
+
+      if UmaCtrlCliente.Buscar(UmClienteFisico.Id, '') then
+      begin
+              UmFrmCadCliente.TEdtIdCliente.Text:=IntToStr(UmClienteFisico.Id);
+              UmFrmCadCliente.TEdtCliente.Text:=UmClienteFisico.Nome;
+              UmFrmCadCliente.TEdtCPF.Text:=UmClienteFisico.CPF;
+              UmFrmCadCliente.TEdtRG.Text:=UmClienteFisico.RG;
+              UmFrmCadCliente.TComboBoxStatus.Text:=UmClienteFisico.Status;
+              UmFrmCadCliente.TEdtIdCondicaoPagamento.Text:=IntToStr(UmClienteFisico.CP.IdCP);
+              UmFrmCadCliente.TEdtCondicaoPagamento.Text:=UmClienteFisico.CP.CP;
+              UmFrmCadCliente.TEdtLogradouro.Text:=UmClienteFisico.Logradouro;
+              UmFrmCadCliente.TEdtBairro.Text:=UmClienteFisico.Bairro;
+              UmFrmCadCliente.TEdtNumero.Text:=IntToStr(UmClienteFisico.Numero);
+              UmFrmCadCliente.TEdtCEP.Text:=UmClienteFisico.Cep;
+              UmFrmCadCliente.TEdtIdCidade.Text:=IntToStr(UmClienteFisico.Cidade.IdCidade);
+              UmFrmCadCliente.TEdtCidade.Text:=UmClienteFisico.Cidade.Cidade;
+              UmFrmCadCliente.TEdtObservacoes.Text:=UmClienteFisico.Observacoes;
+              UmFrmCadCliente.TEdtTelefoneResidencial.Text:=UmClienteFisico.Telefone;
+              UmFrmCadCliente.TEdtTelefoneCelular.Text:=UmClienteFisico.Celular;
+              UmFrmCadCliente.TEdtFax.Text:=UmClienteFisico.Fax;
+              UmFrmCadCliente.TEdtEmail.Text:=UmClienteFisico.Email;
+              UmFrmCadCliente.TRadioBtnJuridico.Checked:=False;
+              UmFrmCadCliente.TRadioBtnFisico.Checked:=True;
+              if UmClienteFisico.Sexo = 'Masculino' then
+              begin
+                  UmFrmCadCliente.TRadioBtnF.Checked:=False;
+                  UmFrmCadCliente.TRadioBtnM.Checked:=True;
+              end
+              else
+              begin
+                  UmFrmCadCliente.TRadioBtnM.Checked:=False;
+                  UmFrmCadCliente.TRadioBtnF.Checked:=True;
+              end;
+                UmFrmCadCliente.TDateTimePickerDataCadastro.Visible:=False;
+                UmFrmCadCliente.TDateTimePickerDataAlteracao.DateTime:=Now;
+                UmFrmCadCliente.TBtnLimpar.Visible:=False;
+                UmFrmCadCliente.ShowModal;
+
+      end;
+  end
+  else
+  begin
+       UmaCtrlCliente.Carregar(UmClienteJuridico);
+
+       if UmaCtrlCliente.Buscar(UmClienteJuridico.Id, '') then
+       begin
+
+           UmFrmCadCliente.TEdtIdCliente.Text:=IntToStr(UmClienteJuridico.Id);
+           UmFrmCadCliente.TEdtCliente.Text:=UmClienteJuridico.RS;
+           UmFrmCadCliente.TEdtFantasia.Text:=UmClienteJuridico.Fantasia;
+           UmFrmCadCliente.TComboBoxStatus.Text:=UmClienteJuridico.Status;
+           UmFrmCadCliente.TEdtIdCondicaoPagamento.Text:=IntToStr(UmClienteJuridico.CP.IdCP);
+           UmFrmCadCliente.TEdtCondicaoPagamento.Text:=UmClienteJuridico.CP.CP;
+           UmFrmCadCliente.TEdtLogradouro.Text:=UmClienteJuridico.Logradouro;
+           UmFrmCadCliente.TEdtBairro.Text:=UmClienteJuridico.Bairro;
+           UmFrmCadCliente.TEdtNumero.Text:=IntToStr(UmClienteJuridico.Numero);
+           UmFrmCadCliente.TEdtCEP.Text:=UmClienteJuridico.Cep;
+           UmFrmCadCliente.TEdtIdCidade.Text:=IntToStr(UmClienteJuridico.Cidade.IdCidade);
+           UmFrmCadCliente.TEdtCidade.Text:=UmClienteJuridico.Cidade.Cidade;
+           UmFrmCadCliente.TEdtObservacoes.Text:=UmClienteJuridico.Observacoes;
+           UmFrmCadCliente.TEdtTelefoneResidencial.Text:=UmClienteJuridico.Telefone;
+           UmFrmCadCliente.TEdtTelComercial.Text:=UmClienteJuridico.Telefone2;
+           UmFrmCadCliente.TEdtTelefoneCelular.Text:=UmClienteJuridico.Celular;
+           UmFrmCadCliente.TEdtFax.Text:=UmClienteJuridico.Fax;
+           UmFrmCadCliente.TEdtEmail.Text:=UmClienteJuridico.Email;
+           UmFrmCadCliente.TDateTimePickerDataCadastro.Visible:=False;
+           UmFrmCadCliente.TDateTimePickerDataAlteracao.DateTime:=Now;
+           UmFrmCadCliente.TBtnLimpar.Visible:=False;
+           UmFrmCadCliente.TRadioGroupSexo.Visible:=False;
+           UmFrmCadCliente.TRadioBtnFisico.Checked:=False;
+           UmFrmCadCliente.TRadioBtnJuridico.Checked:=True;
+           UmFrmCadCliente.ShowModal;
+       end;
+
+  end;
+
+end;
+
+procedure TFrmConsultarCliente.TBtnExcluirClick(Sender: TObject);
+begin
+inherited;
+  if (MessageDlg('DESEJA REALIZAR A EXCLUSÃO DOS DADOS.', mtConfirmation,[mbYes,mbNo],0) = IDYes)  then
+  begin
+      if UmaCtrlCliente.GetTipoCliente = 'Fisico' then
+              UmaCtrlCliente.Carregar(UmClienteFisico)
+      else
+              UmaCtrlCliente.Carregar(UmClienteJuridico);
+
+      if UmaCtrlCliente.Buscar(UmClienteJuridico.Id,'') AND (UmClienteJuridico.Id <> 0) then
+      begin
+          ShowMessage(UmaCtrlCliente.Excluir(UmClienteJuridico));
+      end
+      else if UmaCtrlCliente.Buscar(UmClienteFisico.Id,'') AND (UmClienteFisico.Id <> 0) then
+      begin
+         ShowMessage(UmaCtrlCliente.Excluir(UmClienteFisico));
+      end
+      else
+          ShowMessage('O CLIENTE SELECIONADO NÃO EXISTE.');
+  end;
+end;
+procedure TFrmConsultarCliente.TBtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  UmFrmCadCliente.ReconhecaObjeto(UmClienteFisico,UmClienteJuridico, UmaCtrlCliente);
+  UmFrmCadCliente.TDateTimePickerDataAlteracao.Visible:=False;
+  UmFrmCadCliente.TLblDataAlteracao.Visible:=False;
+  UmFrmCadCliente.TComboBoxStatus.Delete(1);
+  UmFrmCadCliente.TComboBoxStatus.Text:='Ativo';
+
+  if UmFrmCadCliente.TRadioBtnFisico.Checked then
+  begin
+      UmFrmCadCliente.TEdtCPF.MaxLength:=14;
+      UmFrmCadCliente.TEdtRG.MaxLength:=12;
+  end
+  else if  UmFrmCadCliente.TRadioBtnJuridico.Checked  then
+  begin
+      UmFrmCadCliente.TEdtCPF.MaxLength:=18;
+      UmFrmCadCliente.TEdtRG.MaxLength:=12;
+  end;
+
+
+
+
+  UmFrmCadCliente.TDateTimePickerDataCadastro.DateTime:=Now;
+  UmFrmCadCliente.ShowModal;
+end;
+
+procedure TFrmConsultarCliente.TEdtIdCidadeExit(Sender: TObject);
+var intValue:integer;
+begin
+  inherited;
+  if TryStrToInt(Self.TEdtIdCidade.Text,intValue) then
+     Exit
+  else
+    Self.TEdtIdCidade.Clear;
+
+
+end;
+
+end.

@@ -1,0 +1,206 @@
+unit UFrmConsultarVenda;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmConsultarPai, RzButton, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, cxContainer, cxEdit, dxSkinsCore,
+  dxSkinsDefaultPainters, cxGroupBox,UVenda, UCtrlVenda, UFrmCadastroVenda,
+  ExtCtrls, RzPanel, Grids, DBGrids, RzDBGrid, UDM, ComCtrls, RzDTP, StdCtrls,
+  Mask, RzEdit, dxSkinBlack, dxSkinBlue, dxSkinCaramel, dxSkinCoffee,
+  dxSkinDarkRoom, dxSkinDarkSide, dxSkinFoggy, dxSkinGlassOceans,
+  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
+  dxSkinMcSkin, dxSkinMoneyTwins, dxSkinOffice2007Black, dxSkinOffice2007Blue,
+  dxSkinOffice2007Green, dxSkinOffice2007Pink, dxSkinOffice2007Silver,
+  dxSkinOffice2010Black, dxSkinOffice2010Blue, dxSkinOffice2010Silver,
+  dxSkinPumpkin, dxSkinSeven, dxSkinSharp, dxSkinSilver, dxSkinSpringTime,
+  dxSkinStardust, dxSkinSummer2008, dxSkinValentine, dxSkinXmas2008Blue,
+  dxSkinsForm;
+
+type
+  TFrmConsultarVenda = class(TFrmConsultarPai)
+    RzGroupBox1: TRzGroupBox;
+    TDBGridVenda: TRzDBGrid;
+    TEdtNumeroNota: TRzEdit;
+    TEdtSerie: TRzEdit;
+    TLblNumeroNota: TLabel;
+    TLblSerie: TLabel;
+    TLblDataVenda: TLabel;
+    TDateTimePickerDataEmicao: TRzDateTimePicker;
+    TBtnBuscar: TRzButton;
+    procedure TBtnNovoClick(Sender: TObject);
+    procedure TBtnBuscarClick(Sender: TObject);
+    procedure TDateTimePickerDataEmicaoClick(Sender: TObject);
+    procedure TDBGridVendaDblClick(Sender: TObject);
+    procedure TDBGridVendaCellClick(Column: TColumn);
+    procedure TBtnEditarClick(Sender: TObject);
+  private
+    { Private declarations }
+  protected
+      UmaVenda:TVenda;
+      UmaCtrlVenda:TCtrlVenda;
+      UmFrmCadVenda:TFrmCadastroVenda;
+      DateSearch:boolean;
+  public
+    { Public declarations }
+    procedure ReconhecaObjeto(AVenda:TVenda);
+    procedure AbilitaCampos;
+  end;
+
+var
+  FrmConsultarVenda: TFrmConsultarVenda;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmConsultarVenda.AbilitaCampos;
+begin
+     UmFrmCadVenda.TEdtNumNota.Enabled:=True;
+  UmFrmCadVenda.TEdtSerie.Enabled:=True;
+  UmFrmCadVenda.TEdtValorFrete.Enabled:=True;
+  UmFrmCadVenda.TBtnAdd.Enabled:=True;
+ UmFrmCadVenda.TBtnRemover.Enabled:=True;
+  UmFrmCadVenda.TBtnBuscarProduto.Enabled:=True;
+  UmFrmCadVenda.TEdtIdFuncionario.Enabled:=True;
+  UmFrmCadVenda.TEdtCFOP.Enabled:=True;
+  UmFrmCadVenda.TEdtIdProduto.Enabled:=True;
+  UmFrmCadVenda.TBtnLimpar.Visible:=True;
+  UmFrmCadVenda.TEdtIdCP.Enabled:=True;
+ UmFrmCadVenda.TDateTimePickerDataEmicaoNota.Enabled:=True;
+ UmFrmCadVenda.TDateTimePickerDataAlteracao.Visible:=false;
+  UmFrmCadVenda.TDateTimePickerDataEmicaoNota.Enabled:=True;
+  UmFrmCadVenda.TBtnSalvar.Caption:='&Salvar';
+  UmFrmCadVenda.TBtnCancelar.Caption:='&Cancelar';
+end;
+
+procedure TFrmConsultarVenda.ReconhecaObjeto(AVenda: TVenda);
+begin
+    UmaVenda:=AVenda;
+    UmaCtrlVenda:=TCtrlVenda.create;
+    UmFrmCadVenda:=TFrmCadastroVenda.Create(nil);
+    Self.TDBGridVenda.DataSource:=UmaCtrlVenda.GetDs;
+    //Self.TDBGridProdutoVenda.DataSource:=UmaCtrlVenda.GetDsPV;
+    DateSearch:=False;
+end;
+
+procedure TFrmConsultarVenda.TBtnBuscarClick(Sender: TObject);
+var intAux:integer;
+    Condition:Boolean;
+begin
+  inherited;
+  Condition:=True;
+  if TryStrToInt(Self.TEdtNumeroNota.Text, intAux) and (Self.TEdtSerie.Text = '') and ( not DateSearch) then
+      Condition:= UmaCtrlVenda.Buscar(intAux,'','')
+  else if TryStrToInt(Self.TEdtNumeroNota.Text, intAux) and (Self.TEdtSerie.Text <> '') and (not DateSearch) then
+      Condition:=  UmaCtrlVenda.Buscar(intAux,Self.TEdtSerie.Text,'')
+  else if TryStrToInt(Self.TEdtNumeroNota.Text, intAux) and (Self.TEdtSerie.Text <> '') and (DateSearch) then
+      Condition:= UmaCtrlVenda.Buscar(intAux,Self.TEdtSerie.Text,DateTimeToStr(TDateTimePickerDataEmicao.Date))
+  else if (not Condition) then
+  begin
+    Self.TEdtNumeroNota.Clear;
+    Self.TEdtSerie.Clear;
+    ShowMessage('NENHUMA VENDA ENCONTRADA COM ESTES PARAMETROS.');
+    DateSearch:=False;
+  end;
+end;
+
+procedure TFrmConsultarVenda.TBtnEditarClick(Sender: TObject);
+var Lin:integer;
+begin
+  inherited;
+  UmFrmCadVenda.ReconhecaObjeto(UmaVenda,UmaCtrlVenda);
+  UmaCtrlVenda.Carregar(UmaVenda);
+  UmFrmCadVenda.TEdtNumNota.Text:=IntToStr(UmaVenda.NumeroNota);
+  UmFrmCadVenda.TEdtSerie.Text:=UmaVenda.Serie;
+  UmFrmCadVenda.TEdtCFOP.Text:=UmaVenda.CFOP;
+  UmFrmCadVenda.TEdtIdCliente.Text:=IntToStr(UmaVenda.UmClienteJuridico.Id);
+  UmFrmCadVenda.TEdtCliente.Text:=UmaVenda.UmClienteJuridico.RS;
+  UmFrmCadVenda.TEdtIdFuncionario.Text:=IntToStr(UmaVenda.UmFuncionario.Id);
+  UmFrmCadVenda.TEdtFuncionario.Text:=UmaVenda.UmFuncionario.Nome;
+  UmFrmCadVenda.TEdtObservacao.Text:=UmaVenda.Observacoes;
+  UmFrmCadVenda.TEdtIdCP.Text:=IntToStr(UmaVenda.UmaCP.IdCP);
+  UmFrmCadVenda.TEdtCP.Text:=UmaVenda.UmaCP.CP;
+  UmFrmCadVenda.TEdtValorTotalProdutos.Text:=FormatFloat('#0.00',UmaVenda.ValorTotalProdutos);
+  UmFrmCadVenda.TEdtValorTotalNota.Text:=FormatFloat('#0.00',UmaVenda.ValorTotalNota);
+  UmFrmCadVenda.TEdtValorFrete.Text:=FormatFloat('#0.00',UmaVenda.ValorFrete);
+  UmFrmCadVenda.TDateTimePickerDataEmicaoNota.DateTime:=StrToDateTime(UmaVenda.DataEmicao);
+  UmFrmCadVenda.TDateTimePickerDataCadastro.DateTime:=StrToDateTime(UmaVenda.DataCadastro);
+  UmFrmCadVenda.TBtnSalvar.Caption:='&Cancelar';
+  UmFrmCadVenda.TBtnCancelar.Caption:='&Sair';
+  for Lin := 1 to UmaVenda.UmaListaProduto.Count  do
+  begin
+      UmFrmCadVenda.TStringGridProdutosVenda.Cells[1,Lin]:=IntToStr(UmaVenda.getProdutos(lin-1).IdProduto);
+      UmFrmCadVenda.TStringGridProdutosVenda.Cells[2,Lin]:=UmaVenda.getProdutos(lin-1).Produto;
+      UmFrmCadVenda.TStringGridProdutosVenda.Cells[3,Lin]:=UmaVenda.getProdutos(lin-1).Marca;
+      UmFrmCadVenda.TStringGridProdutosVenda.Cells[4,Lin]:=FormatFloat('#0.00',UmaVenda.getProdutos(lin-1).ValorVenda);
+      UmFrmCadVenda.TStringGridProdutosVenda.Cells[5,Lin]:=UmaVenda.getProdutos(lin-1).Qtde;
+      UmFrmCadVenda.TStringGridProdutosVenda.Cells[6,Lin]:=FormatFloat('#0.00',UmaVenda.getProdutos(lin-1).IPI);
+      UmFrmCadVenda.TStringGridProdutosVenda.Cells[7,Lin]:=FormatFloat('#0.00',UmaVenda.getProdutos(lin-1).ICMS);
+      UmFrmCadVenda.TStringGridProdutosVenda.Cells[8,Lin]:=FormatFloat('#0.00',UmaVenda.getProdutos(lin-1).ValorVenda * StrToFloat(UmaVenda.getProdutos(lin-1).Qtde));
+      UmFrmCadVenda.TStringGridProdutosVenda.Cells[9,Lin]:=FormatFloat('#0.00',UmaVenda.getProdutos(lin-1).Desconto);
+      UmFrmCadVenda.TStringGridProdutosVenda.Cells[10,Lin]:=FormatFloat('#0.00',UmaVenda.getProdutos(lin-1).ValorTotalVenda);
+  end;
+  UmFrmCadVenda.TEdtSerie.Enabled:=False;
+  UmFrmCadVenda.TEdtCFOP.Enabled:=False;
+  UmFrmCadVenda.TDateTimePickerDataEmicaoNota.Enabled:=False;
+  UmFrmCadVenda.TEdtObservacao.Enabled:=False;
+  UmFrmCadVenda.TEdtValorTotalProdutos.Enabled:=false;
+  UmFrmCadVenda.TEdtValorFrete.Enabled:=False;
+  UmFrmCadVenda.TEdtValorTotalNota.Enabled:=False;
+  UmFrmCadVenda.TEdtIdCliente.Enabled:=False;
+  UmFrmCadVenda.TBtnBuscarCliente.Enabled:=False;
+  UmFrmCadVenda.TBtnBuscarFP.Enabled:=false;
+  UmFrmCadVenda.TBtnBuscarFuncionario.Enabled:=False;
+  UmFrmCadVenda.TEdtIdFuncionario.Enabled:=False;
+  UmFrmCadVenda.TEdtIdCP.Enabled:=False;
+  UmFrmCadVenda.TEdtNumNota.Enabled:=False;
+  UmFrmCadVenda.TEdtIdProduto.Enabled:=False;
+  UmFrmCadVenda.TBtnBuscarCliente.Enabled:=FALSE;
+  UmFrmCadVenda.TBtnAdd.Enabled:=False;
+  UmFrmCadVenda.TBtnRemover.Enabled:=False;
+
+   {Self.TStringGridProdutosVenda.Cells[1,0]:='ID';
+   Self.TStringGridProdutosVenda.Cells[2,0]:='PRODUTO';
+   Self.TStringGridProdutosVenda.Cells[3,0]:='MARCA';
+   Self.TStringGridProdutosVenda.Cells[4,0]:='VALOR UNITARIO';
+   Self.TStringGridProdutosVenda.Cells[5,0]:='QUANTIDADE';
+   Self.TStringGridProdutosVenda.Cells[6,0]:='IPI';
+   Self.TStringGridProdutosVenda.Cells[7,0]:='ICMS';
+   Self.TStringGridProdutosVenda.Cells[8,0]:='TOTAL';
+   Self.TStringGridProdutosVenda.Cells[9,0]:='DESCONTO';
+   Self.TStringGridProdutosVenda.Cells[10,0]:='TOTAL GERAL';  }
+
+  UmFrmCadVenda.ShowModal;
+  UmFrmCadVenda.limpaCampos;
+  AbilitaCampos;
+end;
+
+procedure TFrmConsultarVenda.TBtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  UmFrmCadVenda.ReconhecaObjeto(UmaVenda, UmaCtrlVenda);
+  UmFrmCadVenda.ShowModal;
+end;
+
+procedure TFrmConsultarVenda.TDateTimePickerDataEmicaoClick(Sender: TObject);
+begin
+  inherited;
+  DateSearch:=True;
+end;
+procedure TFrmConsultarVenda.TDBGridVendaCellClick(Column: TColumn);
+begin
+   inherited;
+   //UmaCtrlVenda.BuscarPV(StrToInt(Self.TDBGridVenda.Fields[0].Text),Self.TDBGridVenda.Fields[1].Text);
+   //Self.TDBGridProdutoVenda.DataSource:=UmaCtrlVenda.GetDsPV;
+end;
+
+procedure TFrmConsultarVenda.TDBGridVendaDblClick(Sender: TObject);
+begin
+  inherited;
+  //UmaCtrlVenda.BuscarPV(StrToInt(Self.TDBGridVenda.Fields[0].Text),Self.TDBGridVenda.Fields[1].Text);
+  //Self.TDBGridProdutoVenda.DataSource:=UmaCtrlVenda.GetDsPV;
+end;
+
+end.

@@ -1,0 +1,294 @@
+unit UFrmCadastroProduto;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmCadastroPai, RzButton, ComCtrls, RzDTP, StdCtrls, RzLabel, Mask,
+  RzEdit, RzRadChk, ExtCtrls, RzPanel, RzRadGrp, UProduto, UCtrlProduto,
+  cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters, cxContainer,
+  cxEdit, dxSkinsCore, dxSkinsDefaultPainters, cxCheckBox, CheckLst,
+  dxSkinBlack, dxSkinBlue, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom,
+  dxSkinDarkSide, dxSkinFoggy, dxSkinGlassOceans, dxSkiniMaginary, dxSkinLilian,
+  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMoneyTwins,
+  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
+  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black,
+  dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinPumpkin, dxSkinSeven,
+  dxSkinSharp, dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008,
+  dxSkinValentine, dxSkinXmas2008Blue, dxSkinsForm;
+
+type
+  TFrmCadastroProduto = class(TFormCadastroPai)
+    TEdtProduto: TRzEdit;
+    TEdtDescricao: TRzEdit;
+    TEdtMarca: TRzEdit;
+    TEdtLocalizacao: TRzEdit;
+    TEdtObservacao: TRzEdit;
+    TLblProduto: TRzLabel;
+    TLblDescricao: TRzLabel;
+    TLblMarca: TRzLabel;
+    TLblLocalizacao: TRzLabel;
+    TLblObservacao: TRzLabel;
+    TRadioGroupTipoProduto: TRzRadioGroup;
+    TRadioBtnProdutoComun: TRzRadioButton;
+    TRadioBtnProdutoProducao: TRzRadioButton;
+    TLblIdProduto: TRzLabel;
+    TEdtIdProduto: TRzEdit;
+    TLblVlCompra: TRzLabel;
+    TLblVlVenda: TRzLabel;
+    TLblQtde: TRzLabel;
+    TEdtQtde: TRzEdit;
+    TEdtVLCompra: TRzMaskEdit;
+    TEdtVlVenda: TRzMaskEdit;
+    TRadioBtnProdutoMateriaPrima: TRzRadioButton;
+    TCheckBoxUnidadeMedida: TRzCheckGroup;
+    TCheckKG: TRzCheckBox;
+    TCheckLitros: TRzCheckBox;
+    TCheckUnidades: TRzCheckBox;
+    TLblUnidadeMedida: TRzLabel;
+    TLblIPI: TRzLabel;
+    TEdtIPI: TRzEdit;
+    TEdtICMS: TRzEdit;
+    TLblICMS: TRzLabel;
+    procedure TBtnLimparClick(Sender: TObject);
+    procedure TBtnSalvarClick(Sender: TObject);
+    procedure TBtnCancelarClick(Sender: TObject);
+    procedure TCheckKGClick(Sender: TObject);
+    procedure TCheckLitrosClick(Sender: TObject);
+    procedure TCheckUnidadesClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure TEdtVlVendaExit(Sender: TObject);
+    procedure TEdtProdutoExit(Sender: TObject);
+    procedure TEdtDescricaoExit(Sender: TObject);
+    procedure TEdtMarcaExit(Sender: TObject);
+    procedure TEdtLocalizacaoExit(Sender: TObject);
+  private
+    { Private declarations }
+  protected
+    UmProduto:TProduto;
+    UmaCtrlProduto:TCtrlProduto;
+  public
+    { Public declarations }
+    function ValidaCampos:Boolean;
+    function ReconhecaObjeto(OProduto:TProduto;ACtrlProduto:TCtrlProduto):Boolean;
+    procedure LimpaCampos;
+    procedure Carregar;
+  end;
+
+var
+  FrmCadastroProduto: TFrmCadastroProduto;
+
+implementation
+
+{$R *.dfm}
+procedure TFrmCadastroProduto.Carregar;
+begin
+
+end;
+
+procedure TFrmCadastroProduto.FormCreate(Sender: TObject);
+begin
+  inherited;
+  //A QHANTIDADE DE ITENS REPRESENTA POR EXEMPLO 3 BOLOS DE CHOCOLATE, O PESO É DADO DURANTE A VENDA PESADO PELO VENDEDOR
+  //
+end;
+
+procedure TFrmCadastroProduto.LimpaCampos;
+begin
+    Self.TEdtProduto.Clear;
+    Self.TEdtMarca.Clear;
+    Self.TEdtDescricao.Clear;
+    Self.TEdtIdProduto.Clear;
+    Self.TDateTimePickerDataVencimento.Enabled:=True;
+    Self.TDateTimePickerDataFabricacao.Enabled:=True;
+    Self.TEdtObservacao.Clear;
+    Self.TEdtLocalizacao.Clear;
+    Self.TEdtVLCompra.Clear;
+    Self.TEdtVlVenda.Clear;
+    Self.TEdtQtde.Clear;
+    Self.TEdtICMS.Clear;
+    Self.TEdtIPI.Clear;
+end;
+
+function TFrmCadastroProduto.ReconhecaObjeto(OProduto: TProduto;
+  ACtrlProduto: TCtrlProduto): Boolean;
+begin
+    UmProduto:=OProduto;
+    UmaCtrlProduto:=ACtrlProduto;
+    Self.LimpaCampos;
+end;
+
+procedure TFrmCadastroProduto.TBtnCancelarClick(Sender: TObject);
+begin
+  inherited;
+  close;
+  Self.LimpaCampos;
+end;
+
+procedure TFrmCadastroProduto.TBtnLimparClick(Sender: TObject);
+begin
+  inherited;
+   Self.TEdtIdProduto.Clear;
+   Self.TEdtProduto.Clear;
+   Self.TEdtDescricao.Clear;
+   Self.TEdtMarca.Clear;
+   Self.TEdtLocalizacao.Clear;
+   Self.TEdtObservacao.Clear;
+end;
+
+procedure TFrmCadastroProduto.TBtnSalvarClick(Sender: TObject);
+var MSG:string;
+    intValue:Integer;
+    floatValueQtde,floatValueVlCompra, floatValueVlVenda:Double;
+
+begin
+  inherited;
+   if Self.ValidaCampos then
+   begin
+       if TryStrToInt(Self.TEdtIdProduto.Text,intValue) then
+          UmProduto.IdProduto:= intValue
+       else
+          UmProduto.IdProduto:=0;
+       UmProduto.Produto:= Self.TEdtProduto.Text;
+       UmProduto.Descricao:= Self.TEdtDescricao.Text;
+       UmProduto.Marca:= Self.TEdtMarca.Text;
+       if TryStrToFloat(Self.TEdtQtde.Text, floatValueQtde) then
+          UmProduto.Qtde:=FormatFloat('#0.00',floatValueQtde);
+       //NÃO FORMATO CASAS DECIMAIS POIS VEM DA COMPRA NÃO QUERO CAUSAR INCONSISTENCIA DE VALORES
+       if TryStrToFloat(TEdtVlCompra.Text,floatValueVlCompra) then
+          UmProduto.ValorCompra:=StrToFloat(TEdtVlCompra.Text);
+       if TryStrToFloat(Self.TEdtVlVenda.Text, floatValueVlVenda) then
+          UmProduto.ValorVenda:=StrToFloat(FormatFloat('#0.00',floatValueVlVenda));
+       UmProduto.Localizacao:= Self.TEdtLocalizacao.Text;
+       UmProduto.Observacao:=Self.TEdtObservacao.Text;
+       if Self.TCheckKG.Checked then
+           UmProduto.TipoUnidade:= 1
+       else if Self.TCheckLitros.Checked then
+           UmProduto.TipoUnidade := 2
+       else if Self.TCheckUnidades.Checked then
+           UmProduto.TipoUnidade:= 3
+       else
+       begin
+         ShowMessage('TIPO DE UNIDADE DE MEDIDA INCORETO, SELECIONE UM TIPO COMPATIVEL A O PRODUTO.');
+         Exit;
+       end;
+
+       if Self.TRadioBtnProdutoComun.Checked then
+          UmProduto.Tipo:=2
+       else if Self.TRadioBtnProdutoProducao.Checked  then
+          UmProduto.Tipo:=3
+       else if Self.TRadioBtnProdutoMateriaPrima.Checked then
+          UmProduto.Tipo:=1
+       else
+       begin
+         ShowMessage(' TIPO DE PRODUTO INCORETO, SELECIONE UM TIPO COMPATIVEL A SEU PRODUTO.');
+         Exit;
+       end;
+       UmProduto.DataAlteracao:=DateTimeToStr( Self.TDateTimePickerDataAlteracao.DateTime);
+       UmProduto.DataFabricacao:=DateTimeToStr( Self.TDateTimePickerDataFabricacao.DateTime);
+       UmProduto.DataCadastro:=DateTimeToStr( Self.TDateTimePickerDataCadastro.DateTime);
+       UmProduto.DataVencimento:= DateTimeToStr( Self.TDateTimePickerDataVencimento.DateTime);
+       MSG:=UmaCtrlProduto.Salvar(UmProduto);
+       ShowMessage(MSG);
+       Self.LimpaCampos;
+       Close;
+   end;
+end;
+
+procedure TFrmCadastroProduto.TCheckKGClick(Sender: TObject);
+begin
+  inherited;
+  Self.TLblUnidadeMedida.Caption:='Kg';
+  Self.TCheckLitros.Checked:=False;
+  Self.TCheckUnidades.Checked:=False;
+end;
+
+procedure TFrmCadastroProduto.TCheckLitrosClick(Sender: TObject);
+begin
+  inherited;
+  Self.TLblUnidadeMedida.Caption:='Litros';
+  Self.TCheckKG.Checked:=False;
+  Self.TCheckUnidades.Checked:=False;
+end;
+procedure TFrmCadastroProduto.TCheckUnidadesClick(Sender: TObject);
+begin
+  inherited;
+    Self.TLblUnidadeMedida.Caption:='Unidades';
+    Self.TCheckLitros.Checked:=False;
+    Self.TCheckKG.Checked:=False;
+end;
+
+procedure TFrmCadastroProduto.TEdtDescricaoExit(Sender: TObject);
+begin
+  inherited;
+  Self.TEdtDescricao.Color:=clWindow;
+end;
+
+procedure TFrmCadastroProduto.TEdtLocalizacaoExit(Sender: TObject);
+begin
+  inherited;
+  Self.TEdtLocalizacao.Color:=clWindow;
+end;
+
+procedure TFrmCadastroProduto.TEdtMarcaExit(Sender: TObject);
+begin
+  inherited;
+  Self.TEdtMarca.Color:=clWindow;
+end;
+
+procedure TFrmCadastroProduto.TEdtProdutoExit(Sender: TObject);
+begin
+  inherited;
+  Self.TEdtProduto.Color:=clWindow;
+end;
+
+procedure TFrmCadastroProduto.TEdtVlVendaExit(Sender: TObject);
+var floatValue:Double;
+begin
+  inherited;
+  if TryStrToFloat(Self.TEdtVlVenda.Text, floatValue) and TryStrToFloat(Self.TEdtVLCompra.Text, floatValue) then
+  begin
+     Self.TEdtVlVenda.Text:=FormatFloat('#0.00',StrToFloat(Self.TEdtVlVenda.Text));
+  end
+  else
+  begin
+    ShowMessage('VALOR DE VENDA INCORRETO, DEVE SER IGULA OU MAIOR AO VALOR DE COMPRA.');
+  end;
+
+end;
+
+function TFrmCadastroProduto.ValidaCampos: Boolean;
+begin
+      if Length( Self.TEdtProduto.Text) < 2   then
+  begin
+    Self.TEdtProduto.Color:=clWebSteelBlue;
+    Self.TEdtProduto.SetFocus;
+    Result:=False;
+    Exit;
+  end;
+  if Length( Self.TEdtDescricao.Text) < 2   then
+  begin
+    Self.TEdtDescricao.Color:=clWebSteelBlue;
+    Self.TEdtDescricao.SetFocus;
+    Result:=False;
+    Exit;
+  end;
+  if Length( Self.TEdtMarca.Text) < 2   then
+  begin
+    Self.TEdtMarca.Color:=clWebSteelBlue;
+    Self.TEdtMarca.SetFocus;
+    Result:=False;
+    Exit;
+  end;
+  if Self.TBtnLimpar.Enabled  then
+      if (Self.TDateTimePickerDataFabricacao.Date > Self.TDateTimePickerDataVencimento.Date) then
+      begin
+        ShowMessage('ERRO DE DATA, A DATA DE FABRICAÇÃO DEVE SER INFERIOR A DATA DE VENCIMENTO.');
+        Result:=False;
+        Exit;
+      end
+      else
+        Result:=True;
+end;
+end.
+

@@ -1,0 +1,94 @@
+unit UFrmConsultarEstado;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmConsultarPai, RzButton, Grids, DBGrids, RzDBGrid, ExtCtrls,
+  RzPanel, StdCtrls, Mask, RzEdit, RzLabel,DB,UDM,UEstado,
+  UCtrlEstado,UFrmCadastroEstado;
+
+type
+  TFrmConsultarEstado = class(TFrmConsultarPai)
+    TLblEstado: TRzLabel;
+    TEdtEstado: TRzEdit;
+    TBtnEstado: TRzBitBtn;
+    TGroupBoxEstado: TRzGroupBox;
+    TDBGridEstado: TRzDBGrid;
+    TLblID: TRzLabel;
+    TEdtIdEstado: TRzEdit;
+    procedure TBtnNovoClick(Sender: TObject);
+    procedure TBtnCancelarClick(Sender: TObject);
+    procedure TBtnEstadoClick(Sender: TObject);
+    procedure TEdtIdEstadoKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtEstadoKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+  protected
+    UmEstado:TEstado;
+    UmaCtrlEstado:TCtrlEstado;
+    UmFrmCadEstado:TFrmCadastroEstado;
+  public
+    { Public declarations }
+     procedure ReconhecaObjeto(OEstado:TEstado);
+  end;
+var
+  FrmConsultarEstado: TFrmConsultarEstado;
+implementation
+
+{$R *.dfm}
+
+{ TFrmConsultarEstado }
+
+procedure TFrmConsultarEstado.ReconhecaObjeto(OEstado: TEstado);
+begin
+  UmEstado:=OEstado;
+  UmaCtrlEstado:=TCtrlEstado.Create;
+  UmFrmCadEstado:=TFrmCadastroEstado.Create(nil);
+  Self.TDBGridEstado.DataSource:=UmaCtrlEstado.GetDs;
+end;
+
+procedure TFrmConsultarEstado.TBtnCancelarClick(Sender: TObject);
+begin
+  inherited;
+   if Self.TBtnCancelar.Caption = 'Selecionar' then
+      UmEstado:=TEstado(UmaCtrlEstado.Carregar(UmEstado));
+  Close;
+end;
+
+procedure TFrmConsultarEstado.TBtnEstadoClick(Sender: TObject);
+begin
+  inherited;
+  if Self.TEdtIdEstado.Text <> '' then
+     UmaCtrlEstado.Buscar(StrToInt(Self.TEdtIdEstado.Text),'');
+  if Self.TEdtEstado.Text <> '' then
+    UmaCtrlEstado.Buscar(0,Self.TEdtEstado.Text);
+  Self.TEdtEstado.Clear;
+  Self.TEdtIdEstado.Clear;
+end;
+
+procedure TFrmConsultarEstado.TBtnNovoClick(Sender: TObject);
+begin
+  inherited;
+     UmFrmCadEstado.ReconhecaObjeto(UmEstado,UmaCtrlEstado);
+     UmFrmCadEstado.ShowModal;
+end;
+
+procedure TFrmConsultarEstado.TEdtEstadoKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if not (key in ['A'..'Z','a'..'z',#8,#32,'ç','Ç']) then
+     key := #0;
+end;
+
+procedure TFrmConsultarEstado.TEdtIdEstadoKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if not (key in ['0'..'9',#8]) then
+     key := #0;
+  //#8 é BackSpace
+end;
+
+end.

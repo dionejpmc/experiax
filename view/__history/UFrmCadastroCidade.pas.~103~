@@ -1,0 +1,228 @@
+unit UFrmCadastroCidade;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmCadastroPai, StdCtrls, Mask, RzEdit, RzLabel, RzButton, ComCtrls,
+  RzDTP,UCidade, UEstado,UCtrlCidade,UFrmConsultarEstado,UCtrlEstado,
+  dxSkinsCore, dxSkinsDefaultPainters, cxRadioGroup, ExtCtrls;
+
+type
+  TFrmCadastroCidade = class(TFormCadastroPai)
+    TLblCidade: TRzLabel;
+    TEdtCidade: TRzEdit;
+    TLblEstado: TRzLabel;
+    TEdtEstado: TRzEdit;
+    TBtnBuscarEstado: TRzButton;
+    TLblSigla: TRzLabel;
+    TEdtSigla: TRzEdit;
+    TLblID: TRzLabel;
+    TEdtIdCidade: TRzEdit;
+    TLblIDEstado: TRzLabel;
+    TEdtIdEstado: TRzEdit;
+    procedure TEdtIdCidadeKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtCidadeKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtEstadoKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtSiglaKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtIdEstadoKeyPress(Sender: TObject; var Key: Char);
+    procedure TBtnSalvarClick(Sender: TObject);
+    procedure TBtnLimparClick(Sender: TObject);
+    procedure TBtnBuscarEstadoClick(Sender: TObject);
+    procedure TEdtIdEstadoExit(Sender: TObject);
+    procedure TBtnCancelarClick(Sender: TObject);
+  private
+    { Private declarations }
+  protected
+   // UmFrmCadCidade:TFrmCadastroCidade;
+    UmFrmConEstado:TFrmConsultarEstado;
+    UmaCtrlCidade:TCtrlCidade;
+    UmaCidade:TCidade;
+  public
+    { Public declarations }
+    procedure ReconhecaObjeto(ACidade:TCidade;ACtrlCidade:TCtrlCidade);
+    function ValidaCampos:Boolean;
+    procedure LimpaCampos;
+    procedure Carregar;
+  end;
+
+var
+  FrmCadastroCidade: TFrmCadastroCidade;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmCadastroCidade.Carregar;
+begin
+    Self.TEdtIdCidade.Text:=InttoStr(UmaCidade.IdCidade);
+    Self.TEdtCidade.Text:=UmaCidade.Cidade;
+    Self.TEdtEstado.Text:=UmaCidade.Estado.Estado;
+    Self.TEdtIdEstado.Text:=IntToStr(UmaCidade.Estado.IdEstado);
+    Self.TEdtSigla.Text:=UmaCidade.Estado.Sigla;
+    Self.TDateTimePickerDataCadastro.DateTime:=StrToDateTime(UmaCidade.DataCadastro);
+    Self.TDateTimePickerDataAlteracao.DateTime:=StrToDateTime(UmaCidade.DataAlteracao);
+end;
+
+procedure TFrmCadastroCidade.LimpaCampos;
+begin
+   Self.TEdtIdCidade.Clear;
+   Self.TEdtCidade.Clear;
+   Self.TEdtEstado.Clear;
+   Self.TEdtIdEstado.Clear;
+   Self.TEdtSigla.Clear;
+end;
+
+procedure TFrmCadastroCidade.ReconhecaObjeto(ACidade:TCidade; ACtrlCidade:TCtrlCidade);
+begin
+  UmaCtrlCidade:=ACtrlCidade;
+  UmaCidade:=ACidade;
+  UmaCidade.Estado:=TEstado.Create;
+end;
+
+procedure TFrmCadastroCidade.TEdtIdEstadoExit(Sender: TObject);
+var UmaCtrlEstado :TCtrlEstado;
+    intAux:Integer;
+begin
+  inherited;
+  if TryStrToInt(Self.TEdtIdEstado.Text,intAux) and (Self.TEdtIdEstado.Text <> '0') then
+  begin
+     Self.TEdtEstado.Clear;
+     umaCtrlEstado := TCtrlEstado.Create;
+     UmaCidade.Estado.IdEstado:=StrtoInt(Self.TEdtIdEstado.Text);
+     UmaCidade.Estado.Estado:=Self.TEdtEstado.Text;
+     if not umaCtrlEstado.Buscar(UmaCidade.Estado.IdEstado,'') then
+      begin
+        MessageDlg('NENHUM REGISTRO ENCONTRADO!', mtInformation, [mbOK], 1);
+        Self.TEdtIdEstado.Clear;
+        Self.TEdtEstado.Clear;
+        Self.TEdtSigla.Clear;
+      end
+      else
+        begin
+            UmaCtrlEstado.Carregar(UmaCidade.Estado);
+            self.TEdtIdEstado.Text := IntToStr(UmaCidade.Estado.IdEstado);
+            self.TEdtEstado.Text := UmaCidade.Estado.Estado;
+            Self.TEdtSigla.Text:=UmaCidade.Estado.Sigla;
+        end;
+      end
+      else
+        begin
+          self.TEdtIdEstado.Clear;
+          Self.TEdtEstado.Clear;
+          Self.TEdtSigla.Clear;
+        end;
+        UmaCtrlEstado.Destroy;
+end;
+
+procedure TFrmCadastroCidade.TEdtIdEstadoKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if not (key in ['0'..'9',#8]) then
+     key := #0;
+  end;
+
+procedure TFrmCadastroCidade.TBtnBuscarEstadoClick(Sender: TObject);
+begin
+  inherited;
+    UmFrmConEstado:=TFrmConsultarEstado.Create(nil);
+    UmFrmConEstado.ReconhecaObjeto(UmaCidade.Estado);
+    UmFrmConEstado.TBtnCancelar.Caption:='Selecionar';
+    UmFrmConEstado.ShowModal;
+    Self.TEdtEstado.Text:=UmaCidade.Estado.Estado;
+    Self.TEdtIdEstado.Text:=IntToStr(UmaCidade.Estado.getIdEstado);
+    Self.TEdtSigla.Text:=UmaCidade.Estado.Sigla;
+end;
+
+procedure TFrmCadastroCidade.TBtnCancelarClick(Sender: TObject);
+begin
+  inherited;
+  Self.LimpaCampos;
+end;
+
+procedure TFrmCadastroCidade.TBtnLimparClick(Sender: TObject);
+begin
+  inherited;
+   Self.LimpaCampos;
+end;
+
+procedure TFrmCadastroCidade.TBtnSalvarClick(Sender: TObject);
+var MSG:string;
+    Aux:Integer;
+begin
+  inherited;
+  if Self.ValidaCampos = True then
+  begin
+      if TryStrToInt(Self.TEdtIdCidade.Text, aux) then
+          UmaCidade.IdCidade:= aux
+      else
+          UmaCidade.IdCidade:=0;
+      UmaCidade.Cidade:=Self.TEdtCidade.Text;
+      UmaCidade.Estado.IdEstado:=StrToInt(TEdtIdEstado.Text);
+      UmaCidade.DataCadastro:=DateTimeToStr(Self.TDateTimePickerDataCadastro.DateTime);
+      UmaCidade.DataAlteracao:=DateTimeToStr(Self.TDateTimePickerDataAlteracao.DateTime);
+  end
+  else
+      ShowMessage('TODOS OS CAMPOS OBRIGATORIOS DEVEM SER PREENCHIDOS.');
+  if Self.ValidaCampos then
+  begin
+    MSG:=UmaCtrlCidade.Salvar(UmaCidade);
+    ShowMessage(MSG);
+    Self.LimpaCampos;
+    Close;
+  end
+  else
+    Exit;
+
+end;
+
+procedure TFrmCadastroCidade.TEdtCidadeKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if not (key in ['A'..'Z','a'..'z',#8,#32,'ç','Ç']) then
+     key := #0;
+end;
+
+procedure TFrmCadastroCidade.TEdtEstadoKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if not (key in ['A'..'Z','a'..'z',#8,#32,'ç','Ç']) then
+     key := #0;
+end;
+
+procedure TFrmCadastroCidade.TEdtIdCidadeKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+   if not (key in ['0'..'9',#8]) then
+      key := #0;
+end;
+
+procedure TFrmCadastroCidade.TEdtSiglaKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+   if not (key in ['A'..'Z','a'..'z',#8,#32,'Ç','Ã']) then
+     key := #0;
+end;
+
+function TFrmCadastroCidade.ValidaCampos: Boolean;
+begin
+  if Length( Self.TEdtCidade.Text) < 2   then
+  begin
+    Self.TEdtCidade.Color:=clWebSteelBlue;
+    Self.TEdtCidade.SetFocus;
+    Result:=False;
+    Exit;
+  end;
+  if Length( Self.TEdtEstado.Text) < 2   then
+  begin
+    Self.TEdtEstado.Color:=clWebSteelBlue;
+    Self.TEdtIdEstado.SetFocus;
+    Result:=False;
+    Exit;
+  end
+  else
+    Result:=True;
+end;
+
+end.

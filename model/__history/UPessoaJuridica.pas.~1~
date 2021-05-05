@@ -1,0 +1,12 @@
+unit UPessoaJuridica;
+
+interface
+uses UPessoa;
+type
+    TPessoaJuridica = Class(TPessoa)
+
+    End;
+
+implementation
+
+end.

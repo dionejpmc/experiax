@@ -1,0 +1,16 @@
+unit UCtrlOrdemProducao;
+
+interface
+type
+    TCtrlOP = class
+      private
+
+      protected
+
+      public
+
+    end;
+
+implementation
+
+end.

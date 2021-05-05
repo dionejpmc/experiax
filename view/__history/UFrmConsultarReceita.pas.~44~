@@ -1,0 +1,67 @@
+unit UFrmConsultarReceita;
+
+interface
+
+uses
+  UCtrlReceita,Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmConsultarPai, RzButton, StdCtrls, Mask, RzEdit, RzLabel,
+  ExtCtrls, RzPanel, Grids, DBGrids, RzDBGrid,UReceita,UFrmCadastroReceita, DB, UDM;
+
+type
+  TFrmConsultarReceita = class(TFrmConsultarPai)
+    TGroupBoxReceita: TRzGroupBox;
+    TLblReceita: TRzLabel;
+    TEdtReceita: TRzEdit;
+    TBtnBuscarReceita: TRzButton;
+    TDBGridReceita: TRzDBGrid;
+    TLblIdReceita: TRzLabel;
+    TEdtIdReceita: TRzEdit;
+    tGroupBoxPRODUTOSDARECEITA: TRzGroupBox;
+    TDBGridPRODUTOSDARECEITA: TRzDBGrid;
+    procedure TBtnNovoClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  protected
+    UmaReceita:TReceita;
+    UmaCtrlReceita:TCtrlReceita;
+    UmFrmCadReceita:TFrmCadastroReceita;
+  public
+    { Public declarations }
+    procedure ReconhecaObjeto(AReceita:TReceita);
+  end;
+
+var
+  FrmConsultarReceita: TFrmConsultarReceita;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmConsultarReceita.FormCreate(Sender: TObject);
+begin
+  inherited;
+  if UmaReceita.UmaListaProduto.Count = 0 then
+      UmaReceita.UmaListaProduto.Free;
+
+
+end;
+
+procedure TFrmConsultarReceita.ReconhecaObjeto(AReceita: TReceita);
+begin
+   UmaReceita:=AReceita;
+   UmaCtrlReceita:=TCtrlReceita.Create;
+   UmFrmCadReceita:=TFrmCadastroReceita.Create(nil);
+   Self.TDBGridReceita.DataSource:= UmaCtrlReceita.GetDs;
+   Self.TDBGridPRODUTOSDARECEITA.DataSource:=UmaCtrlReceita.GetDsPR;
+
+end;
+
+procedure TFrmConsultarReceita.TBtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  UmFrmCadReceita.ReconhecaObjeto(UmaReceita,UmaCtrlReceita );
+  UmFrmCadReceita.ShowModal;
+end;
+
+end.

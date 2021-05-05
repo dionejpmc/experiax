@@ -1,0 +1,331 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{96ABAD89-DF0A-4C22-8061-138B0923AAE3}</ProjectGuid>
+			<ProjectVersion>13.4</ProjectVersion>
+			<MainSource>ExperiaxProject.dpr</MainSource>
+			<Config Condition="'$(Config)'==''">Debug</Config>
+			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+			<FrameworkType>VCL</FrameworkType>
+			<Base>True</Base>
+			<Platform Condition="'$(Platform)'==''">Win32</Platform>
+			<TargetedPlatforms>3</TargetedPlatforms>
+			<AppType>Console</AppType>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+			<Base_Win64>true</Base_Win64>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+			<Base_Win32>true</Base_Win32>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+			<Cfg_1>true</Cfg_1>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+			<Cfg_2>true</Cfg_2>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base)'!=''">
+			<VerInfo_Locale>1046</VerInfo_Locale>
+			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+			<DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;Winapi;$(DCC_Namespace)</DCC_Namespace>
+			<DCC_DependencyCheckOutputName>ExperiaxProject.exe</DCC_DependencyCheckOutputName>
+			<DCC_ImageBase>00400000</DCC_ImageBase>
+			<DCC_Platform>x86</DCC_Platform>
+			<DCC_E>false</DCC_E>
+			<DCC_N>false</DCC_N>
+			<DCC_S>false</DCC_S>
+			<DCC_F>false</DCC_F>
+			<DCC_K>false</DCC_K>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base_Win64)'!=''">
+			<DCC_Namespace>System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
+			<Icon_MainIcon>ExperiaxProject_Icon.ico</Icon_MainIcon>
+			<VerInfo_Locale>1033</VerInfo_Locale>
+			<Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base_Win32)'!=''">
+			<Icon_MainIcon>ExperiaxProject_Icon.ico</Icon_MainIcon>
+			<DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+			<VerInfo_Locale>1033</VerInfo_Locale>
+			<Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+			<DCC_DebugInformation>false</DCC_DebugInformation>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2)'!=''">
+			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+		</PropertyGroup>
+		<ItemGroup>
+			<DelphiCompile Include="$(MainSource)">
+				<MainSource>MainSource</MainSource>
+			</DelphiCompile>
+			<DCCReference Include="model\UCidade.pas"/>
+			<DCCReference Include="model\UEstado.pas"/>
+			<DCCReference Include="model\UPais.pas"/>
+			<DCCReference Include="dao\UDAO.pas"/>
+			<DCCReference Include="dao\UDaoEstado.pas"/>
+			<DCCReference Include="dao\UDAOPais.pas"/>
+			<DCCReference Include="controll\UCtrl.pas"/>
+			<DCCReference Include="controll\UCtrlEstado.pas"/>
+			<DCCReference Include="controll\UCtrlPais.pas"/>
+			<DCCReference Include="view\UFrmCadastroCidade.pas">
+				<Form>FrmCadastroCidade</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmCadastroCliente.pas">
+				<Form>FrmCadastroCliente</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmCadastroCompra.pas">
+				<Form>FrmCadastroCompra</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmCadastroCondicaoPagamento.pas">
+				<Form>FrmCadastroCondicaoPagamento</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmCadastroContasReceber.pas">
+				<Form>FrmCadastroContasReceber</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmCadastroEstado.pas">
+				<Form>FrmCadastroEstado</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmCadastroFormaPagamento.pas">
+				<Form>FrmCadastroFP</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmCadastroFornecedor.pas">
+				<Form>FrmCadastroFornecedor</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmCadastroFuncionario.pas">
+				<Form>FrmCadastroFuncionario</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmCadastroOP.pas">
+				<Form>FrmCadastroOP</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmCadastroPai.pas">
+				<Form>FormCadastroPai</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmCadastroPais.pas">
+				<Form>FrmCadastroPais</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmCadastroPerfil.pas">
+				<Form>FrmCadastroPerfilAcesso</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmCadastroProduto.pas">
+				<Form>FrmCadastroProduto</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmCadastroReceita.pas">
+				<Form>FrmCadastroReceita</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmCadastroUsuario.pas">
+				<Form>FrmCadastroUsuario</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmCadastroVenda.pas">
+				<Form>FrmCadastroVenda</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarCidade.pas">
+				<Form>FrmConsultarCidade</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarCliente.pas">
+				<Form>FrmConsultarCliente</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarCompra.pas">
+				<Form>FrmConsultarCompra</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarCondicaoPagamento.pas">
+				<Form>FrmConsultarCondicaoPagamento</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarContasReceber.pas">
+				<Form>FrmConsultarContasReceber</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarEstado.pas">
+				<Form>FrmConsultarEstado</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarFormaPagamento.pas">
+				<Form>FrmConsultarFormaPagamento</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarFornecedor.pas">
+				<Form>FrmConsultarFornecedor</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarFuncionario.pas">
+				<Form>FrmConsultarFuncionario</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarOrdemProducao.pas">
+				<Form>FrmConsultarOrdemProducao</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarPai.pas">
+				<Form>FrmConsultarPai</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarPais.pas">
+				<Form>FrmConsultarPais</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarProduto.pas">
+				<Form>FrmConsultarProduto</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarReceita.pas">
+				<Form>FrmConsultarReceita</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarVenda.pas">
+				<Form>FrmConsultarVenda</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmMenuPrincipal.pas">
+				<Form>FrmMenuPrincipal</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmPai.pas">
+				<Form>FormPai</Form>
+			</DCCReference>
+			<DCCReference Include="controll\UCtrlCidade.pas"/>
+			<DCCReference Include="dao\UDaoCidade.pas"/>
+			<DCCReference Include="model\UClienteFisico.pas"/>
+			<DCCReference Include="model\UPessoa.pas"/>
+			<DCCReference Include="model\UPessoaFisica.pas"/>
+			<DCCReference Include="model\UPessoaJuridica.pas"/>
+			<DCCReference Include="model\UFuncionario.pas"/>
+			<DCCReference Include="model\UFornecedor.pas"/>
+			<DCCReference Include="model\UReceita.pas"/>
+			<DCCReference Include="model\UProduto.pas"/>
+			<DCCReference Include="model\UOrdemProducao.pas"/>
+			<DCCReference Include="dao\UDaoCargo.pas"/>
+			<DCCReference Include="controll\UCtrlCargo.pas"/>
+			<DCCReference Include="view\UFrmCadastroCargo.pas">
+				<Form>TFrmCadastroCargo</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarCargo.pas">
+				<Form>TFrmConsultarCargo</Form>
+			</DCCReference>
+			<DCCReference Include="model\UCargo.pas"/>
+			<DCCReference Include="dao\UDaoFuncionario.pas"/>
+			<DCCReference Include="controll\UCtrlFuncionario.pas"/>
+			<DCCReference Include="dao\UDaoProduto.pas"/>
+			<DCCReference Include="controll\UCtrlProduto.pas"/>
+			<DCCReference Include="dao\UDaoReceita.pas"/>
+			<DCCReference Include="controll\UCtrlReceita.pas"/>
+			<DCCReference Include="dao\UDaoFornecedor.pas"/>
+			<DCCReference Include="controll\UCtrlFornecedor.pas"/>
+			<DCCReference Include="model\UContaReceber.pas"/>
+			<DCCReference Include="model\UVenda.pas"/>
+			<DCCReference Include="model\UCompra.pas"/>
+			<DCCReference Include="model\UCaixa.pas"/>
+			<DCCReference Include="model\UFormaPagamento.pas">
+				<Form>$R *.res</Form>
+			</DCCReference>
+			<DCCReference Include="model\UCondicaoPagamento.pas"/>
+			<DCCReference Include="model\UContaPagar.pas"/>
+			<DCCReference Include="controll\UCtrlFP.pas"/>
+			<DCCReference Include="dao\UDaoFP.pas"/>
+			<DCCReference Include="dao\UDaoCP.pas"/>
+			<DCCReference Include="controll\UCtrlCP.pas"/>
+			<DCCReference Include="model\UParcela.pas"/>
+			<DCCReference Include="controll\UCtrlCliente.pas"/>
+			<DCCReference Include="dao\UDaoCliente.pas"/>
+			<DCCReference Include="controll\UCtrlCompra.pas"/>
+			<DCCReference Include="model\UFornecedorFisico.pas"/>
+			<DCCReference Include="dao\UDaoCompra.pas"/>
+			<DCCReference Include="view\UFrmCadastroContasPagar.pas">
+				<Form>FrmCadastroContasPagar</Form>
+			</DCCReference>
+			<DCCReference Include="view\UFrmConsultarContasPagar.pas">
+				<Form>FrmConsultarContasPagar</Form>
+			</DCCReference>
+			<DCCReference Include="controll\UCtrlContaPagar.pas"/>
+			<DCCReference Include="dao\UDaoContaPagar.pas"/>
+			<DCCReference Include="controll\UCtrlVenda.pas"/>
+			<DCCReference Include="dao\UDaoVenda.pas"/>
+			<DCCReference Include="model\UClienteJuridico.pas"/>
+			<DCCReference Include="UAplica.pas"/>
+			<DCCReference Include="UInterface.pas"/>
+			<DCCReference Include="UProjectExperiax.pas">
+				<Form>ProjectExperiax</Form>
+			</DCCReference>
+			<DCCReference Include="controll\UCtrlContaReceber.pas"/>
+			<DCCReference Include="dao\UDaoContaReceber.pas"/>
+			<DCCReference Include="UtilsServices\UCheca_IE_ALL_UF_BR.pas"/>
+			<DCCReference Include="view\UFrmBaixarProduto.pas">
+				<Form>FrmBaixarProduto</Form>
+			</DCCReference>
+			<DCCReference Include="controll\UCtrlOrdemProducao.pas"/>
+			<DCCReference Include="dao\UDaoOrdemProducao.pas"/>
+			<DCCReference Include="dbexperiax\UDM.pas">
+				<Form>DataModule1</Form>
+				<DesignClass>TDataModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="relatorios\UFrmRelatorioCompra.pas">
+				<Form>FrmRelatorioCompra</Form>
+			</DCCReference>
+			<DCCReference Include="relatorios\UFrmSelecionarCompraBYData.pas">
+				<Form>FrmSelectByData</Form>
+			</DCCReference>
+			<BuildConfiguration Include="Debug">
+				<Key>Cfg_2</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Base">
+				<Key>Base</Key>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Release">
+				<Key>Cfg_1</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+		</ItemGroup>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')" Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+		<ProjectExtensions>
+			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Delphi.Personality>
+					<Source>
+						<Source Name="MainSource">ExperiaxProject.dpr</Source>
+					</Source>
+					<Parameters>
+						<Parameters Name="UseLauncher">False</Parameters>
+						<Parameters Name="LoadAllSymbols">True</Parameters>
+						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+					</Parameters>
+					<VersionInfo>
+						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
+						<VersionInfo Name="MajorVer">1</VersionInfo>
+						<VersionInfo Name="MinorVer">0</VersionInfo>
+						<VersionInfo Name="Release">0</VersionInfo>
+						<VersionInfo Name="Build">0</VersionInfo>
+						<VersionInfo Name="Debug">False</VersionInfo>
+						<VersionInfo Name="PreRelease">False</VersionInfo>
+						<VersionInfo Name="Special">False</VersionInfo>
+						<VersionInfo Name="Private">False</VersionInfo>
+						<VersionInfo Name="DLL">False</VersionInfo>
+						<VersionInfo Name="Locale">1046</VersionInfo>
+						<VersionInfo Name="CodePage">1252</VersionInfo>
+					</VersionInfo>
+					<VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName"/>
+						<VersionInfoKeys Name="FileDescription"/>
+						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="InternalName"/>
+						<VersionInfoKeys Name="LegalCopyright"/>
+						<VersionInfoKeys Name="LegalTrademarks"/>
+						<VersionInfoKeys Name="OriginalFilename"/>
+						<VersionInfoKeys Name="ProductName"/>
+						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="Comments"/>
+					</VersionInfoKeys>
+				</Delphi.Personality>
+				<ModelSupport>False</ModelSupport>
+				<Platforms>
+					<Platform value="Win64">True</Platform>
+					<Platform value="Win32">True</Platform>
+				</Platforms>
+			</BorlandProject>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
+	</Project>

@@ -1,0 +1,105 @@
+unit UFrmCadastroCargo;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmCadastroPai, RzButton, StdCtrls, Mask, RzEdit, RzLabel, ComCtrls,
+  RzDTP, UCargo, UCtrlCargo;
+
+type
+  TFrmCadastroCargo = class(TFormCadastroPai)
+    TLblCargo: TRzLabel;
+    TEdtCargo: TRzEdit;
+    TLblId: TRzLabel;
+    TEdtId: TRzEdit;
+    procedure TBtnSalvarClick(Sender: TObject);
+    procedure TBtnLimparClick(Sender: TObject);
+    procedure TEdtCargoKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtIdKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+  protected
+    UmCargo:TCargo;
+    UmaCtrlCargo:TCtrlCargo;
+  public
+    { Public declarations }
+    function ValidaCampos:Boolean;
+    function ReconhecaObjeto(OCargo:TCargo;ACtrlCargo:TCtrlCargo):Boolean;
+    procedure LimpaCampos;
+    procedure Carregar;
+  end;
+
+var
+  FrmCadastroCargo: TFrmCadastroCargo;
+
+implementation
+
+{$R *.dfm}
+
+{ TFrmCadastroCargo }
+
+procedure TFrmCadastroCargo.Carregar;
+begin
+    Self.TEdtId.Text:=InttoStr(UmCargo.IdCargo);
+    Self.TEdtCargo.Text:=UmCargo.Cargo;
+    Self.TDateTimePickerDataCadastro.DateTime:=StrToDateTime( UmCargo.DataCadastro);
+    Self.TDateTimePickerDataAlteracao.DateTime:=StrToDateTime(UmCargo.DataAlteracao);
+end;
+
+procedure TFrmCadastroCargo.LimpaCampos;
+begin
+      Self.TEdtId.Clear;
+      Self.TEdtCargo.Clear;
+end;
+
+function TFrmCadastroCargo.ReconhecaObjeto(OCargo: TCargo;
+  ACtrlCargo: TCtrlCargo): Boolean;
+begin
+
+  UmCargo:=OCargo;
+  UmaCtrlCargo:=ACtrlCargo;
+  Self.LimpaCampos;
+end;
+
+procedure TFrmCadastroCargo.TBtnLimparClick(Sender: TObject);
+begin
+  inherited;
+  Self.LimpaCampos;
+end;
+
+procedure TFrmCadastroCargo.TBtnSalvarClick(Sender: TObject);
+var MSG:String;
+begin
+  inherited;
+   if Self.ValidaCampos = True then
+     begin
+       //UmCargo.IdCargo:=StrToInt(Self.TEdtId.Text);
+       UmCargo.Cargo:=Self.TEdtCargo.Text;
+       MSG:= UmaCtrlCargo.Salvar(UmCargo);
+       ShowMessage(MSG);
+       Self.LimpaCampos;
+       Close;
+     end;
+end;
+
+procedure TFrmCadastroCargo.TEdtCargoKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+   if not (key in ['A'..'Z','a'..'z',#8,#32]) then
+     key := #0;
+end;
+
+procedure TFrmCadastroCargo.TEdtIdKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+   if not (key in ['0'..'9',#8]) then
+      key := #0;
+end;
+
+function TFrmCadastroCargo.ValidaCampos: Boolean;
+begin
+    Result:=True;
+end;
+
+end.

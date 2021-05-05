@@ -1,0 +1,19 @@
+unit UCargo;
+
+interface
+type
+    TCargo = class(TObject)
+      private
+      protected
+        FIdCargo:integer;
+        FCargo:string;
+        FDataCadastro:string;
+        FDataAlteracao:string;
+
+      public
+
+    end;
+
+implementation
+
+end.

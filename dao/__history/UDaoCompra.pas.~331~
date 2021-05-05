@@ -1,0 +1,336 @@
+unit UDaoCompra;
+
+interface
+Uses UDao, UDM, DB, UCompra,SysUtils, Dialogs, UCtrlCP, UCtrlProduto, Classes, Controls,UProduto;
+type
+    TDaoCompra = Class(TDao)
+      private
+
+      protected
+          UmaCtrlProduto:TCtrlProduto;
+      public
+          constructor Create;                                            override;
+          destructor Destroy;                                            override;
+          function Salvar( Objeto : TObject): string;                    override;
+          function GetDs : TDataSource;                                  override;
+          function GetDsPC:TDataSource;
+          function Carregar( Objeto: TObject): Tobject;                  override;
+          function CarregarLista(UmaLista:TList):TList;
+          function Buscar(KeyNumNota: Integer; KeyStr: String; KeyIdFornecedor:Integer): boolean;
+          function BuscarPC(KeyNumeroNota : Integer; KeyIdFornecedor:Integer; KeySerie:string):Boolean;
+          function Excluir( Objeto : TObject): string;                   override;
+    End;
+
+implementation
+
+{ TDaoCompra }
+
+function TDaoCompra.Buscar(KeyNumNota: Integer; KeyStr: String; KeyIdFornecedor:Integer): boolean;
+var TamStr:Integer;
+    SQL:String;
+begin
+     TamStr:=Length(keyStr);
+     if (KeyNumNota <> 0)  and (TamStr = 0) then
+       SQL:='SELECT * FROM COMPRA WHERE NUMERONOTA='+Inttostr(KeyNumNota)
+     else if (TamStr <> 0)  and (KeyNumNota = 0) then
+       SQL:='SELECT * FROM COMPRA WHERE SERIE LIKE '+QuotedStr('%'+KeyStr+'%')
+     else if (KeyNumNota <> 0) and (TamStr <> 0) and  (KeyIdFornecedor = 0) then
+       SQL:='SELECT * FROM COMPRA WHERE SERIE LIKE '+QuotedStr(KeyStr+'%')+' AND NUMERONOTA = '+Inttostr(KeyNumNota)
+     else if (keyNumNota <> 0) and (TamStr <> 0) and (KeyIdFornecedor <> 0) then
+       SQL:='SELECT * FROM COMPRA WHERE SERIE LIKE '+QuotedStr(KeyStr+'%')+' AND NUMERONOTA = '+Inttostr(KeyNumNota)+' AND IDFORNECEDOR = '+ IntToStr(KeyIdFornecedor)
+     else
+       SQL:='SELECT * FROM COMPRA ORDER BY NUMERONOTA';
+
+
+    FDM.IBDataSetCompra.Close;
+    FDM.IBDataSetCompra.SelectSQL.Clear;
+    FDM.IBDataSetCompra.SelectSQL.Add(SQL);
+    FDM.IBDataSetCompra.Open;
+
+    if (Length(KeyStr) <> 0 ) and (KeyStr = FDM.IBDataSetCompraSERIE.Value) and (KeyNumNota = 0) then
+        Result:=True
+    else if (KeyNumNota <> 0) and (FDM.IBDataSetCompraNUMERONOTA.Value = KeyNumNota) and (Length(KeyStr) = 0) then
+        Result:=True
+    else if (Length(KeyStr) <> 0 ) and (KeyStr = FDM.IBDataSetCompraSERIE.Value) and (KeyNumNota <> 0) and (FDM.IBDataSetCompraNUMERONOTA.Value = KeyNumNota) and (KeyIdFornecedor = 0) then
+        Result:=True
+    else if (Length(KeyStr) <> 0 ) and (KeyStr = FDM.IBDataSetCompraSERIE.Value) and (KeyNumNota <> 0) and (FDM.IBDataSetCompraNUMERONOTA.Value = KeyNumNota) and (FDM.IBDataSetCompraIDFORNECEDOR.Value = KeyIdFornecedor) then
+        Result:=True
+    else
+        Result:=False;
+end;
+
+function TDaoCompra.BuscarPC(KeyNumeroNota: Integer; KeyIdFornecedor:Integer;
+  KeySerie: string): Boolean;
+  var TamStr, SQL:String;
+begin
+       SQL:='SELECT * FROM PRODUTOCOMPRA WHERE SERIE LIKE '+QuotedStr(KeySerie)+' AND NUMERONOTA = '+Inttostr(KeyNumeroNota)+' AND IDFORNECEDOR = '+IntToStr(KeyIdFornecedor);
+
+       FDM.IBDataSetProdutoCompra.Close;
+       FDM.IBDataSetProdutoCompra.SelectSQL.Clear;
+       FDM.IBDataSetProdutoCompra.SelectSQL.Add(SQL);
+       FDM.IBDataSetProdutoCompra.Open;
+       if (FDM.IBDataSetProdutoCompraIDFORNECEDOR.Value = KeyIdFornecedor) and (FDM.IBDataSetProdutoCompraNUMERONOTA.Value = KeyNumeroNota) and (FDM.IBDataSetProdutoCompraSERIE.Value = KeySerie) then
+          Result:=True
+       else
+          Result:=False;
+
+end;
+
+function TDaoCompra.Carregar(Objeto: TObject): Tobject;
+var UmaCompra:TCompra;
+begin
+   UmaCompra:=TCompra(Objeto);
+
+   if not FDM.IBDataSetCompra.Active then
+   begin
+     FDM.IBDataSetCompra.Active:=True;
+     FDM.IBDataSetCompra.Open;
+
+   end;
+
+   UmaCompra.NumeroNota:= FDM.IBDataSetCompraNUMERONOTA.Value;
+   UmaCompra.Serie:= FDM.IBDataSetCompraSERIE.Value;
+   UmaCompra.CFOP:=FDM.IBDataSetCompraCFOP.Value;
+   UmaCompra.UmFornecedorJ.Id:=FDM.IBDataSetCompraIDFORNECEDOR.Value;
+   UmaCompra.UmFornecedorJ.RS:=FDM.IBDataSetCompraFORNECEDOR.Value;
+   UmaCompra.UmaCP.IdCP:=FDM.IBDataSetCompraIDCONDICAOPAGAMENTO.Value;
+   UmaCompra.UmaCP.CP:= FDM.IBDataSetCompraCONDICAOPAGAMENTO.Value;
+   UmaCompra.DataEmicao:=DateTimeToStr( FDM.IBDataSetCompraDATAEMICAO.Value);
+   UmaCompra.DataEntrada:=DateTimeToStr(FDM.IBDataSetCompraDATAENTRADA.Value);
+   UmaCompra.Observacoes:=FDM.IBDataSetCompraOBSERVACOES.Value;
+   UmaCompra.DataCadastro:=DateTimeToStr( FDM.IBDataSetCompraDATACADASTRO.Value);
+   UmaCompra.DataAlteracao:=DateTimeToStr(FDM.IBDataSetCompraDATAALTERACAO.Value);
+   UmaCompra.ValorFrete:=FDM.IBDataSetCompraVALORFRETE.Value;
+   UmaCompra.ValorTotalProdutos:=FDM.IBDataSetCompraVALORTOTALPRODUTOS.Value;
+   UmaCompra.ValorTotalNota:=FDM.IBDataSetCompraVALORTOTALNOTA.Value;
+
+   BuscarPC(UmaCompra.NumeroNota,UmaCompra.UmFornecedorJ.Id, UmaCompra.Serie);
+   CarregarLista(UmaCompra.UmaListaProduto);
+
+   Result:= UmaCompra;
+
+ end;
+
+function TDaoCompra.CarregarLista(UmaLista: TList): TList;
+var UmProduto:TProduto;
+begin
+
+   if FDM.IBDataSetProdutoCompra.RecordCount > 0 then
+   begin
+       FDM.IBDataSetProdutoCompra.First;
+       while not FDM.IBDataSetProdutoCompra.Eof do
+       begin
+            UmProduto:=TProduto.Create;
+            UmProduto.IdProduto:=FDM.IBDataSetProdutoCompraIDPRODUTO.Value;
+            UmProduto.Produto:= FDM.IBDataSetProdutoCompraPRODUTO.Value;
+            UmProduto.Qtde:=FormatFloat('#0.00', FDM.IBDataSetProdutoCompraQTDE.Value);
+            UmProduto.ICMS:=FDM.IBDataSetProdutoCompraVALORUNITARIO.Value;
+            UmProduto.IPI:=FDM.IBDataSetProdutoCompraIPI.Value;
+            UmProduto.Desconto :=FDM.IBDataSetProdutoCompraDESCONTO.Value;
+            UmProduto.ValorCompra:=FDM.IBDataSetProdutoCompraVALORTOTAL.Value;
+            UmProduto.ValorTotalCompra:=FDM.IBDataSetProdutoCompraTOTALCOMIMPOSTOS.Value;
+            UmaLista.Add(UmProduto);
+            UmProduto:=nil;
+            FDM.IBDataSetProdutoCompra.Next;
+       end;
+   end;
+end;
+
+constructor TDaoCompra.Create;
+begin
+  inherited;
+
+end;
+
+destructor TDaoCompra.Destroy;
+begin
+
+  inherited;
+end;
+
+function TDaoCompra.Excluir(Objeto: TObject): string;
+begin
+
+end;
+
+function TDaoCompra.GetDs: TDataSource;
+begin
+   Result:=FDM.TDataSourceCompra;
+end;
+
+function TDaoCompra.GetDsPC: TDataSource;
+begin
+     Result:=FDM.TDataSourceProdutoCompra;
+end;
+
+function TDaoCompra.Salvar(Objeto: TObject): string;
+var MSG:string;
+    UmaCompra:TCompra;
+    i,qtdeParcelas, idProduto:Integer;
+    UmaCtrlCP:TCtrlCP;
+    AuxQtde1,AuxQtde2:Double;
+    ValorParcela, porcentagemParcela, totalCalculado, Aux:Double;
+begin
+    UmaCompra:=TCompra(Objeto);
+    totalCalculado:=0;
+try
+      if not FDM.IBTransaction1.Active then
+      begin
+        FDM.IBTransaction1.Active := True;
+        FDM.IBTransaction1.StartTransaction;
+      end;
+
+      if not FDM.IBDataSetCompra.Active then
+      begin
+        FDM.IBDataSetCompra.Active := True;
+        FDM.IBDataSetCompra.Open;
+      end;
+
+      FDM.IBDataSetCompra.Insert;
+
+      FDM.IBDataSetCompraSERIE.Value:= UmaCompra.Serie;
+      FDM.IBDataSetCompraNUMERONOTA.Value:= UmaCompra.NumeroNota;
+      FDM.IBDataSetCompraCFOP.Value:= UmaCompra.CFOP;
+      FDM.IBDataSetCompraDATAENTRADA.Value:= StrToDateTime( UmaCompra.DataEntrada);
+      FDM.IBDataSetCompraDATAEMICAO.Value:= StrToDateTime(UmaCompra.DataEmicao);
+      FDM.IBDataSetCompraIDFORNECEDOR.Value:= UmaCompra.UmFornecedorJ.Id;
+      FDM.IBDataSetCompraVALORTOTALPRODUTOS.Value:=StrToFloat( FormatFloat('#0.00', UmaCompra.ValorTotalNota));
+      FDM.IBDataSetCompraVALORFRETE.Value:=StrToFloat(FormatFloat('#0.00', UmaCompra.ValorFrete));
+      FDM.IBDataSetCompraVALORTOTALNOTA.Value:=StrToFloat(FormatFloat('#0.00', UmaCompra.ValorTotalNota));
+      FDM.IBDataSetCompraIDCONDICAOPAGAMENTO.Value:= UmaCompra.UmaCP.IdCP;
+      FDM.IBDataSetCompraOBSERVACOES.Value:= UmaCompra.Observacoes;
+      FDM.IBDataSetCompraDATACADASTRO.Value:= StrToDateTime(UmaCompra.DataCadastro);
+      FDM.IBDataSetCompraDATAALTERACAO.Value:= StrToDateTime(UmaCompra.DataAlteracao);
+      FDM.IBDataSetCompraQUANTIDADE.Value:= UmaCompra.UmaListaProduto.Count;
+
+      FDM.IBDataSetCompra.Post;
+
+      if not FDM.IBDataSetProdutoCompra.Active then
+      begin
+        FDM.IBDataSetProdutoCompra.Active := True;
+        FDM.IBDataSetProdutoCompra.Open;
+      end;
+
+      for I := 1 to  UmaCompra.UmaListaProduto.Count  do
+      begin
+        FDM.IBDataSetProdutoCompra.Insert;
+
+        idProduto:=UmaCompra.getProdutos(i-1).IdProduto;
+
+        FDM.IBDataSetProdutoCompraIDPRODUTO.Value:=UmaCompra.getProdutos(i-1).IdProduto;
+        FDM.IBDataSetProdutoCompraIDFORNECEDOR.Value:=UmaCompra.UmFornecedorJ.Id;
+        FDM.IBDataSetProdutoCompraSERIE.Value:=UmaCompra.Serie;
+        FDM.IBDataSetProdutoCompraNUMERONOTA.Value:=UmaCompra.NumeroNota;
+        FDM.IBDataSetProdutoCompraVALORUNITARIO.Value:=StrToFloat(FormatFloat('#0.00', UmaCompra.getProdutos(i-1).ValorCompra));
+        FDM.IBDataSetProdutoCompraICMS.Value:=StrToFloat(FormatFloat('#0.00', UmaCompra.getProdutos(i-1).ICMS));
+        FDM.IBDataSetProdutoCompraIPI.Value:=StrToFloat(FormatFloat('#0.00', UmaCompra.getProdutos(i-1).IPI));
+        FDM.IBDataSetProdutoCompraVALORTOTAL.Value:=StrToFloat(FormatFloat('#0.00', UmaCompra.getProdutos(i-1).ValorCompra * StrToFloat(UmaCompra.getProdutos(i-1).Qtde) ));
+        FDM.IBDataSetProdutoCompraTOTALCOMIMPOSTOS.Value:=StrToFloat(FormatFloat('#0.00', UmaCompra.getProdutos(i-1).ValorTotalCompra));
+        FDM.IBDataSetProdutoCompraQTDE.Value:=StrToFloat(FormatFloat('#0.00', StrToFloat(UmaCompra.getProdutos(i-1).Qtde)));
+
+        FDM.IBDataSetProdutoCompra.Post;
+
+        //ATUALIZA O ESTOQUE
+        {if not FDM.IBDataSetProduto.Active then
+        begin
+          FDM.IBDataSetProduto.Active := True;
+          FDM.IBDataSetProduto.Open;
+        end; }
+
+        UmaCtrlProduto:=TCtrlProduto.Create;
+
+        if  UmaCtrlProduto.Buscar(idProduto, '') then
+        begin
+
+             //Fecha o DataSet  e faz um select  no banco depois reabre com os dados selecionados
+             if not FDM.IBDataSetProduto.Active then
+                FDM.IBDataSetProduto.Active := True;
+             FDM.IBDataSetProduto.Close;
+             FDM.IBDataSetProduto.SelectSQL.Text:='SELECT * FROM PRODUTO WHERE ID = ' + intToStr(idProduto);
+             FDM.IBDataSetProduto.Open;
+             FDM.IBDataSetProduto.Edit;
+
+             UmaCtrlProduto.Carregar(UmaCompra.UmProduto);
+
+             //idProduto:=UmaCompra.UmProduto.IdProduto;
+
+            if (UmaCompra.UmProduto.IdProduto = UmaCompra.getProdutos(i-1).IdProduto) then
+            begin
+                if UmaCompra.UmProduto.ValorCompra <> 0 then
+                begin
+                    AuxQtde1:= StrToFloat(FormatFloat('#0.00',StrToFloat(UmaCompra.UmProduto.Qtde) ));
+                    AuxQtde2:= StrToFloat(FormatFloat('#0.00',StrToFloat(UmaCompra.getProdutos(i-1).Qtde)));
+
+                    Aux:= (StrToFloat(UmaCompra.UmProduto.Qtde) *  UmaCompra.UmProduto.ValorCompra);
+                    Aux:=  Aux + (  StrToFloat(UmaCompra.getProdutos(i-1).Qtde) * UmaCompra.getProdutos(i-1).ValorCompra);
+                    Aux:=  Aux / (StrToFloat(UmaCompra.getProdutos(i-1).Qtde) + StrToFloat(UmaCompra.UmProduto.Qtde));
+
+                   {Aux:=(StrToFloat(UmaCompra.UmProduto.Qtde) *  UmaCompra.UmProduto.ValorCompra)  +
+                    ( StrToFloat(UmaCompra.getProdutos(i-1).Qtde) * UmaCompra.getProdutos(i-1).ValorCompra ) /
+                    ( StrToFloat(UmaCompra.UmProduto.Qtde) + StrToFloat(UmaCompra.getProdutos(i-1).Qtde)   ); }
+
+
+                    FDM.IBDataSetProdutoQTDE.Value:= StrToFloat(FormatFloat('#0.00', AuxQtde1 + AuxQtde2));
+                    FDM.IBDataSetProdutoVALORCOMPRA.Value:=StrToFloat( FormatFloat('#0.00',Aux)  );
+
+                end
+                else
+                begin
+                    FDM.IBDataSetProdutoVALORCOMPRA.Value:=StrToFloat(FormatFloat('#0.00', UmaCompra.getProdutos(i-1).ValorCompra));
+                    FDM.IBDataSetProdutoQTDE.Value:=StrToFloat(FormatFloat('#0.00',StrToFloat(UmaCompra.getProdutos(i-1).Qtde)));
+                end;
+            end;
+            FDM.IBDataSetProduto.Post;
+        end;
+
+      end;
+      UmaCtrlProduto.Destroy;
+      {GERA AS CONTAS  A PAGAR}
+      //****************************************************************************************************************\\
+     if not FDM.IBDataSetContasPagar.Active then
+     begin
+        FDM.IBDataSetContasPagar.Active:=True;
+        FDM.IBDataSetContasPagar.Open;
+     end;
+
+     qtdeParcelas:=UmaCompra.UmaCP.QTDEParcelas;
+     for I := 0 to qtdeParcelas - 1  do
+     begin
+        FDM.IBDataSetContasPagar.Insert;
+
+        FDM.IBDataSetContasPagarNUMERONOTA.Value:= UmaCompra.NumeroNota;
+        FDM.IBDataSetContasPagarSERIE.Value:=UmaCompra.Serie;
+        FDM.IBDataSetContasPagarIDFORNECEDOR.Value:=UmaCompra.UmFornecedorJ.Id;
+        if UmaCompra.UmaCP.getParcelas(i).JurosParcela > 0 then
+            ValorParcela:=(UmaCompra.ValorTotalNota * (UmaCompra.UmaCP.getParcelas(i).JurosParcela /100)) + (UmaCompra.UmaCP.getParcelas(i).PorcentagemParcela * UmaCompra.ValorTotalNota)
+        else
+            ValorParcela:=(UmaCompra.UmaCP.getParcelas(i).PorcentagemParcela/100) * UmaCompra.ValorTotalNota;
+        totalCalculado:=totalCalculado+ValorParcela;
+        FDM.IBDataSetContasPagarNUMEROPARCELA.Value:=UmaCompra.UmaCP.getParcelas(i).NumeroParcela;
+        FDM.IBDataSetContasPagarVALOR.Value:=StrToFloat(FormatFloat('#0.00', (ValorParcela * (UmaCompra.UmaCP.getParcelas(i).JurosParcela/100)) + ValorParcela));
+        FDM.IBDataSetContasPagarVALOTOTALCONTA.Value:=StrToFloat(FormatFloat('#0.00', (ValorParcela * (UmaCompra.UmaCP.getParcelas(i).JurosParcela/100)) + ValorParcela));
+        FDM.IBDataSetContasPagarIDFORMAPAGAMENTO.Value:=UmaCompra.UmaCP.UmaFP.Id;
+        FDM.IBDataSetContasPagarOBSERVACOES.Value:='GERADA NA COMPRA';
+        FDM.IBDataSetContasPagarDATACADASTRO.Value:=Now;
+        FDM.IBDataSetContasPagarSTATUS.Value:='Pendente';
+        //FDM.IBDataSetContasPagarDATAALTERACAO.Value:=Now;
+        FDM.IBDataSetContasPagarDATAENTRADA.Value:=StrToDateTime(UmaCompra.DataEntrada);
+
+        //Soma a data atual com os dias acrescentados de vencimento
+        FDM.IBDataSetContasPagarDATAVENCIMENTO.Value:=StrToInt(UmaCompra.UmaCP.getParcelas(i).DataVencimento) + Now;
+
+        FDM.IBDataSetContasPagar.Post;
+     end;
+
+      FDM.IBTransaction1.CommitRetaining;
+      MSG:='COMPRA EFETUADA COM SUCESSO';
+
+except
+      FDM.IBTransaction1.RollbackRetaining;
+      MSG:='ERRO AO SALVAR COMPRA. VERIFIQUE SE JÁ NÃO EXISTE UMA COMPRA CADASTRADA COM ESTE NUMERO DE NOTA E SÉRIE PARA ESTE FORNECEDOR.'
+
+end;
+  Result:=MSG;
+end;
+
+end.

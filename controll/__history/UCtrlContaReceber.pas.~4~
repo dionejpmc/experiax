@@ -1,0 +1,60 @@
+unit UCtrlContaReceber;
+
+interface
+uses UCtrl, UDaoContaReceber, UDM, DB;
+type
+    TCtrlContaReceber = class (TCtrl)
+    private
+    protected
+        UmaDaoContaReceber:TDaoContaReceber;
+
+    public
+        constructor Create;
+        destructor Destroy;
+        function Salvar(Objeto : TObject): string;                   override;
+        function GetDs : TDataSource;                                override;
+        function Carregar( Objeto : TObject): Tobject;               override;
+        function Buscar(KeyId : Integer;KeyStr:String): boolean;     override;
+        function Excluir(Objeto : TObject): string;                  override;
+    end;
+
+implementation
+
+{ TCtrlContaReceber }
+
+function TCtrlContaReceber.Buscar(KeyId: Integer; KeyStr: String): boolean;
+begin
+
+end;
+
+function TCtrlContaReceber.Carregar(Objeto: TObject): Tobject;
+begin
+
+end;
+
+constructor TCtrlContaReceber.Create;
+begin
+
+end;
+
+destructor TCtrlContaReceber.Destroy;
+begin
+
+end;
+
+function TCtrlContaReceber.Excluir(Objeto: TObject): string;
+begin
+
+end;
+
+function TCtrlContaReceber.GetDs: TDataSource;
+begin
+
+end;
+
+function TCtrlContaReceber.Salvar(Objeto: TObject): string;
+begin
+
+end;
+
+end.

@@ -1,0 +1,68 @@
+unit UDAO;
+
+interface
+uses UDM, DB;
+   type    TDao = class
+
+   private
+    FDM:TDataModule1;
+
+   protected
+   public
+    constructor Create;                           virtual;
+    destructor Destroy;                           virtual;
+
+    function Salvar( Objeto : TObject): string;   virtual;
+    function GetDs : TDataSource;                 virtual;
+    function Carregar( Objeto: TObject): Tobject; virtual;
+    function Buscar(Key : string): boolean;       virtual;
+    function Excluir( Objeto : TObject): string;  virtual;
+
+
+
+
+end;
+
+implementation
+
+{ Dao }
+
+
+{ TDao }
+
+function TDao.Buscar(Key: string): boolean;
+begin
+
+end;
+
+function TDao.Carregar(Objeto: TObject): Tobject;
+begin
+
+end;
+
+constructor TDao.Create;
+begin
+    FDM:=TDataModule1.Create(nil);
+end;
+
+destructor TDao.Destroy;
+begin
+   FDM.FreeInstance;
+end;
+
+function TDao.Excluir(Objeto: TObject): string;
+begin
+
+end;
+
+function TDao.GetDs: TDataSource;
+begin
+
+end;
+
+function TDao.Salvar(Objeto: TObject): string;
+begin
+
+end;
+
+end.

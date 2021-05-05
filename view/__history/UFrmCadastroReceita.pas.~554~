@@ -1,0 +1,437 @@
+unit UFrmCadastroReceita;
+
+interface
+
+uses
+  UReceita,
+  UCtrlReceita, UProduto, UCtrlProduto, UFrmConsultarProduto, Windows,
+  Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmCadastroPai, Grids, DBGrids, RzDBGrid, ExtCtrls, RzPanel,
+  RzButton, StdCtrls, Mask, RzEdit, RzLabel, ComCtrls, RzDTP, UDM, DB, RzGrids,
+  Buttons, cxGraphics, cxControls, cxLookAndFeels, cxLookAndFeelPainters,
+  cxContainer, cxEdit, dxSkinsCore, dxSkinsDefaultPainters, cxTextEdit,
+  cxMaskEdit, dxSkinBlack, dxSkinBlue, dxSkinCaramel, dxSkinCoffee,
+  dxSkinDarkRoom, dxSkinDarkSide, dxSkinFoggy, dxSkinGlassOceans,
+  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
+  dxSkinMcSkin, dxSkinMoneyTwins, dxSkinOffice2007Black, dxSkinOffice2007Blue,
+  dxSkinOffice2007Green, dxSkinOffice2007Pink, dxSkinOffice2007Silver,
+  dxSkinOffice2010Black, dxSkinOffice2010Blue, dxSkinOffice2010Silver,
+  dxSkinPumpkin, dxSkinSeven, dxSkinSharp, dxSkinSilver, dxSkinSpringTime,
+  dxSkinStardust, dxSkinSummer2008, dxSkinValentine, dxSkinXmas2008Blue,
+  dxSkinsForm;
+type
+  TFrmCadastroReceita = class(TFormCadastroPai)
+    TLblReceita: TRzLabel;
+    TEdtReceita: TRzEdit;
+    TLblObservacao: TRzLabel;
+    TLblIdReceita: TRzLabel;
+    TEdtIdReceita: TRzEdit;
+    TGroupBoxProdutosReceita: TRzGroupBox;
+    TLblMarca: TRzLabel;
+    TLblIdProduto: TRzLabel;
+    TEdtIdProduto: TRzEdit;
+    TEdtProduto: TRzEdit;
+    TLblProduto: TRzLabel;
+    TEdtMarca: TRzEdit;
+    TLblQtde: TRzLabel;
+    TBtnBuscar: TRzButton;
+    TBtnAdicionar: TRzButton;
+    TStringGridProdutoReceita: TRzStringGrid;
+    TBtnDeletar: TRzBitBtn;
+    TEdtObservacao: TRzExpandEdit;
+    RzButton1: TRzButton;
+    TEdtQtde: TRzEdit;
+    TEdtUnidadeMedida: TRzLabel;
+
+    procedure TEdtIdProdutoExit(Sender: TObject);
+    procedure TBtnAdicionarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure TBtnCancelarClick(Sender: TObject);
+    procedure TBtnLimparClick(Sender: TObject);
+    procedure TStringGridProdutoReceitaSelectCell(Sender: TObject; ACol,
+      ARow: Integer; var CanSelect: Boolean);
+    procedure TBtnDeletarClick(Sender: TObject);
+    procedure TBtnSalvarClick(Sender: TObject);
+    procedure TEdtIdReceitaExit(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure TEdtIdReceitaKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtQtdeExit(Sender: TObject);
+    procedure RzButton1Click(Sender: TObject);
+    procedure TBtnBuscarClick(Sender: TObject);
+  private
+    { Private declarations }
+  protected
+    UmaReceita: TReceita;
+    UmaCtrlReceita: TCtrlReceita;
+    UmFrmConProduto: TFrmConsultarProduto;
+    l: integer;
+  public
+    { Public declarations }
+    procedure ReconhecaObjeto(AReceita: TReceita; ACtrlReceita: TCtrlReceita);
+    procedure LimpaCampos;
+    function ValidaCampos:Boolean;
+
+  end;
+
+var
+  FrmCadastroReceita: TFrmCadastroReceita;
+  lin:Integer;
+
+implementation
+
+{$R *.dfm}
+{ TFrmCadastroReceita }
+
+procedure TFrmCadastroReceita.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  inherited;
+  Self.TBtnCancelarClick(Sender);
+end;
+
+procedure TFrmCadastroReceita.FormCreate(Sender: TObject);
+begin
+  inherited;
+  Self.TStringGridProdutoReceita.Cells[1, 0] := 'ID PRODUTO';
+  Self.TStringGridProdutoReceita.Cells[2, 0] := 'PRODUTO';
+  Self.TStringGridProdutoReceita.Cells[3, 0] := 'MARCA';
+  Self.TStringGridProdutoReceita.Cells[4, 0] := 'QUANTIDADE';
+end;
+
+procedure TFrmCadastroReceita.LimpaCampos;
+var a, b, I:Integer;
+begin
+  Self.TEdtIdReceita.Clear;
+  Self.TEdtReceita.Clear;
+  Self.TEdtProduto.Clear;
+  Self.TEdtIdProduto.Clear;
+  Self.TEdtMarca.Clear;
+  Self.TEdtQtde.Clear;
+  Self.TEdtObservacao.Clear;
+  for a := 1 to l do
+    for b:= 1 to l do
+    begin
+      Self.TStringGridProdutoReceita.Cells[a, b] := '';
+    end;
+    if UmaReceita.UmaListaProduto.Count <> 0 then
+    begin
+       if UmaReceita.QtdeProdutos <> 0 then
+           for I := 1 to UmaReceita.QtdeProdutos do
+           begin
+              UmaReceita.Produto:=UmaReceita.getProdutos(i-1);
+              UmaReceita.UmaListaProduto.Delete(UmaReceita.UmaListaProduto.Count -1);
+              UmaReceita.Produto.Destroy;
+           end;
+
+    end;
+end;
+procedure TFrmCadastroReceita.ReconhecaObjeto(AReceita: TReceita;
+  ACtrlReceita: TCtrlReceita);
+begin
+  UmaReceita := AReceita;
+  UmaCtrlReceita := ACtrlReceita;
+  UmaReceita.UmaListaProduto:=TList.Create;
+  Self.LimpaCampos;
+  l := 1;
+end;
+procedure TFrmCadastroReceita.RzButton1Click(Sender: TObject);
+begin
+  inherited;
+    UmFrmConProduto:=TFrmConsultarProduto.Create(nil);
+    UmFrmConProduto.ReconhecaObjeto(UmaReceita.Produto);
+    UmFrmConProduto.TBtnCancelar.Caption:='Selecionar';
+    UmFrmConProduto.ShowModal;
+    Self.TEdtIdReceita.Text:=IntToStr(UmaReceita.Produto.IdProduto);
+    Self.TEdtReceita.Text:=UmaReceita.Produto.Produto;
+end;
+
+procedure TFrmCadastroReceita.TBtnAdicionarClick(Sender: TObject);
+var permicao:Boolean;
+    i, indice :Integer;
+    auxDouble1,auxDouble2:Double;
+begin
+  inherited;
+  if ((Self.TEdtIdProduto.Text <> '') and (Self.TEdtProduto.Text <> '')) then
+  begin
+    if ((Self.TEdtIdProduto.Text = '0') or (Self.TEdtQtde.Text = '0') or (Self.TEdtQtde.Text = '')) then
+    begin
+      ShowMessage('O ID DE NUMERO ZERO NÃO É VALIDO OU A QUANTIDADE É INSUFICIENTE!');
+      Self.TEdtIdProduto.Clear;
+      Self.TEdtProduto.Clear;
+      Self.TEdtMarca.Clear;
+      Self.TEdtQtde.Clear;
+    end
+    else
+    begin
+      permicao:=True;
+      if Self.TStringGridProdutoReceita.RowCount = 0 then
+          Self.TStringGridProdutoReceita.RowCount:= 1;
+      for i := 1 to l  do
+      begin
+          if (Self.TStringGridProdutoReceita.Cells[1,i] = Self.TEdtIdProduto.Text) then
+          begin
+              permicao:=False;
+              indice:=i;
+          end;
+      end;
+      if  (permicao = False) and (MessageDlg('ESTE PRODUTO JA ESTA NA TABELA, DESEJA INCREMENTAR SUA QUANTIDADE ?', mtConfirmation,[mbYes,mbNo],0) = IDYes) then
+      begin
+          Self.TStringGridProdutoReceita.Cells[4, indice] := FloatToStr(StrToFloat(Self.TStringGridProdutoReceita.Cells[4, indice]) +
+           StrToFloat(Self.TEdtQtde.Text));
+          Self.TEdtIdProduto.Clear;
+          Self.TEdtProduto.Clear;
+          Self.TEdtMarca.Clear;
+          Self.TEdtQtde.Clear;
+      end
+      else if permicao and (Length(Self.TEdtProduto.Text) <> 0)  then
+      begin
+          Self.TStringGridProdutoReceita.RowCount:= Self.TStringGridProdutoReceita.RowCount +1;
+          Self.TStringGridProdutoReceita.Cells[1, l] := Self.TEdtIdProduto.Text;
+          Self.TStringGridProdutoReceita.Cells[2, l] := Self.TEdtProduto.Text;
+          Self.TStringGridProdutoReceita.Cells[3, l] := Self.TEdtMarca.Text;
+          Self.TStringGridProdutoReceita.Cells[4, l] := Self.TEdtQtde.Text;
+          l := l + 1;
+
+          Self.TEdtIdProduto.Clear;
+          Self.TEdtProduto.Clear;
+          Self.TEdtMarca.Clear;
+          Self.TEdtQtde.Clear;
+      end;
+    end;
+  end
+  else
+  begin
+      ShowMessage('OS CAMPOS DE PRODUTO DEVEM SER CARREGADOS CORRETAMENTE PARA SEREM ADICIONADOS A RECEITA !');
+      Self.TEdtIdProduto.Clear;
+      Self.TEdtProduto.Clear;
+      Self.TEdtMarca.Clear;
+      Self.TEdtQtde.Clear;
+  end;
+end;
+
+procedure TFrmCadastroReceita.TBtnBuscarClick(Sender: TObject);
+begin
+  inherited;
+    UmFrmConProduto:=TFrmConsultarProduto.Create(nil);
+    UmFrmConProduto.ReconhecaObjeto(UmaReceita.Produto);
+    UmFrmConProduto.TBtnCancelar.Caption:='Selecionar';
+    UmFrmConProduto.ShowModal;
+    if UmaReceita.Produto.Tipo = 3 then
+    begin
+      ShowMessage('PRODUTO INVALIDO PARA SER ADICIONADO A RECEITA.');
+      Exit;
+    end;
+    Self.TEdtIdProduto.Text:=IntToStr(UmaReceita.Produto.IdProduto);
+    Self.TEdtProduto.Text:=UmaReceita.Produto.Produto;
+    Self.TEdtMarca.Text:=UmaReceita.Produto.Marca;
+end;
+
+procedure TFrmCadastroReceita.TBtnCancelarClick(Sender: TObject);
+begin
+  inherited;
+  Self.LimpaCampos;
+end;
+
+procedure TFrmCadastroReceita.TBtnDeletarClick(Sender: TObject);
+var i,j:Integer;
+    condicao:Boolean;
+begin
+    inherited;
+    condicao:=True;
+    if ((Self.TStringGridProdutoReceita.Cells[1,lin] = '') or
+        (Self.TStringGridProdutoReceita.RowCount <= 0)) or
+        (Self.TStringGridProdutoReceita.Cells[1,1] = '') then
+    begin
+         ShowMessage('NÃO EXISTEM DADOS A SEREM EXCLUIDOS!');
+         condicao:=False;
+    end
+    else if (MessageDlg('VOCÊ CONFIRMA A EXCLUSÃO DOS DADOS', mtConfirmation,[mbYes,mbNo],0) = IDYes)  then
+    begin
+      for i := lin to TStringGridProdutoReceita.RowCount do
+        for j := 1 to TStringGridProdutoReceita.ColCount  do
+          if ((i <> 0) and (j <> 0)) then
+             Self.TStringGridProdutoReceita.Cells[j,i]:=Self.TStringGridProdutoReceita.Cells[j,i+1]
+          else
+             Condicao:=False;
+    end
+    else
+      condicao:=False;
+    if Condicao then
+    begin
+      Self.TStringGridProdutoReceita.RowCount:=Self.TStringGridProdutoReceita.RowCount -1;
+      l:=l-1;
+    end
+  else
+      ShowMessage('É NECESSARIO SELECIONAR UM DADO NA TABELA PARA QUE ELE SEJA EXCLUIDO!');
+end;
+
+procedure TFrmCadastroReceita.TBtnLimparClick(Sender: TObject);
+begin
+  inherited;
+  Self.LimpaCampos;
+end;
+
+procedure TFrmCadastroReceita.TBtnSalvarClick(Sender: TObject);
+var MSG:string;
+    I: Integer;
+begin
+  inherited;
+if Self.TStringGridProdutoReceita.RowCount < 3 then
+begin
+    ShowMessage('DEVEM HAVER PRODUTOS NA TABELA PARA CRIAR UMA RECEITA!');
+end
+else
+  if Self.ValidaCampos then
+  begin
+     UmaReceita.IdReceita:=StrToInt(Self.TEdtIdReceita.Text);
+     UmaReceita.Receita:=Self.TEdtReceita.Text;
+     UmaReceita.Observacao:=Self.TEdtObservacao.Text;
+     UmaReceita.DataCadastro:=DateTimeToStr(Self.TDateTimePickerDataCadastro.DateTime);
+     UmaReceita.DataAlteracao:=DateTimeToStr(Self.TDateTimePickerDataAlteracao.DateTime);
+     for i:= 1 to l - 1 do
+     begin
+         UmaReceita.Produto:=TProduto.Create;
+         UmaReceita.Produto.IdProduto:=StrToInt(Self.TStringGridProdutoReceita.Cells[1,i]);
+         UmaReceita.Produto.Qtde:=Self.TStringGridProdutoReceita.Cells[4,i];
+         UmaReceita.UmaListaProduto.Insert(i-1,UmaReceita.Produto);
+         UmaReceita.Produto:=nil;
+     end;
+     MSG:= UmaCtrlReceita.Salvar(UmaReceita);
+  end
+  else
+    ShowMessage('PREENCHA OS CAMPOS COM * CORRETAMENTE');
+  if Self.ValidaCampos then
+  begin
+      ShowMessage(MSG);
+      Self.LimpaCampos;
+      Close;
+  end;
+end;
+
+procedure TFrmCadastroReceita.TEdtIdProdutoExit(Sender: TObject);
+var
+  UmaCtrlProduto: TCtrlProduto;
+  auxInt:integer;
+  begin
+  inherited;
+  Self.TEdtIdProduto.Color:=clWindow;
+  if TryStrToInt( Self.TEdtIdProduto.Text,auxInt) then
+  begin
+    Self.TEdtProduto.Clear;
+    UmaCtrlProduto := TCtrlProduto.Create;
+    UmaReceita.Produto.IdProduto := strToInt(Self.TEdtIdProduto.Text);
+    UmaReceita.Produto.Produto := Self.TEdtProduto.Text;
+    if not UmaCtrlProduto.Buscar(UmaReceita.Produto.IdProduto, '') then
+    begin
+      ShowMessage('NENHUM REGISTRO ENCONTADO!');
+      Self.TEdtIdProduto.Clear;
+      Self.TEdtProduto.Clear;
+      Self.TEdtQtde.Clear;
+      Self.TEdtMarca.Clear;
+    end
+    else
+    begin
+      UmaCtrlProduto.Carregar(UmaReceita.Produto);
+      Self.TEdtIdProduto.Text := IntToStr(UmaReceita.Produto.IdProduto);
+      Self.TEdtProduto.Text := UmaReceita.Produto.Produto;
+      Self.TEdtMarca.Text := UmaReceita.Produto.Marca;
+    end;
+  end
+  else
+  begin
+    Self.TEdtIdProduto.Clear;
+    Self.TEdtProduto.Clear;
+    Self.TEdtMarca.Clear;
+    Self.TEdtQtde.Clear;
+  end;
+end;
+
+procedure TFrmCadastroReceita.TEdtIdReceitaExit(Sender: TObject);
+var
+  UmaCtrlProduto: TCtrlProduto;
+  auxInt:Integer;
+  begin
+  inherited;
+  Self.TEdtIdReceita.Color:=clWindow;
+  if TryStrToInt(Self.TEdtIdReceita.Text,auxInt) then
+  begin
+    Self.TEdtReceita.Clear;
+    UmaCtrlProduto := TCtrlProduto.Create;
+    UmaReceita.Produto.IdProduto := strToInt(Self.TEdtIdReceita.Text);
+    UmaReceita.Produto.Produto := Self.TEdtReceita.Text;
+    if not UmaCtrlProduto.Buscar(UmaReceita.Produto.IdProduto, '') then
+    begin
+      Self.TEdtIdReceita.Clear;
+      Self.TEdtReceita.Clear;
+    end
+    else
+    begin
+      UmaCtrlProduto.Carregar(UmaReceita.Produto);
+      if UmaReceita.Produto.Tipo = 3 then
+      begin
+        Self.TEdtIdReceita.Text := IntToStr(UmaReceita.Produto.IdProduto);
+        Self.TEdtReceita.Text := UmaReceita.Produto.Produto;
+      end
+      else
+      begin
+        ShowMessage('ESTE TIPO DE PRODUTO NÃO É VALIDO COMO RECEITA!');
+        Self.TEdtIdReceita.Clear;
+      end;
+    end;
+  end
+  else
+  begin
+    Self.TEdtIdReceita.Clear;
+    Self.TEdtReceita.Clear;
+  end;
+
+end;
+
+procedure TFrmCadastroReceita.TEdtIdReceitaKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+   if not (key in ['0'..'9',#8]) then
+     key := #0;
+end;
+
+procedure TFrmCadastroReceita.TEdtQtdeExit(Sender: TObject);
+var auxFloat:Double;
+begin
+  inherited;
+if not TryStrToFloat(Self.TEdtQtde.Text,auxFloat) then
+    Self.TEdtQtde.Clear;
+end;
+
+procedure TFrmCadastroReceita.TStringGridProdutoReceitaSelectCell(
+  Sender: TObject; ACol, ARow: Integer; var CanSelect: Boolean);
+begin
+  inherited;
+  lin:=ARow;
+end;
+
+function TFrmCadastroReceita.ValidaCampos: Boolean;
+var intAux:integer;
+begin
+  if Length( Self.TEdtReceita.Text) < 2   then
+  begin
+    Self.TEdtIdReceita.Color:=clWebSteelBlue;
+    Self.TEdtIdReceita.SetFocus;
+    Result:=False;
+    Exit;
+  end;
+  if (Self.TStringGridProdutoReceita.Cells[1,1] = '') or (Self.TStringGridProdutoReceita.Cells[2,1] = '') then
+  begin
+     Self.TEdtIdProduto.Color:=clWebSteelBlue;
+     Self.TEdtIdProduto.SetFocus;
+     Result:=False;
+     exit;
+  end
+  else
+    Result:=True;
+end;
+
+end.
+
+
+

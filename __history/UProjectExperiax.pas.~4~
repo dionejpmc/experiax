@@ -1,0 +1,37 @@
+unit UProjectExperiax;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs,UInterface,UAplica,UFrmMenuPrincipal, Menus, RzPanel, ExtCtrls;
+type
+  TProjectExperiax = class(TForm)
+    RzStatusBar1: TRzStatusBar;
+    RzToolbar1: TRzToolbar;
+    MainMenu1: TMainMenu;
+    MENU1: TMenuItem;
+    SAIR1: TMenuItem;
+    procedure MENU1Click(Sender: TObject);
+  private
+    { Private declarations }
+    UmMenu:TFrmMenuPrincipal;
+  public
+    { Public declarations }
+  end;
+
+var
+  ProjectExperiax: TProjectExperiax;
+
+implementation
+
+{$R *.dfm}
+
+procedure TProjectExperiax.MENU1Click(Sender: TObject);
+begin
+    UmMenu:=TFrmMenuPrincipal.Create(nil);
+    UmMenu.ShowModal;
+    UmMenu.Destroy;
+end;
+
+end.

@@ -1,0 +1,144 @@
+unit UAplica;
+
+interface
+Uses UInterface,UCtrlPais,UPais,UEstado,UCidade,UCargo,UFuncionario,UCtrlEstado,UCtrlCidade,
+UCtrlCargo,UCtrlFuncionario,UProduto,UCtrlProduto,UReceita,UCtrlReceita, UFornecedor,
+UCtrlfornecedor,UCtrlFP,
+UFrmMenuPrincipal, UOrdemProducao, UFormaPagamento, UContaReceber, UContaPagar, UClienteFisico
+,UClienteJuridico, UCompra, UVenda, UCondicaoPagamento, UCtrlCP, UCtrlCliente;
+
+type   Aplicacao = class
+  private
+  protected
+      UmPais:TPais;
+      UmaCidade:TCidade;
+      UmEstado:TEstado;
+      UmCargo:TCargo;
+      UmFuncionario:TFuncionario;
+      UmProduto:TProduto;
+      UmaReceita:TReceita;
+      UmaCondicaoPagamento:TCondicaoPagamento;
+      UmaFormaPagamento:TFormaPagamento;
+      UmaContaReceber:TContaReceber;
+      UmaContaPagar:TContaPagar;
+      UmaCompra:TCompra;
+      UmaVenda:TVenda;
+      //UmCaixa:=OCAixa;
+      UmFornecedor:TFornecedor;
+      UmClienteF:TClienteFisico;
+      UmClienteJ:TClienteJuridico;
+      UmaOP:TOrdemProducao;
+
+
+      UmaCtrlPais:TCtrlPais;
+      UmaCtrlEstado:TCtrlEstado;
+      UmaCtrlCidade:TCtrlCidade;
+      UmaCtrlCargo:TCtrlCargo;
+      UmaCtrlFuncionario:TCtrlFuncionario;
+      UmaCtrlProduto:TCtrlProduto;
+      UmaCtrlReceita:TCtrlReceita;
+      UmaCtrlFornecedor:TCtrlFornecedor;
+      UmaCtrlCliente:TCtrlCliente;
+      UmaCtrlFP:TCtrlFP;
+      UmaCtrlCP:TCtrlCP;
+
+      UmaInterface:TInterface;
+      UmMenu:TFrmMenuPrincipal;
+
+  public
+    constructor create;
+    destructor Destroy;
+    procedure Execute;
+
+end;
+
+implementation
+
+{ Aplicacao }
+
+constructor Aplicacao.create;
+begin
+      UmPais:=TPais.Create;
+      UmEstado:=TEstado.Create;
+      UmaCidade:=TCidade.Create;
+      UmCargo:=TCargo.Create;
+      UmFuncionario:=TFuncionario.Create;
+      UmProduto:=TProduto.Create;
+      UmaReceita:=TReceita.Create;
+      UmFornecedor:= TFornecedor.Create;
+      UmaOP:= TOrdemProducao.Create;
+      UmaCondicaoPagamento:=TCondicaoPagamento.create;
+      UmaFormaPagamento:=TFormaPagamento.create;
+      UmaContaReceber:=TContaReceber.create;
+      UmaContaPagar:=TContaPagar.create;
+      UmaCompra:=TCompra.create;
+      UmaVenda:=TVenda.create;
+      //UmCaixa:=OCAixa;
+      UmClienteF:=TClienteFisico.Create;
+      UmClienteJ:=TClienteJuridico.Create;
+
+
+
+      UmaCtrlPais:=TCtrlPais.Create;
+      UmaCtrlEstado:=TCtrlEstado.Create;
+      UmaCtrlCidade:=TCtrlCidade.Create;
+      UmaCtrlCargo:=TCtrlCargo.Create;
+      UmaCtrlFuncionario:=TCtrlFuncionario.Create;
+      UmaCtrlProduto:= TCtrlProduto.Create;
+      UmaCtrlReceita:=TCtrlReceita.Create;
+      UmaCtrlFornecedor:=TCtrlFornecedor.Create;
+      UmaCtrlCliente:=TCTrlCliente.Create;
+      UmaCtrlFP:=TCtrlFP.Create;
+      UmaCtrlCP:=TCtrlCP.Create;
+
+      UmaInterface:=TInterface.Create;
+      UmMenu:=TFrmMenuPrincipal.Create(nil);
+end;
+
+destructor Aplicacao.Destroy;
+begin
+  UmPais.Destroy;
+  UmEstado.Destroy;
+  UmaCidade.Destroy;
+  UmCargo.Destroy;
+  UmFuncionario.Destroy;
+  UmProduto.Destroy;
+  UmaReceita.Destroy;
+  UmFornecedor.Destroy;
+  UmaCondicaoPagamento.destroy;
+  UmaFormaPagamento.destroy;
+  UmaContaReceber.destroy;
+  UmaContaPagar.destroy;
+  UmaCompra.destroy;
+  UmaVenda.destroy;
+  //UmCaixa:=OCAixa;
+  UmClienteF.Destroy;
+  UmClienteJ.Destroy;
+  UmaOP.Destroy;
+
+  UmaCtrlPais.Destroy;
+  UmaCtrlEstado.Destroy;
+  UmaCtrlCidade.Destroy;
+  UmaCtrlCargo.Destroy;
+  UmaCtrlFuncionario.Destroy;
+  UmaCtrlProduto.Destroy;
+  UmaCtrlReceita.Destroy;
+  UmaCtrlFornecedor.Destroy;
+  UmaCtrlCliente.Destroy;
+  UmaCtrlFP.Destroy;
+  UmaCtrlCP.Destroy;
+
+  UmaInterface.Destroy;
+  UmMenu.Destroy;
+end;
+
+procedure Aplicacao.Execute;
+begin
+     UmMenu.ReconhecaObjeto(UmaInterface,UmPais,UmEstado,UmaCidade, UmCargo, UmFuncionario, UmProduto, UmaReceita, UmFornecedor,UmaOP,
+     UmaCondicaoPagamento,UmaFormaPagamento,UmaContaReceber,UmaContaPagar,UmaCompra,UmaVenda,UmClienteF,UmClienteJ );
+     UmMenu.ShowModal;
+end;
+
+end.
+
+

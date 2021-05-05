@@ -1,0 +1,52 @@
+inherited FrmConsultarPai: TFrmConsultarPai
+  Caption = 'FrmConsultarPai'
+  ClientWidth = 596
+  Color = clWhite
+  ExplicitWidth = 612
+  ExplicitHeight = 337
+  PixelsPerInch = 96
+  TextHeight = 13
+  object TBtnNovo: TRzBitBtn [0]
+    Left = 8
+    Top = 266
+    FrameColor = 7617536
+    Caption = '&Novo'
+    Color = 15791348
+    HotTrack = True
+    TabOrder = 0
+  end
+  object TBtnEditar: TRzBitBtn [1]
+    Left = 136
+    Top = 266
+    FrameColor = 7617536
+    Caption = '&Editar'
+    Color = 15791348
+    HotTrack = True
+    TabOrder = 1
+  end
+  object TBtnExcluir: TRzBitBtn [2]
+    Left = 264
+    Top = 266
+    FrameColor = 7617536
+    Caption = '&Excluir'
+    Color = 15791348
+    HotTrack = True
+    TabOrder = 2
+  end
+  object TBtnCancelar: TRzBitBtn [3]
+    Left = 513
+    Top = 266
+    FrameColor = 7617536
+    Caption = '&Cancelar'
+    Color = 15791348
+    HotTrack = True
+    TabOrder = 3
+    OnClick = TBtnCancelarClick
+  end
+  object TBtnLimpar: TRzButton [4]
+    Left = 392
+    Top = 266
+    Caption = '&Limpar'
+    TabOrder = 4
+  end
+end

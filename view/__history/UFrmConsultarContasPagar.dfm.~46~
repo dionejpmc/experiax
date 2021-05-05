@@ -1,0 +1,98 @@
+inherited FrmConsultarContasPagar: TFrmConsultarContasPagar
+  Caption = 'Consultar Contas Pagar'
+  ClientHeight = 290
+  ClientWidth = 605
+  ExplicitWidth = 621
+  ExplicitHeight = 328
+  PixelsPerInch = 96
+  TextHeight = 13
+  object TLblNumNota: TRzLabel [0]
+    Left = 13
+    Top = 8
+    Width = 87
+    Height = 13
+    Caption = 'Numero da Nota *'
+  end
+  object TLblSerie: TRzLabel [1]
+    Left = 198
+    Top = 11
+    Width = 33
+    Height = 13
+    Caption = 'Serie *'
+  end
+  inherited TBtnNovo: TRzBitBtn
+    OnClick = TBtnNovoClick
+  end
+  inherited TBtnEditar: TRzBitBtn
+    Left = 144
+    OnClick = TBtnEditarClick
+    ExplicitLeft = 144
+  end
+  inherited TBtnExcluir: TRzBitBtn
+    Left = 272
+    ExplicitLeft = 272
+  end
+  inherited TBtnCancelar: TRzBitBtn
+    Left = 526
+    ExplicitLeft = 526
+  end
+  inherited TBtnLimpar: TRzButton
+    Left = 408
+    ExplicitLeft = 408
+  end
+  object TEdtSerie: TRzEdit
+    Left = 244
+    Top = 8
+    Width = 78
+    Height = 21
+    TabOrder = 5
+  end
+  object TEdtNumNota: TRzEdit
+    Left = 106
+    Top = 8
+    Width = 86
+    Height = 21
+    TabOrder = 6
+  end
+  object TGroupBoxContasReceber: TRzGroupBox
+    Left = 8
+    Top = 37
+    Width = 593
+    Height = 223
+    Caption = 'Consultar Contas Pagar'
+    TabOrder = 7
+    object TDBGridContasPagar: TRzDBGrid
+      Left = 16
+      Top = 24
+      Width = 564
+      Height = 169
+      ParentCustomHint = False
+      BiDiMode = bdLeftToRight
+      Color = clBtnFace
+      Ctl3D = True
+      DataSource = DataModule1.TDataSourceContasPagar
+      DefaultDrawing = True
+      Options = [dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTitleClick]
+      ParentBiDiMode = False
+      ParentCtl3D = False
+      ParentShowHint = False
+      ReadOnly = True
+      ShowHint = True
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+      FrameHotTrack = True
+      FrameVisible = True
+      FixedLineColor = clHotLight
+    end
+  end
+  object TBtnBuscarForneceodor: TRzButton
+    Left = 328
+    Top = 6
+    Caption = 'Buscar'
+    TabOrder = 8
+  end
+end

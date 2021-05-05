@@ -1,0 +1,146 @@
+unit UEstado;
+interface
+uses UPais;
+type
+  TEstado = class (TObject)
+
+  private
+
+  protected
+    FIdEstado:Integer;
+    FEstado:String[50];
+    FSigla:String[3];
+    FDDD:String[3];
+    FPais:TPais;
+    FDataCadastro:String[10];
+    FDataAlteracao:String[10];
+
+  public
+    //Procedimentos da classe Pais
+    constructor Create;
+    destructor Destroy;
+
+    procedure setIdEstado(vIdEstado:Integer);
+    procedure setEstado(vEstado:String);
+    procedure setSigla(vSigla:String);
+    procedure setDDD(vDDD:String);
+    procedure setPais(vPais:TPais);
+    procedure setDataCadastro(vDataCadastro:String);
+    procedure setDataAlteracao(vDataAlteracao:String);
+
+    //Funçoes da classe Pais
+
+    function getIdEstado:Integer;
+    function getEstado:String;
+    function getSigla:String;
+    function getDDD:String;
+    function getPais:TPais;
+    function getDataCadastro:String;
+    function getDataAlteracao:String;
+
+    //Property the Substitute os Get and Set
+
+    property IdEstado:Integer read getIdEstado write setIdEstado;
+    property Estado:String read getEstado write setEstado;
+    property Sigla:String read getSigla write setSigla;
+    property DDD:String read getDDD write setDDD;
+    property Pais:TPais read getPais write setPais;
+    property DataCadastro:String read getDataCadastro write setDataCadastro;
+    property DataAlteracao:String read getDataAlteracao write setDataAlteracao;
+
+    //Construtores e Destrutore
+
+
+  end;
+
+implementation
+
+{ TEstado }
+
+constructor TEstado.Create;
+begin
+    FIdEstado:=0;
+    FEstado:='';
+    FSigla:='';
+    FDDD:='';
+    FPais:=TPais.Create;
+    FDataCadastro:='';
+    FDataAlteracao:='';
+end;
+
+destructor TEstado.Destroy;
+begin
+
+end;
+
+function TEstado.getDataAlteracao: String;
+begin
+   Result:=Self.FDataAlteracao;
+end;
+
+function TEstado.getDataCadastro: String;
+begin
+   Result:=Self.FDataCadastro;
+end;
+
+function TEstado.getDDD: String;
+begin
+  Result:=Self.FDDD;
+end;
+
+function TEstado.getEstado: String;
+begin
+  Result:=Self.FEstado;
+end;
+
+function TEstado.getIdEstado: Integer;
+begin
+  Result:=Self.FIdEstado;
+end;
+
+function TEstado.getPais: TPais;
+begin
+  Result:=FPais;
+end;
+
+function TEstado.getSigla: String;
+begin
+  Result:=Self.FSigla;
+end;
+
+procedure TEstado.setDataAlteracao(vDataAlteracao: String);
+begin
+  Self.FDataAlteracao:=vDataAlteracao;
+end;
+
+procedure TEstado.setDataCadastro(vDataCadastro: String);
+begin
+  Self.FDataCadastro:=vDataCadastro;
+end;
+
+procedure TEstado.setDDD(vDDD: String);
+begin
+  Self.FDDD:=vDDD;
+end;
+
+procedure TEstado.setEstado(vEstado: String);
+begin
+  Self.FEstado:=vEstado;
+end;
+
+procedure TEstado.setIdEstado(vIdEstado: Integer);
+begin
+  Self.FIdEstado:=vIdEstado;
+end;
+
+procedure TEstado.setPais(vPais: TPais);
+begin
+  Self.FPais:=vPais;
+end;
+
+procedure TEstado.setSigla(vSigla: String);
+begin
+  Self.FSigla:=vSigla;
+end;
+
+end.

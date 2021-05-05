@@ -1,0 +1,42 @@
+unit UParcela;
+
+interface
+type
+    TParcela = class
+      private
+      protected
+          FIdParcela:integer;
+          FNumeroParcela:Integer;
+          FValorParcela:Double;
+          FPorcentagemParcela:Double;
+          FJurosParcela:Double;
+          FDataVencimento:String[10];
+          FDataCadastro:String[10];
+          FDataAlteracao:String[10];
+
+      public
+         constructor Create;
+         destructor Destroy;
+
+         procedure setIdParcela(vIdParcela:Integer);
+         procedure setNumeroParcela(vNumeroParcela:integer);
+         procedure setValorParcela(vValorParcela:Double);
+         procedure setPorcentagemParcela(vPorcentagemParcela:Double);
+         procedure setJurosParcela(vJurosParcela:Double);
+         procedure setDataVencimento(VDataVencimento:string);
+         procedure setDataCadastro(vDataCadastro:string);
+         procedure setDataAlteracao(vDataAlteracao:string);
+
+         function getIdParcela:Integer;
+         function getNumeroParcela:integer;
+         function getValorParcela:Double;
+         function getPorcentagemParcela:Double;
+         function getJurosParcela:Double;
+         function getDataVencimento:string;
+         function getDataCadastro:string;
+         function getDataAlteracao:string;
+    end;
+
+implementation
+
+end.

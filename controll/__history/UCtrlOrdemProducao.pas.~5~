@@ -1,0 +1,23 @@
+unit UCtrlOrdemProducao;
+
+interface
+uses  UDM,DB;
+type
+    TCtrlOP = class
+      private
+
+      protected
+
+      public
+        constructor Create;
+        destructor Destroy;
+        function Salvar(Objeto : TObject): string;                   override;
+        function GetDs : TDataSource;                                override;
+        function Carregar( Objeto : TObject): Tobject;               override;
+        function Buscar(KeyId : Integer;KeyStr:String): boolean;     override;
+        function Excluir(Objeto : TObject): string;                  override;
+    end;
+
+implementation
+
+end.

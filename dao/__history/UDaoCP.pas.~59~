@@ -1,0 +1,210 @@
+unit UDaoCP;
+
+interface
+uses UDao, UCondicaoPagamento, UDM,DB, SysUtils,UParcela;
+type
+    TDaoCP = class(TDao)
+    private
+    protected
+    public
+            constructor Create;                                      override;
+            destructor Destroy;                                      override;
+            function Salvar(Objeto: TObject): string;                override;
+            function GetDs: TDataSource;                             override;
+            function Carregar(Objeto: TObject): TObject;             override;
+            function CarregarParcela(Objeto:TObject):TObject;
+            function Buscar(KeyId: Integer; KeyStr: String): boolean;override;
+            function BuscarParcela(keyNumParcela:Integer;KeyIdCP:Integer):Boolean;
+            function Excluir(Objeto: TObject): string;               override;
+
+    end;
+
+implementation
+
+{ TDaoCP }
+
+function TDaoCP.Buscar(KeyId: Integer; KeyStr: String): boolean;
+var TamStr:Integer;
+    SQL:String;
+begin
+   TamStr:=Length(keyStr);
+ if (keyId <> 0  ) then
+   SQL:='SELECT * FROM CONDICAOPAGAMENTO WHERE ID='+Inttostr(keyId)
+ else if (TamStr <> 0)  and (keyId = 0) then
+   SQL:='SELECT * FROM CONDICAOPAGAMENTO WHERE CONDICAOPAGAMENTO LIKE'+QuotedStr(KeyStr+'%')
+ else if (keyId = 0) and (TamStr = 0) then
+   SQL:='SELECT * FROM CONDICAOPAGAMENTO ORDER BY CONDICAOPAGAMENTO';
+
+    FDM.IBDataSetCondicaoPagamento.Close;
+    FDM.IBDataSetCondicaoPagamento.SelectSQL.Clear;
+    FDM.IBDataSetCondicaoPagamento.SelectSQL.Add(SQL);
+    FDM.IBDataSetCondicaoPagamento.Open;
+
+
+    if (KeyId = FDM.IBDataSetCondicaoPagamentoID.Value) and (TamStr = 0) then
+        Result:=True
+    else if TamStr > 0 then
+    begin
+        if (KeyId = FDM.IBDataSetCondicaoPagamentoID.Value) and (KeyStr  = FDM.IBDataSetCondicaoPagamentoCONDICAOPAGAMENTO.Value) then
+          Result:=True
+        else if (KeyStr = FDM.IBDataSetCondicaoPagamentoCONDICAOPAGAMENTO.Value) then
+          Result:=True
+        else
+          Result:=False;
+    end
+    else
+      Result:=False;
+end;
+
+function TDaoCP.BuscarParcela(keyNumParcela, KeyIdCP: Integer): Boolean;
+var SQL:string;
+begin
+
+    SQL:='SELECT * FROM PARCELA WHERE ID='+IntToStr(KeyIdCP)+' AND NUMEROPARCELA='+IntToStr(keyNumParcela);
+
+
+    FDM.IBDataSetParcela.Close;
+    FDM.IBDataSetParcela.SelectSQL.Clear;
+    FDM.IBDataSetParcela.SelectSQL.Add(SQL);
+    FDM.IBDataSetParcela.Open;
+
+   if (FDM.IBDataSetParcelaID.Value = KeyIdCP) and (FDM.IBDataSetParcelaNUMEROPARCELA.Value = keyNumParcela) then
+      Result:=True
+   else
+      Result:=False;
+end;
+
+function TDaoCP.Carregar(Objeto: TObject): TObject;
+var UmaCP:TCondicaoPagamento;
+    i:Integer;
+    UmaParcela:TParcela;
+begin
+     UmaCP:=TCondicaoPagamento(Objeto);
+  if not FDM.IBDataSetCondicaoPagamento.Active then
+    FDM.IBDataSetCondicaoPagamento.Open;
+
+  UmaCP.IdCP:=FDM.IBDataSetCondicaoPagamentoID.Value;
+  UmaCP.CP:=FDM.IBDataSetCondicaoPagamentoCONDICAOPAGAMENTO.Value;
+  UmaCP.UmaFP.Id:=FDM.IBDataSetCondicaoPagamentoIDFORMAPAGAMENTO.Value;
+  UmaCP.QTDEParcelas:=FDM.IBDataSetCondicaoPagamentoQUANTIDADEPARCELAS.Value;
+  UmaCP.DataCadastro:=DateTimeToStr( FDM.IBDataSetCondicaoPagamentoDATACADASTRO.Value);
+  UmaCP.DataAlteracao:=DateTimeToStr(FDM.IBDataSetCondicaoPagamentoDATAALTERACAO.Value);
+  for I := 0 to UmaCP.QTDEParcelas -1 do
+  begin
+    BuscarParcela(I+1,UmaCP.IdCP);
+    UmaParcela:=TParcela.Create;
+    UmaCP.UmaListaParcela.Add(TParcela(CarregarParcela(UmaParcela)));
+    UmaParcela:=nil;
+  end;
+  Result:=UmaCP;
+end;
+
+function TDaoCP.CarregarParcela(Objeto: TObject): TObject;
+var Fim:Integer;
+    UmaParcela:TParcela;
+begin
+    UmaParcela:=TParcela(Objeto);
+    if not FDM.IBDataSetParcela.Active then
+           FDM.IBDataSetParcela.Open;
+
+    UmaParcela.NumeroParcela:=FDM.IBDataSetParcelaNUMEROPARCELA.Value;
+    UmaParcela.IdParcela:=FDM.IBDataSetParcelaID.Value;
+    UmaParcela.DataVencimento:=FDM.IBDataSetParcelaVENCIMENTO.Value;
+    UmaParcela.PorcentagemParcela:=FDM.IBDataSetParcelaPORCENTAGEM.Value;
+    UmaParcela.ValorParcela:=FDM.IBDataSetParcelaVALORPARCELA.Value;
+
+    Result:=UmaParcela;
+
+end;
+
+constructor TDaoCP.Create;
+begin
+  inherited;
+
+end;
+
+destructor TDaoCP.Destroy;
+begin
+
+  inherited;
+end;
+
+function TDaoCP.Excluir(Objeto: TObject): string;
+begin
+
+end;
+
+function TDaoCP.GetDs: TDataSource;
+begin
+    Result:=FDM.TDataSourceCondicaoPagamento;
+end;
+
+function TDaoCP.Salvar(Objeto: TObject): string;
+var MSG:String;
+    UmaCPG:TCondicaoPagamento;
+    I:Integer;
+begin
+  UmaCPG:=TCondicaoPagamento(Objeto);
+  try
+     if not FDM.IBTransaction1.Active then
+     begin
+         FDM.IBTransaction1.Active:=True;
+         FDM.IBTransaction1.StartTransaction;
+     end;
+
+
+     if not FDM.IBDataSetCondicaoPagamento.Active then
+     begin
+        FDM.IBDataSetCondicaoPagamento.Active:=True;
+        FDM.IBDataSetCondicaoPagamento.Open;
+     end;
+
+
+     if not FDM.IBDataSetParcela.Active then
+     begin
+        FDM.IBDataSetParcela.Active:=True;
+        FDM.IBDataSetParcela.Open;
+     end;
+
+
+     //Permite Inserir Na Tabela Condicao de Pagamento
+     FDM.IBDataSetCondicaoPagamento.Insert;
+
+
+     FDM.IBDataSetCondicaoPagamentoCONDICAOPAGAMENTO.Value:=UmaCPG.CP;
+     FDM.IBDataSetCondicaoPagamentoIDFORMAPAGAMENTO.Value:=UmaCPG.UmaFP.Id;
+     FDM.IBDataSetCondicaoPagamentoQUANTIDADEPARCELAS.Value:=UmaCPG.QTDEParcelas;
+     FDM.IBDataSetCondicaoPagamentoDATACADASTRO.Value:= StrToDateTime( UmaCPG.DataCadastro);
+     FDM.IBDataSetCondicaoPagamentoDATAALTERACAO.Value:=StrToDateTime( UmaCPG.DataAlteracao);
+
+     FDM.IBDataSetCondicaoPagamento.Post;
+     FDM.IBDataSetCondicaoPagamentoID.Value;
+
+     for I := 1 to UmaCPG.QTDEParcelas do
+     begin
+          //Permite Inserir Na Tabela Parcela
+          FDM.IBDataSetParcela.Insert;
+
+          FDM.IBDataSetParcelaID.Value :=  FDM.IBDataSetCondicaoPagamentoID.Value;
+          FDM.IBDataSetParcelaNUMEROPARCELA.Value := UmaCPG.getParcelas(i-1).NumeroParcela;
+          FDM.IBDataSetParcelaVALORPARCELA.Value := UmaCPG.getParcelas(i-1).ValorParcela;
+          FDM.IBDataSetParcelaPORCENTAGEM.Value:= UmaCPG.getParcelas(i-1).PorcentagemParcela;
+          FDM.IBDataSetParcelaJUROSPARCELA.Value:= UmaCPG.getParcelas(i-1).JurosParcela;
+          FDM.IBDataSetParcelaVENCIMENTO.Value:=UmaCPG.getParcelas(i-1).DataVencimento;
+          FDM.IBDataSetParcelaDATACADASTRO.Value:= StrToDate(UmaCPG.getParcelas(i-1).DataCadastro);
+          FDM.IBDataSetParcelaDATAALTERACAO.Value := StrToDate(UmaCPG.getParcelas(i-1).DataAlteracao);
+
+          FDM.IBDataSetParcela.Post;
+     end;
+
+
+     FDM.IBTransaction1.CommitRetaining;
+     MSG:='CONDIÇÃO DE PAGAMENTO SALVA COM SUCESSO';
+  except
+    FDM.IBTransaction1.RollbackRetaining;
+    MSG:='ERRO AO SALVAR CONDIÇÃO DE PAGAMENTO';
+  end;
+  Result:=MSG;
+end;
+
+end.

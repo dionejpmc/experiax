@@ -1,0 +1,47 @@
+unit UClienteFisico;
+
+interface
+uses UPessoaFisica;
+ type TClienteFisico = class(TPessoaFisica)
+   private
+   protected
+     FIdClienteFisico:Integer;
+   public
+
+   //Construtores e Destrutore
+    constructor Create;
+    destructor Destroy;
+   //Procedimentos da classe Cliente Fisico
+    procedure setIdClienteFisico(vIdClienteFisico:Integer);
+   //Funçoes da classe Cliente Fisico
+    function getIdClienteFisico:Integer;
+
+    property IdClienteFisico:Integer read getIdClienteFisico write setIdClienteFisico;
+
+ end;
+
+implementation
+
+{ TCliente }
+
+constructor TCliente.Create;
+begin
+   FIdClienteFisico:=0;
+end;
+
+destructor TCliente.Destroy;
+begin
+
+end;
+
+function TCliente.getIdClienteFisico: Integer;
+begin
+   Result:=FIdClienteFisico;
+end;
+
+procedure TCliente.setIdClienteFisico(vIdClienteFisico: Integer);
+begin
+   FIdClienteFisico:=vIdClienteFisico;
+end;
+
+end.

@@ -1,0 +1,58 @@
+unit UDaoOrdemProducao;
+
+interface
+uses UDao, UDM,DB;
+type
+  TDaoOP = class (TDao)
+  private
+  protected
+  public
+        constructor Create;
+        destructor Destroy;
+        function Salvar(Objeto : TObject): string;                   override;
+        function GetDs : TDataSource;                                override;
+        function Carregar( Objeto : TObject): Tobject;               override;
+        function Buscar(KeyId : Integer;KeyStr:String): boolean;     override;
+        function Excluir(Objeto : TObject): string;                  override;
+  end;
+
+implementation
+
+{ TDaoOP }
+
+function TDaoOP.Buscar(KeyId: Integer; KeyStr: String): boolean;
+begin
+
+end;
+
+function TDaoOP.Carregar(Objeto: TObject): Tobject;
+begin
+
+end;
+
+constructor TDaoOP.Create;
+begin
+
+end;
+
+destructor TDaoOP.Destroy;
+begin
+
+end;
+
+function TDaoOP.Excluir(Objeto: TObject): string;
+begin
+
+end;
+
+function TDaoOP.GetDs: TDataSource;
+begin
+    Result:=FDM.IBDataSetOP.DataSource;
+end;
+
+function TDaoOP.Salvar(Objeto: TObject): string;
+begin
+
+end;
+
+end.

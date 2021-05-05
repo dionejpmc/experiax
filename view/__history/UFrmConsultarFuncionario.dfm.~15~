@@ -1,0 +1,210 @@
+inherited FrmConsultarFuncionario: TFrmConsultarFuncionario
+  Caption = 'Consultar Funcionario'
+  PixelsPerInch = 96
+  TextHeight = 13
+  object TLblFuncionario: TRzLabel [0]
+    Left = 147
+    Top = 12
+    Width = 64
+    Height = 13
+    Caption = 'Funcionario *'
+  end
+  object TLblId: TRzLabel [1]
+    Left = 8
+    Top = 11
+    Width = 20
+    Height = 13
+    Caption = 'ID *'
+  end
+  inherited TBtnNovo: TRzBitBtn
+    TabOrder = 4
+    OnClick = TBtnNovoClick
+  end
+  inherited TBtnEditar: TRzBitBtn
+    TabOrder = 5
+  end
+  inherited TBtnExcluir: TRzBitBtn
+    TabOrder = 6
+  end
+  inherited TBtnLimpar: TRzBitBtn
+    TabOrder = 7
+  end
+  inherited TBtnCancelar: TRzBitBtn
+    TabOrder = 8
+    OnClick = TBtnCancelarClick
+  end
+  object TGroupBoxFuncionario: TRzGroupBox
+    Left = 8
+    Top = 64
+    Width = 580
+    Height = 169
+    Caption = 'DADOS DE FUNCIONARIO'
+    GradientColorStyle = gcsCustom
+    TabOrder = 3
+    object TDBGridFuncionario: TRzDBGrid
+      Left = 8
+      Top = 24
+      Width = 561
+      DataSource = DataModule1.TDataSourceFuncionario
+      DefaultDrawing = True
+      FixedColor = cl3DLight
+      GradientEndColor = clCream
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+      FrameColor = 12164479
+      FrameHotTrack = True
+      FrameStyle = fsBump
+      FrameVisible = True
+      FramingPreference = fpCustomFraming
+      FixedLineColor = 12164479
+      LineColor = clMenu
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'ID'
+          Width = 35
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'FUNCIOANRIO'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'IDCARGO'
+          Width = 53
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CARGO'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'IDCIDADE'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CIDADE'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'LOGRADOURO'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'NUMERO'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'BAIRRO'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CEP'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'RG'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CPF'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CTPS'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'SEXO'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'EMAIL'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'TELEFONERESIDENCIAL'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CELULAR'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'FAX'
+          Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'STATUS'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DATAADMICAO'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DATADEMICAO'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DATACADASTRO'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DATAALTERACAO'
+          Visible = True
+        end>
+    end
+  end
+  object TEdtFuncionario: TRzEdit
+    Left = 232
+    Top = 8
+    Width = 265
+    Height = 21
+    MaxLength = 50
+    TabOrder = 1
+  end
+  object TBtnBuscarFuncionario: TRzButton
+    Left = 512
+    Top = 6
+    FrameColor = 7617536
+    Caption = 'Buscar'
+    Color = 15791348
+    HotTrack = True
+    TabOrder = 2
+  end
+  object TEdtIdFuncionario: TRzEdit
+    Left = 56
+    Top = 8
+    Width = 49
+    Height = 21
+    MaxLength = 5
+    TabOrder = 0
+  end
+end

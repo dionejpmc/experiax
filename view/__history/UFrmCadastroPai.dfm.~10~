@@ -1,0 +1,83 @@
+inherited FormCadastroPai: TFormCadastroPai
+  Cursor = crHandPoint
+  HelpType = htKeyword
+  Caption = 'FormCadastroPai'
+  Color = clWindow
+  TransparentColor = True
+  DefaultMonitor = dmDesktop
+  Font.Charset = ANSI_CHARSET
+  Font.Name = 'Verdana'
+  OnClick = FormClick
+  ExplicitWidth = 594
+  ExplicitHeight = 337
+  PixelsPerInch = 96
+  TextHeight = 13
+  object TLblDataCadastro: TRzLabel
+    Left = 198
+    Top = 112
+    Width = 116
+    Height = 13
+    Caption = 'Data  de Cadastro *'
+  end
+  object TLblDataAlteracao: TRzLabel
+    Left = 199
+    Top = 59
+    Width = 114
+    Height = 13
+    Caption = 'Data de Altera'#231#227'o *'
+  end
+  object TBtnSalvar: TRzButton
+    Left = 8
+    Top = 266
+    FrameColor = 7617536
+    Caption = '&Salvar'
+    Color = 15791348
+    HotTrack = True
+    TabOrder = 0
+  end
+  object TBtnLimpar: TRzButton
+    Left = 248
+    Top = 266
+    FrameColor = 7617536
+    Caption = '&Limpar'
+    Color = 15791348
+    HotTrack = True
+    TabOrder = 1
+  end
+  object TDateTimePickerDataAlteracao: TRzDateTimePicker
+    Left = 316
+    Top = 59
+    Width = 129
+    Height = 21
+    Date = 41002.793459629630000000
+    Time = 41002.793459629630000000
+    TabOrder = 2
+    FlatButtons = True
+    FrameColor = 12164479
+    FrameHotTrack = True
+    FrameVisible = True
+  end
+  object TDateTimePickerDataCadastro: TRzDateTimePicker
+    Left = 312
+    Top = 112
+    Width = 129
+    Height = 21
+    Date = 41002.793588206020000000
+    Time = 41002.793588206020000000
+    TabOrder = 3
+    FlatButtons = True
+    FrameColor = 12164479
+    FrameHotTrack = True
+    FrameVisible = True
+  end
+  object TBtnCancelar: TRzBitBtn
+    Left = 495
+    Top = 266
+    FrameColor = 7617536
+    Caption = '&Cancelar'
+    Color = 15791348
+    HotTrack = True
+    TabOrder = 4
+    OnClick = TBtnCancelarClick
+  end
+end

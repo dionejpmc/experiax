@@ -1,0 +1,12 @@
+unit UCtrlCompra;
+
+interface
+uses UCtrl;
+type
+  TCtrlCompra = class (TCtrl)
+
+  end;
+
+implementation
+
+end.

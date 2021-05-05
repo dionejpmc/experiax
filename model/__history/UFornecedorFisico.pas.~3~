@@ -1,0 +1,32 @@
+unit UFornecedorFisico;
+
+interface
+uses UPessoaFisica;
+type
+    TFornecedorFisico = class (TPessoaFisica)
+        private
+
+        protected
+
+        public
+        constructor Create;
+        destructor Destroy;
+
+    end;
+
+
+implementation
+
+{ TFornecedorFisico }
+
+constructor TFornecedorFisico.Create;
+begin
+   FTipo:='Fisico';
+end;
+
+destructor TFornecedorFisico.Destroy;
+begin
+
+end;
+
+end.

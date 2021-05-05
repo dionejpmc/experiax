@@ -1,0 +1,22 @@
+unit UCtrl;
+
+interface
+uses Classes,DB, uDM;
+
+   type TCtrl = class
+
+  private
+  protected
+  public
+     constructor Create;
+     destructor Destroy;
+
+end;
+
+implementation
+
+{ Controller }
+
+
+end.
+

@@ -1,0 +1,70 @@
+program ProjectExperiax;
+
+{$APPTYPE CONSOLE}
+
+uses
+  SysUtils,
+  UInterface in 'UInterface.pas',
+  UAplica in 'UAplica.pas',
+  UCidade in 'model\UCidade.pas',
+  UEstado in 'model\UEstado.pas',
+  UPais in 'model\UPais.pas',
+  UCtrl in 'controll\UCtrl.pas',
+  UCtrlPais in 'controll\UCtrlPais.pas',
+  UDAO in 'dao\UDAO.pas',
+  UDAOPais in 'dao\UDAOPais.pas',
+  UDM in 'dbexperiax\UDM.pas' {DataModule1: TDataModule},
+  UFrmCadastroCargo in 'view\UFrmCadastroCargo.pas' {FrmCadastroCargo},
+  UFrmCadastroCidade in 'view\UFrmCadastroCidade.pas' {FrmCadastroCidade},
+  UFrmCadastroCliente in 'view\UFrmCadastroCliente.pas' {FrmCadastroCliente},
+  UFrmCadastroClienteJuridico in 'view\UFrmCadastroClienteJuridico.pas' {FrmCadastroClienteJuridico},
+  UFrmCadastroCompra in 'view\UFrmCadastroCompra.pas' {FrmCadastroCompra},
+  UFrmCadastroCondicaoPagamento in 'view\UFrmCadastroCondicaoPagamento.pas' {FrmCadastroCondicaoPagamento},
+  UFrmCadastroContasPagar in 'view\UFrmCadastroContasPagar.pas' {FrmCadastroContasPagar},
+  UFrmCadastroContasReceber in 'view\UFrmCadastroContasReceber.pas' {FrmCadastroContasReceber},
+  UFrmCadastroEstado in 'view\UFrmCadastroEstado.pas' {FrmCadastroEstado},
+  UFrmCadastroFormaPagamento in 'view\UFrmCadastroFormaPagamento.pas' {FrmCadastroFP},
+  UFrmCadastroFornecedor in 'view\UFrmCadastroFornecedor.pas' {FrmCadastroFornecedor},
+  UFrmCadastroFuncionario in 'view\UFrmCadastroFuncionario.pas' {FrmCadastroFuncionario},
+  UFrmCadastroOP in 'view\UFrmCadastroOP.pas' {FrmCadastroOP},
+  UFrmCadastroPai in 'view\UFrmCadastroPai.pas' {FormCadastroPai},
+  UFrmCadastroPais in 'view\UFrmCadastroPais.pas' {FrmCadastroPais},
+  UFrmCadastroPerfil in 'view\UFrmCadastroPerfil.pas' {FrmCadastroPerfilAcesso},
+  UFrmCadastroProduto in 'view\UFrmCadastroProduto.pas' {FrmCadastroProduto},
+  UFrmCadastroReceita in 'view\UFrmCadastroReceita.pas' {FrmCadastroReceita},
+  UFrmCadastroUsuario in 'view\UFrmCadastroUsuario.pas' {FrmCadastroUsuario},
+  UFrmCadastroVenda in 'view\UFrmCadastroVenda.pas' {FrmCadastroVenda},
+  UFrmConsultarCargo in 'view\UFrmConsultarCargo.pas' {FrmConsultarCargo},
+  UFrmConsultarCidade in 'view\UFrmConsultarCidade.pas' {FrmConsultarCidade},
+  UFrmConsultarClienteFisico in 'view\UFrmConsultarClienteFisico.pas' {FrmConsultarClienteFisico},
+  UFrmConsultarClienteJuridico in 'view\UFrmConsultarClienteJuridico.pas' {FrmConsultarClienteJuridico},
+  UFrmConsultarCompra in 'view\UFrmConsultarCompra.pas' {FrmConsultarCompra},
+  UFrmConsultarCondicaoPagamento in 'view\UFrmConsultarCondicaoPagamento.pas' {FrmConsultarCondicaoPagamento},
+  UFrmConsultarContasPagar in 'view\UFrmConsultarContasPagar.pas' {FrmConsultarContasPagar},
+  UFrmConsultarContasReceber in 'view\UFrmConsultarContasReceber.pas' {FrmConsultarContasReceber},
+  UFrmConsultarEstado in 'view\UFrmConsultarEstado.pas' {FrmConsultarEstado},
+  UFrmConsultarFormaPagamento in 'view\UFrmConsultarFormaPagamento.pas' {FrmConsultarFormaPagamento},
+  UFrmConsultarFornecedor in 'view\UFrmConsultarFornecedor.pas' {FrmConsultarFornecedor},
+  UFrmConsultarFuncionario in 'view\UFrmConsultarFuncionario.pas' {FrmConsultarFuncionario},
+  UFrmConsultarOrdemProducao in 'view\UFrmConsultarOrdemProducao.pas' {FrmConsultarOrdemProducao},
+  UFrmConsultarPai in 'view\UFrmConsultarPai.pas' {FrmConsultarPai},
+  UFrmConsultarPais in 'view\UFrmConsultarPais.pas' {FrmConsultarPais},
+  UFrmConsultarProduto in 'view\UFrmConsultarProduto.pas' {FrmConsultarProduto},
+  UFrmConsultarReceita in 'view\UFrmConsultarReceita.pas' {FrmConsultarReceita},
+  UFrmConsultarVenda in 'view\UFrmConsultarVenda.pas' {FrmConsultarVenda},
+  UFrmMenuPrincipal in 'view\UFrmMenuPrincipal.pas' {FrmMenuPrincipal},
+  UFrmPai in 'view\UFrmPai.pas' {FormPai},
+  UDaoEstado in 'dao\UDaoEstado.pas',
+  UCtrlEstado in 'controll\UCtrlEstado.pas';
+
+var UmaAplicacao:Aplicacao;
+begin
+  try
+    { TODO -oUser -cConsole Main : Insert code here }
+    UmaAplicacao:=Aplicacao.Create;
+    UmaAplicacao.Execute;
+    UmaAplicacao.Destroy;
+  except
+
+  end;
+end.

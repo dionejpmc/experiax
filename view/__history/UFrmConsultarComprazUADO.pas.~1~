@@ -1,0 +1,171 @@
+unit UFrmConsultarCompra;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmConsultarPai, RzButton, ExtCtrls, RzPanel, StdCtrls, RzLabel,
+  Mask, RzEdit, Grids, DBGrids, RzDBGrid, UFrmCadastroCompra,UFrmConsultarFornecedor, UCompra,UCtrlCompra,
+  UCtrlFornecedor, UDM,DB;
+
+type
+  TFrmConsultarCompra = class(TFrmConsultarPai)
+    TBtnBuscarCompra: TRzButton;
+    TEdtNumNota: TRzEdit;
+    TLblNumNota: TRzLabel;
+    TLblSerie: TRzLabel;
+    TEdtSerie: TRzEdit;
+    TGroupBoxCompra: TRzGroupBox;
+    TDBGridCompra: TRzDBGrid;
+    TGroupBoxProdutosCompra: TRzGroupBox;
+    TDBGridProdutoCompra: TRzDBGrid;
+    TEdtFornecedor: TRzEdit;
+    TBtnBuscarFornecedor: TRzBitBtn;
+    TlblIdFornecedor: TRzLabel;
+    TEdtIdFornecedor: TRzEdit;
+    procedure TBtnNovoClick(Sender: TObject);
+    procedure TDBGridCompraCellClick(Column: TColumn);
+    procedure TDBGridCompraDblClick(Sender: TObject);
+    procedure TBtnBuscarCompraClick(Sender: TObject);
+    procedure TEdtIdFornecedorExit(Sender: TObject);
+    procedure TBtnBuscarFornecedorClick(Sender: TObject);  private
+    { Private declarations }
+  protected
+    UmaCompra:TCompra;
+    UmCadCompra:TFrmCadastroCompra;
+    UmaCtrlCompra:TCtrlCompra;
+    UmFrmConFornecedor:TFrmConsultarFornecedor;
+  public
+    { Public declarations }
+    procedure ReconhecaObjeto(ACompra:TCompra);
+  end;
+
+var
+  FrmConsultarCompra: TFrmConsultarCompra;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmConsultarCompra.ReconhecaObjeto(ACompra: TCompra);
+begin
+    UmaCompra:=ACompra;
+    UmCadCompra:=TFrmCadastroCompra.Create(nil);
+    UmaCtrlCompra:=TCtrlCompra.Create;
+    TDBGridCompra.DataSource:= UmaCtrlCompra.GetDs;
+    TDBGridProdutoCompra.DataSource:=UmaCtrlCompra.GetDsPC;
+    Self.TBtnExcluir.Caption:='Baixar';
+    Self.TBtnLimpar.Enabled:=False;
+    Self.TBtnEditar.Enabled:=False;
+    Self.TBtnLimpar.Visible:=False;
+    Self.TBtnEditar.Visible:=False;
+end;
+
+procedure TFrmConsultarCompra.TBtnBuscarCompraClick(Sender: TObject);
+var intAux:integer;
+begin
+  inherited;
+  if (Self.TEdtSerie.Text <> '') and (Not TryStrToInt(Self.TEdtNumNota.Text, intAux) and (Self.TEdtFornecedor.Text = '') ) then
+       UmaCtrlCompra.Buscar(0,Self.TEdtSerie.Text,0)
+  else if TryStrToInt(Self.TEdtNumNota.Text, intAux) and (Self.TEdtSerie.Text = '') and (Self.TEdtNumNota.Text <> '0') and (Self.TEdtFornecedor.Text = '') then
+       UmaCtrlCompra.Buscar(intAux,'',0)
+  else if (TryStrToInt(Self.TEdtNumNota.Text, intAux)) and (Self.TEdtSerie.Text <> '') and (Self.TEdtFornecedor.Text = '') then
+       UmaCtrlCompra.Buscar(intAux,Self.TEdtSerie.Text,0)
+  else if (TryStrToInt(Self.TEdtNumNota.Text, intAux)) and (Self.TEdtSerie.Text <> '') and (Self.TEdtFornecedor.Text <> '') and TryStrToInt(Self.TEdtIdFornecedor.Text,intAux) then
+       UmaCtrlCompra.Buscar(StrToInt(Self.TEdtNumNota.Text),Self.TEdtSerie.Text,StrToInt(Self.TEdtIdFornecedor.Text))
+  else
+  begin
+        Self.TEdtSerie.Clear;
+        Self.TEdtNumNota.Clear;
+        Self.TEdtIdFornecedor.Clear;
+        Self.TEdtFornecedor.Clear;
+  end;
+end;
+
+procedure TFrmConsultarCompra.TBtnBuscarFornecedorClick(Sender: TObject);
+begin
+  inherited;
+    UmFrmConFornecedor:=TFrmConsultarFornecedor.Create(nil);
+    UmFrmConFornecedor.ReconhecaObjeto(UmaCompra.UmFornecedorJ,UmaCompra.UmFornecedorF);
+    UmFrmConFornecedor.TBtnCancelar.Caption:='Selecionar';
+    UmFrmConFornecedor.ShowModal;
+    if UmaCompra.UmFornecedorJ.RS <> '' then
+    begin
+       Self.TEdtIdFornecedor.Text:=IntToStr(UmaCompra.UmFornecedorJ.Id);
+       Self.TEdtFornecedor.Text:=UmaCompra.UmFornecedorJ.RS;
+    end
+    else if UmaCompra.UmFornecedorF.Nome <> '' then
+    begin
+       Self.TEdtIdFornecedor.Text:=IntToStr(UmaCompra.UmFornecedorF.Id);
+       Self.TEdtFornecedor.Text:=UmaCompra.UmFornecedorF.Nome;
+    end
+    else
+    begin
+       Self.TEdtIdFornecedor.Clear;
+       Self.TEdtFornecedor.Clear;
+    end;
+    UmFrmConFornecedor.Destroy;
+end;
+
+procedure TFrmConsultarCompra.TBtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  UmCadCompra.ReconhecaObjeto(UmaCompra,UmaCtrlCompra);
+  UmCadCompra.ShowModal;
+end;
+
+procedure TFrmConsultarCompra.TDBGridCompraCellClick(Column: TColumn);
+begin
+  inherited;
+  UmaCtrlCompra.BuscarPC(StrToInt(Self.TDBGridCompra.Fields[0].Text),StrToInt(Self.TDBGridCompra.Fields[2].Text),Self.TDBGridCompra.Fields[1].Text);
+end;
+
+procedure TFrmConsultarCompra.TDBGridCompraDblClick(Sender: TObject);
+begin
+  inherited;
+  UmaCtrlCompra.BuscarPC(StrToInt(Self.TDBGridCompra.Fields[0].Text),StrToInt(Self.TDBGridCompra.Fields[2].Text),Self.TDBGridCompra.Fields[1].Text);
+end;
+
+procedure TFrmConsultarCompra.TEdtIdFornecedorExit(Sender: TObject);
+var intValue:integer;
+    UmaCtrlFornecedor:TCtrlFornecedor;
+begin
+  inherited;
+    if TryStrToInt(Self.TEdtIdFornecedor.Text,IntValue) and (Self.TEdtIdFornecedor.Text <> '') then
+     begin
+              Self.TEdtFornecedor.Clear;
+              UmaCtrlFornecedor:=TCtrlFornecedor.Create;
+              UmaCompra.UmFornecedorJ.Id:=StrToInt(Self.TEdtIdFornecedor.Text);
+              UmaCompra.UmFornecedorF.Id:=StrToInt(Self.TEdtIdFornecedor.Text);
+              if not UmaCtrlFornecedor.Buscar(UmaCompra.UmFornecedorJ.Id,'') then
+              begin
+                   Self.TEdtIdFornecedor.Clear;
+                   Self.TEdtFornecedor.Clear;
+              end
+              else
+              begin
+                   UmaCtrlFornecedor.Carregar(UmaCompra.UmFornecedorF);
+                   UmaCtrlFornecedor.Carregar(UmaCompra.UmFornecedorJ);
+                   if UmaCompra.UmFornecedorJ.RS <> '' then
+                   begin
+                      Self.TEdtIdFornecedor.Text:= IntToStr(UmaCompra.UmFornecedorJ.Id);
+                      Self.TEdtFornecedor.Text:=UmaCompra.UmFornecedorJ.RS;
+                   end
+                   else if UmaCompra.UmFornecedorF.Nome <> '' then
+                   begin
+
+                        Self.TEdtIdFornecedor.Text:= IntToStr(UmaCompra.UmFornecedorF.Id);
+                        Self.TEdtFornecedor.Text:=UmaCompra.UmFornecedorF.Nome;
+
+                   end;
+              end;
+              UmaCtrlFornecedor.Destroy;
+     end
+     else
+     begin
+          Self.TEdtIdFornecedor.Clear;
+          Self.TEdtFornecedor.Clear;
+     end;
+end;
+
+end.

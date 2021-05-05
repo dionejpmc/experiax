@@ -1,0 +1,15 @@
+unit UCtrlFuncionario;
+
+interface
+uses UCtrl;
+type
+    TCtrlFuncionario = class(TCtrl)
+      private
+      protected
+      public
+
+    end;
+
+implementation
+
+end.

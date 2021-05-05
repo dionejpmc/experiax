@@ -1,0 +1,63 @@
+unit UProjectExperiax;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs,UInterface,UAplica,UInterface,UFrmMenuPrincipal,UPais,UEstado,UFrmConsultarPais, Menus, RzPanel, ExtCtrls;
+type
+  TProjectExperiax = class(TForm)
+    RzStatusBar1: TRzStatusBar;
+    RzToolbar1: TRzToolbar;
+    MainMenu1: TMainMenu;
+    SAIR1: TMenuItem;
+    CADASTRO1: TMenuItem;
+    PAIS1: TMenuItem;
+    ESTADO1: TMenuItem;
+    CIDADE1: TMenuItem;
+    procedure PAIS1Click(Sender: TObject);
+    procedure ESTADO1Click(Sender: TObject);
+    procedure SAIR1Click(Sender: TObject);
+  private
+    { Private declarations }
+    UmaInterface:TInterface;
+    UmPais:TPais;
+    UmEstado:TEstado;
+  public
+    { Public declarations }
+    procedure ReconhecaObjeto(AInterface:TInterface;OPais:TPais;OEstado:TEstado);
+  end;
+
+var
+  ProjectExperiax: TProjectExperiax;
+
+implementation
+
+{$R *.dfm}
+
+{ TProjectExperiax }
+
+procedure TProjectExperiax.ESTADO1Click(Sender: TObject);
+begin
+    UmaInterface.PecadadosEstado(UmEstado);
+end;
+
+procedure TProjectExperiax.PAIS1Click(Sender: TObject);
+begin
+     UmaInterface.PecadadosPais(UmPais);
+end;
+
+procedure TProjectExperiax.ReconhecaObjeto(AInterface: TInterface; OPais: TPais;
+  OEstado: TEstado);
+begin
+    UmPais:=OPais;
+    UmEstado:=OEstado;
+    UmaInterface:=Ainterface;
+end;
+
+procedure TProjectExperiax.SAIR1Click(Sender: TObject);
+begin
+    Self.FreeInstance;
+end;
+
+end.

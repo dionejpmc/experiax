@@ -1,0 +1,278 @@
+inherited FrmCadastroCondicaoPagamento: TFrmCadastroCondicaoPagamento
+  Caption = 'Cadastro de Condicao de Pagamento'
+  ClientHeight = 435
+  ClientWidth = 577
+  Position = poDesigned
+  OnClose = FormClose
+  OnCreate = FormCreate
+  ExplicitWidth = 593
+  ExplicitHeight = 473
+  PixelsPerInch = 96
+  TextHeight = 13
+  object TLblCondicaoPagamento: TRzLabel [0]
+    Left = 157
+    Top = 8
+    Width = 150
+    Height = 13
+    BiDiMode = bdLeftToRight
+    Caption = 'Condi'#231#227'o de Pagamento *'
+    ParentBiDiMode = False
+  end
+  object TLblFP: TRzLabel [1]
+    Left = 157
+    Top = 56
+    Width = 115
+    Height = 13
+    Caption = 'Forma Pagamento *'
+  end
+  inherited TLblDataCadastro: TRzLabel
+    Left = 8
+    Top = 386
+    ExplicitLeft = 8
+    ExplicitTop = 386
+  end
+  inherited TLblDataAlteracao: TRzLabel
+    Left = 316
+    Top = 388
+    ExplicitLeft = 316
+    ExplicitTop = 388
+  end
+  object TLblQTDEParcelas: TRzLabel [4]
+    Left = 7
+    Top = 88
+    Width = 146
+    Height = 13
+    Caption = 'Quantidade de Parcelas *'
+    Transparent = True
+  end
+  object TLblIdFormaPagamento: TRzLabel [5]
+    Left = 8
+    Top = 56
+    Width = 54
+    Height = 13
+    Caption = 'ID F. P. *'
+  end
+  object TLblIdCondicaoPagamento: TRzLabel [6]
+    Left = 8
+    Top = 8
+    Width = 57
+    Height = 13
+    Caption = 'ID C. P. *'
+  end
+  inherited TBtnSalvar: TRzButton
+    Left = 7
+    Top = 410
+    TabOrder = 8
+    OnClick = TBtnSalvarClick
+    ExplicitLeft = 7
+    ExplicitTop = 410
+  end
+  inherited TBtnLimpar: TRzButton
+    Left = 256
+    Top = 410
+    TabOrder = 9
+    OnClick = TBtnLimparClick
+    ExplicitLeft = 256
+    ExplicitTop = 410
+  end
+  object TEdtCP: TRzEdit [9]
+    Left = 313
+    Top = 8
+    Width = 258
+    Height = 21
+    CharCase = ecUpperCase
+    FrameHotTrack = True
+    FrameVisible = True
+    MaxLength = 50
+    TabOrder = 0
+  end
+  object TEdtFP: TRzEdit [10]
+    Left = 278
+    Top = 53
+    Width = 228
+    Height = 21
+    Enabled = False
+    FrameHotTrack = True
+    FrameVisible = True
+    TabOrder = 3
+  end
+  object TBtnBuscarFP: TRzBitBtn [11]
+    Left = 512
+    Top = 50
+    Width = 59
+    Caption = 'Buscar'
+    HotTrack = True
+    TabOrder = 2
+    OnClick = TBtnBuscarFPClick
+  end
+  object TGroupBoxCadastroCondicaoPagamento: TRzGroupBox [12]
+    Left = 8
+    Top = 117
+    Width = 563
+    Height = 260
+    Caption = 'DESCRI'#199#195'O DA CONDI'#199#195'O DE PAGAMENTO'
+    TabOrder = 5
+    object TLblPorcentagemParcela: TRzLabel
+      Left = 8
+      Top = 59
+      Width = 150
+      Height = 13
+      Caption = 'Porcentagem da Parcela *'
+      Transparent = True
+    end
+    object TLblJuros: TRzLabel
+      Left = 248
+      Top = 57
+      Width = 46
+      Height = 26
+      Caption = 'Juros %'#13' '
+      Transparent = True
+    end
+    object TLblDataVencimento: TRzLabel
+      Left = 8
+      Top = 29
+      Width = 112
+      Height = 13
+      Caption = 'Vencimento  Para *'
+      Transparent = True
+    end
+    object TLblobservacoes: TRzLabel
+      Left = 8
+      Top = 92
+      Width = 74
+      Height = 13
+      Caption = 'Observa'#231'oes'
+      Transparent = True
+    end
+    object TEdtJuros: TRzEdit
+      Left = 300
+      Top = 56
+      Width = 58
+      Height = 21
+      Text = '0,0'
+      MaxLength = 5
+      TabOnEnter = True
+      TabOrder = 2
+      TextHint = '0,0'
+      TextHintVisibleOnFocus = True
+      OnKeyPress = TEdtJurosKeyPress
+    end
+    object TEdtObservacoes: TRzEdit
+      Left = 103
+      Top = 89
+      Width = 385
+      Height = 21
+      CharCase = ecUpperCase
+      MaxLength = 100
+      TabOrder = 3
+    end
+    object TStringGridParcelas: TRzStringGrid
+      Left = 8
+      Top = 116
+      Width = 480
+      Color = clBtnFace
+      ColCount = 8
+      RowCount = 2
+      GradientEndColor = clCream
+      GradientStartColor = clCream
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goColSizing, goRowSelect]
+      ParentColor = True
+      TabOrder = 5
+      OnSelectCell = TStringGridParcelasSelectCell
+      FrameHotTrack = True
+      FrameVisible = True
+      ColWidths = (
+        60
+        105
+        141
+        121
+        161
+        158
+        129
+        106)
+    end
+    object TEdtDataVencimento: TRzEdit
+      Left = 164
+      Top = 26
+      Width = 57
+      Height = 21
+      TabOrder = 0
+    end
+    object TBtnAdicionar: TRzBitBtn
+      Left = 496
+      Top = 116
+      Width = 64
+      Caption = 'Adicionar'
+      HotTrack = True
+      TabOrder = 4
+      OnClick = TBtnAdicionarClick
+    end
+    object TEdtPorcentagemParcela: TRzEdit
+      Left = 164
+      Top = 56
+      Width = 57
+      Height = 21
+      Text = '0,0'
+      MaxLength = 5
+      TabOrder = 1
+      TextHint = '0,0'
+      OnExit = TEdtPorcentagemParcelaExit
+      OnKeyPress = TEdtPorcentagemParcelaKeyPress
+    end
+  end
+  inherited TDateTimePickerDataAlteracao: TRzDateTimePicker
+    Left = 439
+    Top = 386
+    TabOrder = 7
+    ExplicitLeft = 439
+    ExplicitTop = 386
+  end
+  inherited TDateTimePickerDataCadastro: TRzDateTimePicker
+    Left = 130
+    Top = 383
+    TabOrder = 6
+    ExplicitLeft = 130
+    ExplicitTop = 383
+  end
+  inherited TBtnCancelar: TRzBitBtn
+    Left = 496
+    Top = 410
+    TabOrder = 10
+    ExplicitLeft = 496
+    ExplicitTop = 410
+  end
+  object TEdtQTDEParcelas: TRzEdit
+    Left = 163
+    Top = 84
+    Width = 57
+    Height = 21
+    FrameHotTrack = True
+    FrameVisible = True
+    MaxLength = 5
+    TabOrder = 4
+    OnExit = TEdtQTDEParcelasExit
+    OnKeyPress = TEdtQTDEParcelasKeyPress
+  end
+  object TEdtIdFP: TRzEdit
+    Left = 80
+    Top = 53
+    Width = 57
+    Height = 21
+    FrameHotTrack = True
+    FrameVisible = True
+    MaxLength = 5
+    TabOrder = 1
+    OnExit = TEdtIdFPExit
+    OnKeyPress = TEdtIdFPKeyPress
+  end
+  object TEdtIdCP: TRzEdit
+    Left = 80
+    Top = 5
+    Width = 57
+    Height = 21
+    Enabled = False
+    FrameHotTrack = True
+    FrameVisible = True
+    TabOrder = 11
+  end
+end

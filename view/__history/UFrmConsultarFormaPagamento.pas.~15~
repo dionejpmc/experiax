@@ -1,0 +1,63 @@
+unit UFrmConsultarFormaPagamento;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmConsultarPai, StdCtrls, Mask, RzEdit, RzLabel, Grids, DBGrids,
+  RzDBGrid, ExtCtrls, RzPanel, RzButton, UFrmCadastroFormaPagamento, UFormaPagamento
+  ,UCtrlFP, UDM, DB;
+
+type
+  TFrmConsultarFormaPagamento = class(TFrmConsultarPai)
+    TGroupBoxFormaPagamento: TRzGroupBox;
+    TDBGridFormaPagamento: TRzDBGrid;
+    TLblFP: TRzLabel;
+    TEdtFP: TRzEdit;
+    TBtnBuscarFP: TRzButton;
+    TLblIdFP: TRzLabel;
+    RzEdit1: TRzEdit;
+    procedure TBtnNovoClick(Sender: TObject);
+    procedure TBtnCancelarClick(Sender: TObject);
+  private
+    { Private declarations }
+  protected
+    UmaFP:TFormaPagamento;
+    UmCadFP:TFrmCadastroFP;
+    UmaCtrlFP:TCtrlFP;
+  public
+    { Public declarations }
+    procedure ReconhecaObjeto(AFp:TFormaPagamento);
+  end;
+
+var
+  FrmConsultarFormaPagamento: TFrmConsultarFormaPagamento;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmConsultarFormaPagamento.ReconhecaObjeto(AFp: TFormaPagamento);
+begin
+    UmaFP:=AFp;
+    UmaCtrlFP:=TCtrlFP.Create;
+    UmCadFP:=TFrmCadastroFP.Create(nil);
+    Self.TDBGridFormaPagamento.DataSource:=UmaCtrlFP.GetDs;
+end;
+
+procedure TFrmConsultarFormaPagamento.TBtnCancelarClick(Sender: TObject);
+begin
+  inherited;
+     if Self.TBtnCancelar.Caption = 'Selecionar' then
+        UmaFP:=TFormaPagamento(UmaCtrlFP.Carregar(UmaFP));
+  Close;
+end;
+
+procedure TFrmConsultarFormaPagamento.TBtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  UmcadFP.ReconhecaObjeto(UmaFP, UmaCtrlFP);
+  UmcadFP.ShowModal;
+end;
+
+end.

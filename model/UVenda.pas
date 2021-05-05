@@ -1,0 +1,356 @@
+unit UVenda;
+interface
+uses UProduto,UCondicaoPagamento, UContaReceber,UClienteJuridico,UClienteFisico,UFuncionario, Classes;
+type
+      TVenda = class
+      private
+
+
+      protected
+
+            FUmProduto:TProduto;
+            FUmaCP: TCondicaoPagamento;
+            FUmClienteJuridico:TClienteJuridico;
+            FUmClienteFisico:TClienteFisico;
+            FUmFuncionario:TFuncionario;
+            FNumeroNota:integer;
+            FSerie:String;
+            FCFOP:string;
+            FDataEmicao:String;
+            FDataEntrada:string;
+            FValorTotalProdutos:Double;
+            FValorFrete:Double;
+            FValorTotalNota:Double;
+            FObservacoes:string;
+            FDataCadastro:String;
+            FDataAlteracao:String;
+            FUmaContaReceber:TContaReceber;
+            FUmaListaProduto:TList;
+            FUmaListaContaReceber:TList;
+
+      public
+
+            constructor Create;
+            destructor Destroy;
+
+            procedure SetUmProduto(vUmProduto:TProduto);
+            procedure setUmaCP(vCP:TCondicaoPagamento);
+            procedure setNumeroNota(vNumeroNota:Integer);
+            procedure setSerie(vSerie:String);
+            procedure setCFOP(vCFOP:string);
+            procedure setDataEmicao(vDataEmicao:string);
+            procedure setDataEntrada(vDAtaEntrada:string);
+            procedure setValorTotalProdutos(vValorTotalProdutos:Double);
+            procedure setValorFrete(vValorFrete:Double);
+            procedure setValorTotalNota(vValorTotalNota:Double);
+            procedure setObservacoes(vObservacoes:string);
+            procedure setDataCadastro(vDatacadastro:string);
+            procedure setDataAlteracao(vDataAlteracao:string);
+            procedure setContaReceber(vContaReceber:TContaReceber);
+            procedure setClienteFisico(vClienteF:TClienteFisico);
+            procedure setClienteJuridico(vClienteJ:TClienteJuridico);
+            procedure setFuncionario(vFuncionario:TFuncionario);
+
+            procedure setUmaListaProduto(vUmaListaProduto:TList);
+            procedure setUmaListaContaReceber(vUmaListaContaReceber:TList);
+            procedure AdicionarProduto(Objeto:TObject);
+            procedure RemoverProduto(Index:integer);
+            procedure AdicionaContaReceber(Objeto:TObject);
+            procedure RemoverContaReceber(Index:integer);
+
+
+            function getUmProduto:TProduto;
+            function getUmaCP:TCondicaoPagamento;
+            function getNumeroNota:Integer;
+            function getSerie:String;
+            function getCFOP:string;
+            function getDataEmicao:string;
+            function getDataEntrada:string;
+            function getValorTotalProdutos:Double;
+            function getValorFrete:Double;
+            function gettValorTotalNota:Double;
+            function getObservacoes:string;
+            function getDataCadastro:string;
+            function getDataAlteracao:string;
+            function getclienteFisico:TClienteFisico;
+            function getClienteJuridico:TClienteJuridico;
+            function getFuncionario:TFuncionario;
+
+            function getUmaListaProduto:TList;
+            function getUmaListaContaReceber:TList;
+            function getContaReceber(Index:integer):TContaReceber;
+            function getProdutos(Index:integer):TProduto;
+
+            property UmProduto:TProduto read getUmProduto write SetUmProduto;
+            property UmaCP:TCondicaoPagamento read getUmaCP write setUmaCP;
+            property UmClienteFisico:TClienteFisico read getclienteFisico write setClienteFisico;
+            property UmClienteJuridico:TClienteJuridico read getClienteJuridico write setClienteJuridico;
+            property UmFuncionario:TFuncionario read getFuncionario write setFuncionario;
+            property NumeroNota:Integer read getNumeroNota write setNumeroNota;
+            property Serie:string read getSerie write setSerie;
+            property CFOP:string read getCFOP write setCFOP;
+            property DataEmicao:String read getDataEmicao write setDataEmicao;
+            property DataEntrada:string read getDataEntrada write setDataEntrada;
+            property ValorTotalProdutos:Double read getValorTotalProdutos write setValorTotalProdutos;
+            property ValorFrete:Double read getValorFrete write setValorFrete;
+            property ValorTotalNota:Double read gettValorTotalNota write setValorTotalNota;
+            property Observacoes:string read getObservacoes write setObservacoes;
+            property DataCadastro:String read getDataCadastro write setDataCadastro;
+            property DataAlteracao:String read getDataAlteracao write setDataAlteracao;
+            property UmaListaProduto:TList read getUmaListaProduto write setUmaListaProduto;
+            property UmaListaContaReceber:TList read getUmaListaContaReceber write setUmaListaContaReceber;
+      end;
+
+implementation
+
+{ TVenda }
+
+
+procedure TVenda.AdicionaContaReceber(Objeto: TObject);
+begin
+   FUmaListaContaReceber.Add(TContaReceber(Objeto));
+end;
+
+procedure TVenda.AdicionarProduto(Objeto: TObject);
+begin
+  FUmaListaProduto.Add(TProduto(Objeto));
+end;
+
+constructor TVenda.Create;
+begin
+   FUmProduto:=TProduto.Create;
+   FUmaCP:=TCondicaoPagamento.create;
+   FUmaContaReceber:=TContaReceber.create;
+   FNumeroNota:=0;
+   FSerie:='';
+   FDataEmicao:='';
+   FValorTotalProdutos:=0.0;
+   FValorTotalNota:=0.0;
+   FObservacoes:='';
+   FDataCadastro:='';
+   FDataAlteracao:='';
+   FUmProduto:=TProduto.Create;
+   FUmaCP:=TCondicaoPagamento.create;
+   FUmaListaProduto:=nil;
+   FUmaListaContaReceber:=nil;
+   FUmClienteJuridico:=TClienteJuridico.Create;
+   FUmClienteFisico:=TClienteFisico.Create;
+   FUmFuncionario:=TFuncionario.Create;
+end;
+
+destructor TVenda.Destroy;
+begin
+    FUmProduto.Destroy;
+    FUmaCP.destroy;
+    FUmaContaReceber.destroy;
+    FUmClienteJuridico.Destroy;
+    FUmClienteFisico.Destroy;
+    FUmFuncionario.Destroy;
+end;
+
+function TVenda.getCFOP: string;
+begin
+  Result:=FCFOP;
+end;
+
+function TVenda.getclienteFisico: TClienteFisico;
+begin
+   Result:=FUmClienteFisico;
+end;
+
+function TVenda.getClienteJuridico: TClienteJuridico;
+begin
+    Result:=FUmClienteJuridico;
+end;
+
+function TVenda.getContaReceber(Index: integer): TContaReceber;
+begin
+  Result:= FUmaListaContaReceber.Items[Index];
+end;
+
+function TVenda.getDataAlteracao: string;
+begin
+   Result:=FDataAlteracao;
+end;
+
+function TVenda.getDataCadastro: string;
+begin
+  Result:=FDataCadastro;
+end;
+
+function TVenda.getDataEmicao: string;
+begin
+  Result:=FDataEmicao;
+end;
+
+function TVenda.getDataEntrada: string;
+begin
+  Result:= FDataEntrada;
+end;
+
+function TVenda.getFuncionario: TFuncionario;
+begin
+     Result:=FUmFuncionario;
+end;
+
+function TVenda.getNumeroNota: Integer;
+begin
+  Result:= FNumeroNota;
+end;
+
+function TVenda.getObservacoes: string;
+begin
+    Result:=FObservacoes;
+end;
+
+function TVenda.getProdutos(Index: integer): TProduto;
+begin
+  Result:=FUmaListaProduto.Items[Index];
+end;
+
+function TVenda.getSerie: String;
+begin
+  Result:=FSerie;
+end;
+
+function TVenda.gettValorTotalNota: Double;
+begin
+    Result:=FValorTotalNota;
+end;
+
+function TVenda.getUmaCP: TCondicaoPagamento;
+begin
+  Result:=FUmaCP;
+end;
+
+function TVenda.getUmaListaContaReceber: TList;
+begin
+  Result:=FUmaListaContaReceber;
+end;
+
+function TVenda.getUmaListaProduto: TList;
+begin
+  Result:=FUmaListaProduto;
+end;
+
+function TVenda.getUmProduto: TProduto;
+begin
+  Result:=FUmProduto;
+end;
+
+function TVenda.getValorFrete: Double;
+begin
+  Result:=FValorFrete;
+end;
+
+function TVenda.getValorTotalProdutos: Double;
+begin
+  Result:=FValorTotalProdutos;
+end;
+
+procedure TVenda.RemoverContaReceber(Index: integer);
+begin
+    FUmaListaContaReceber.Delete(Index);
+end;
+
+procedure TVenda.RemoverProduto(Index: integer);
+begin
+   FUmaListaProduto.Delete(Index);
+end;
+
+procedure TVenda.setCFOP(vCFOP: string);
+begin
+    FCFOP:=vCFOP;
+end;
+
+procedure TVenda.setClienteFisico(vClienteF: TClienteFisico);
+begin
+    FUmClienteFisico:=vClienteF;
+end;
+
+procedure TVenda.setClienteJuridico(vClienteJ: TClienteJuridico);
+begin
+   FUmClienteJuridico:=vClienteJ;
+end;
+
+procedure TVenda.setContaReceber(vContaReceber: TContaReceber);
+begin
+  FUmaContaReceber:=vContaReceber;
+end;
+
+procedure TVenda.setDataAlteracao(vDataAlteracao: string);
+begin
+  FDataAlteracao:=vDataAlteracao;
+end;
+
+procedure TVenda.setDataCadastro(vDatacadastro: string);
+begin
+  FDataCadastro:=vDatacadastro;
+end;
+
+procedure TVenda.setDataEmicao(vDataEmicao: string);
+begin
+    FDataEmicao:=vDataEmicao;
+end;
+
+procedure TVenda.setDataEntrada(vDAtaEntrada: string);
+begin
+  FDataEntrada:=vDAtaEntrada;
+end;
+
+procedure TVenda.setFuncionario(vFuncionario: TFuncionario);
+begin
+   FUmFuncionario:=vFuncionario;
+end;
+
+procedure TVenda.setNumeroNota(vNumeroNota: Integer);
+begin
+  FNumeroNota:=vNumeroNota;
+end;
+
+procedure TVenda.setObservacoes(vObservacoes: string);
+begin
+  FObservacoes:=vObservacoes;
+end;
+
+procedure TVenda.setSerie(vSerie: String);
+begin
+    FSerie:=vSerie;
+end;
+
+procedure TVenda.setUmaCP(vCP: TCondicaoPagamento);
+begin
+  FUmaCP:=vCP;
+end;
+
+procedure TVenda.setUmaListaContaReceber(vUmaListaContaReceber: TList);
+begin
+  FUmaListaContaReceber:=vUmaListaContaReceber;
+end;
+
+procedure TVenda.setUmaListaProduto(vUmaListaProduto: TList);
+begin
+  FUmaListaProduto:=vUmaListaProduto;
+end;
+
+procedure TVenda.SetUmProduto(vUmProduto: TProduto);
+begin
+  FUmProduto:=vUmProduto;
+end;
+
+procedure TVenda.setValorFrete(vValorFrete: Double);
+begin
+  FValorFrete:=vValorFrete;
+end;
+
+procedure TVenda.setValorTotalNota(vValorTotalNota: Double);
+begin
+  FValorTotalNota:=vValorTotalNota;
+end;
+
+procedure TVenda.setValorTotalProdutos(vValorTotalProdutos: Double);
+begin
+  FValorTotalProdutos:=vValorTotalProdutos;
+end;
+
+end.

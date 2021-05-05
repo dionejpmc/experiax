@@ -1,0 +1,92 @@
+inherited FrmConsultarFuncionario: TFrmConsultarFuncionario
+  Caption = 'Consultar Funcionario'
+  PixelsPerInch = 96
+  TextHeight = 13
+  object TLblFuncionario: TRzLabel [0]
+    Left = 147
+    Top = 12
+    Width = 64
+    Height = 13
+    Caption = 'Funcionario *'
+  end
+  object TLblId: TRzLabel [1]
+    Left = 8
+    Top = 11
+    Width = 20
+    Height = 13
+    Caption = 'ID *'
+  end
+  inherited TBtnNovo: TRzBitBtn
+    TabOrder = 4
+    OnClick = TBtnNovoClick
+  end
+  inherited TBtnEditar: TRzBitBtn
+    TabOrder = 5
+  end
+  inherited TBtnExcluir: TRzBitBtn
+    TabOrder = 6
+  end
+  inherited TBtnLimpar: TRzBitBtn
+    TabOrder = 7
+  end
+  inherited TBtnCancelar: TRzBitBtn
+    TabOrder = 8
+    OnClick = TBtnCancelarClick
+  end
+  object TGroupBoxFuncionario: TRzGroupBox
+    Left = 8
+    Top = 64
+    Width = 580
+    Height = 169
+    Caption = 'DADOS DE FUNCIONARIO'
+    GradientColorStyle = gcsCustom
+    TabOrder = 3
+    object TDBGridFuncionario: TRzDBGrid
+      Left = 8
+      Top = 24
+      Width = 545
+      DataSource = DataModule1.TDataSourceFuncionario
+      DefaultDrawing = True
+      FixedColor = cl3DLight
+      GradientEndColor = clCream
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+      FrameColor = 12164479
+      FrameHotTrack = True
+      FrameStyle = fsBump
+      FrameVisible = True
+      FramingPreference = fpCustomFraming
+      FixedLineColor = 12164479
+      LineColor = clMenu
+    end
+  end
+  object TEdtFuncionario: TRzEdit
+    Left = 232
+    Top = 8
+    Width = 265
+    Height = 21
+    MaxLength = 50
+    TabOrder = 1
+  end
+  object TBtnBuscarFuncionario: TRzButton
+    Left = 512
+    Top = 6
+    FrameColor = 7617536
+    Caption = 'Buscar'
+    Color = 15791348
+    HotTrack = True
+    TabOrder = 2
+  end
+  object TEdtIdFuncionario: TRzEdit
+    Left = 56
+    Top = 8
+    Width = 49
+    Height = 21
+    MaxLength = 5
+    TabOrder = 0
+  end
+end

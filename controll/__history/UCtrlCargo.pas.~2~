@@ -1,0 +1,23 @@
+unit UCtrlCargo;
+
+interface
+uses UCtrl, UDaoCargo, DB, UDM;
+type
+    TCtrlCargo = class (TCtrl)
+
+    private
+    protected
+    public
+        function Salvar(Objeto : TObject): string;                   override;
+        function GetDs : TDataSource;                                override;
+        function Carregar( Objeto : TObject): Tobject;               override;
+        function Buscar(KeyId : Integer;KeyStr:String): boolean;     override;
+        function Excluir(Objeto : TObject): string;                  override;
+
+    end;
+
+
+
+implementation
+
+end.

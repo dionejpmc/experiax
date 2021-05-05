@@ -1,0 +1,33 @@
+unit UFormaPagamento;
+
+interface
+type
+    TFormaPagamento = class
+    private
+    protected
+      FId:integer;
+      FFP:String[50];
+      FDataCadastro:String[10];
+      FDataAlteracao:String[10];
+    public
+      constructor create;
+      destructor destroy;
+
+    end;
+
+
+implementation
+
+{ TFormaPagamento }
+
+constructor TFormaPagamento.create;
+begin
+
+end;
+
+destructor TFormaPagamento.destroy;
+begin
+
+end;
+
+end.

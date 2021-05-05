@@ -1,0 +1,12 @@
+unit UDaoClienteJuridico;
+
+interface
+uses UDao, UDM;
+type
+  TDaoClienteJuridico = class(UDao)
+
+  end;
+
+implementation
+
+end.

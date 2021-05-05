@@ -1,0 +1,30 @@
+unit UCtrlPais;
+
+interface
+uses
+    UCtrl,DB, UDaoPais;
+
+type TCtrlPais  = class (TCtrl)
+
+    private
+
+    protected
+        FDaoPais: TDaoPais;
+    public
+      constructor Create;                            override;
+      destructor Destroy;                            override;
+      function SalvarPais(Objeto:TObject):String;    override;
+      function GetDS:TDataSource;                    override;
+      function Carregar(Objeto:TObject):TObject;     override;
+      function Buscar(key:String):boolean;           override;
+      function Excluir(Objeto:TObject):String;       override;
+end;
+
+implementation
+
+{ TCtrlPais }
+
+
+
+
+end.

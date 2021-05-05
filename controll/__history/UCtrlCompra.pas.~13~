@@ -1,0 +1,75 @@
+unit UCtrlCompra;
+
+interface
+uses UCtrl,DB, UDaoCompra;
+type
+  TCtrlCompra = class (TCtrl)
+  private
+
+  protected
+    UmaDaoCompra:TDaoCompra;
+
+  public
+        constructor Create;
+        destructor Destroy;
+        function Salvar(Objeto : TObject): string;                   override;
+        function GetDs : TDataSource;                                override;
+        function GetDsPC:TDataSource;
+        function Carregar( Objeto : TObject): Tobject;               override;
+        function Buscar(KeyNumNota: Integer; KeyStr: String; KeyIdFornecedor:Integer): boolean;     override;
+        function BuscarPC(KeyNumeroNota : Integer; KeyIdFornecedor:Integer; KeySerie:string):Boolean;
+        function Excluir(Objeto : TObject): string;                  override;
+
+  end;
+
+implementation
+
+{ TCtrlCompra }
+
+function TCtrlCompra.Buscar(KeyNumNota: Integer; KeyStr: String; KeyIdFornecedor:Integer): boolean;
+begin
+      Result:=UmaDaoCompra.Buscar(KeyNumNota,KeyStr,KeyIdFornecedor);
+end;
+
+function TCtrlCompra.BuscarPC(KeyNumeroNota, KeyIdFornecedor: Integer;
+  KeySerie: string): Boolean;
+begin
+     Result:=UmaDaoCompra.BuscarPC(KeyNumeroNota,KeyIdFornecedor,KeySerie);
+end;
+
+function TCtrlCompra.Carregar(Objeto: TObject): Tobject;
+begin
+   UmaDaoCompra.Carregar(Objeto);
+end;
+
+constructor TCtrlCompra.Create;
+begin
+    UmaDaoCompra:=TDaoCompra.Create;
+end;
+
+destructor TCtrlCompra.Destroy;
+begin
+  UmaDaoCompra.Destroy;
+end;
+
+function TCtrlCompra.Excluir(Objeto: TObject): string;
+begin
+     UmaDaoCompra.Excluir(Objeto);
+end;
+
+function TCtrlCompra.GetDs: TDataSource;
+begin
+    Result:=UmaDaoCompra.GetDs;
+end;
+
+function TCtrlCompra.GetDsPC: TDataSource;
+begin
+   Result:=UmaDaoCompra.GetDsPC;
+end;
+
+function TCtrlCompra.Salvar(Objeto: TObject): string;
+begin
+    Result:=UmaDaoCompra.Salvar(Objeto);
+end;
+
+end.

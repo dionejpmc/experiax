@@ -1,0 +1,37 @@
+unit UClienteJuridico;
+
+interface
+uses UPessoaJuridica;
+type
+  TClienteJuridico = class(TPessoaJuridica)
+    private
+    protected
+      FIdClienteJuridico:integer;
+    public
+      constructor Create;
+      destructor Destroy;
+
+      procedure setIdClienteJuridico(vIdClienteJuridico:Integer);
+
+      function getIdClienteJuridico:Integer;
+
+      property IdClienteJuridico:Integer read getIdClienteJuridico write setIdClienteJuridico;
+
+
+end;
+
+implementation
+
+{ TClienteJuridico }
+
+constructor TClienteJuridico.Create;
+begin
+
+end;
+
+destructor TClienteJuridico.Destroy;
+begin
+
+end;
+
+end.

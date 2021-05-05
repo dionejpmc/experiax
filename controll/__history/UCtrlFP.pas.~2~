@@ -1,0 +1,15 @@
+unit UCtrlFP;
+
+interface
+uses UCtrl;
+type
+    TCtrlFP = class (TCtrl)
+      private
+      protected
+      public
+
+    end;
+
+implementation
+
+end.

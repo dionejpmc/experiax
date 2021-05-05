@@ -1,0 +1,296 @@
+unit UCompra;
+interface
+uses UProduto,Classes, UFornecedor,UFornecedorFisico, UCondicaoPagamento;
+
+type
+    TCompra = class
+        private
+
+        protected
+            FNumeroNota:integer;
+            FSerie:String;
+            FCFOP:string;
+            FDataEmicao:String;
+            FDataEntrada:string;
+            FValorTotalProdutos:Double;
+            FValorFrete:Double;
+            FValorTotalNota:Double;
+            FObservacoes:string;
+            FDataCadastro:String;
+            FDataAlteracao:String;
+            FUmProduto:TProduto;
+            FUmFornecedorF:TFornecedorFisico;
+            FUmFornecedorJ:TFornecedor;
+            FUmaCP:TCondicaoPagamento;
+            FUmaListaProduto:TList;
+        public
+          constructor create;
+          destructor destroy;
+
+          procedure AdicionarProduto(Objeto:TObject);
+          procedure RemoverProduto(Index:integer);
+          function ContarItens:Integer;
+          function getProdutos(Index:integer):TProduto;
+
+          procedure setNumeroNota(vNumeroNota:Integer);
+          procedure setSerie(vSerie:String);
+          procedure setCFOP(vCFOP:string);
+          procedure setDataEmicao(vDataEmicao:string);
+          procedure setDataEntrada(vDAtaEntrada:string);
+          procedure setValorTotalProdutos(vValorTotalProdutos:Double);
+          procedure setValorFrete(vValorFrete:Double);
+          procedure setValorTotalNota(vValorTotalNota:Double);
+          procedure setObservacoes(vObservacoes:string);
+          procedure setDataCadastro(vDatacadastro:string);
+          procedure setDataAlteracao(vDataAlteracao:string);
+          procedure setUmProduto(vUmPoduto:TProduto);
+          procedure setUmFornecedorJ(vUmFornecedor:TFornecedor);
+          procedure setUmFornecedorF(vUmFornecedor:TFornecedorFisico);
+          procedure setUmaCP(VUmaCP:TCondicaoPagamento);
+          procedure setUmaListaProduto(vUmaListaProduto:TList);
+
+          function getNumeroNota:Integer;
+          function getSerie:String;
+          function getCFOP:string;
+          function getDataEmicao:string;
+          function getDataEntrada:string;
+          function getValorTotalProdutos:Double;
+          function getValorFrete:Double;
+          function gettValorTotalNota:Double;
+          function getObservacoes:string;
+          function getDataCadastro:string;
+          function getDataAlteracao:string;
+          function getUmProduto:TProduto;
+          function getUmFornecedorJ:TFornecedor;
+          function getUmFornecedorF:TFornecedorFisico;
+          function getUmaCP:TCondicaoPagamento;
+          function getUmaListaProduto:TList;
+
+          property NumeroNota:Integer read getNumeroNota write setNumeroNota;
+          property Serie:string read getSerie write setSerie;
+          property CFOP:string read getCFOP write setCFOP;
+          property DataEmicao:String read getDataEmicao write setDataEmicao;
+          property DataEntrada:string read getDataEntrada write setDataEntrada;
+          property ValorTotalProdutos:Double read getValorTotalProdutos write setValorTotalProdutos;
+          property ValorFrete:Double read getValorFrete write setValorFrete;
+          property ValorTotalNota:Double read gettValorTotalNota write setValorTotalNota;
+          property Observacoes:string read getObservacoes write setObservacoes;
+          property DataCadastro:String read getDataCadastro write setDataCadastro;
+          property DataAlteracao:String read getDataAlteracao write setDataAlteracao;
+          property UmProduto:TProduto read getUmProduto write setUmProduto;
+          property UmFornecedorJ:TFornecedor read getUmFornecedorJ write setUmFornecedorJ;
+          property UmFornecedorF:TFornecedorFisico read getUmFornecedorF write setUmFornecedorF;
+          property UmaCP:TCondicaoPagamento read getUmaCP write setUmaCP;
+          property UmaListaProduto:TList read getUmaListaProduto write setUmaListaProduto;
+
+    end;
+
+implementation
+
+{ TCompra }
+
+procedure TCompra.AdicionarProduto(Objeto: TObject);
+begin
+     FUmaListaProduto.Add(TProduto(Objeto));
+end;
+
+function TCompra.ContarItens: Integer;
+begin
+   Result:=FUmaListaProduto.Count;
+end;
+
+constructor TCompra.create;
+begin
+            FNumeroNota:=0;
+            FSerie:='';
+            FDataEmicao:='';
+            FValorTotalProdutos:=0.0;
+            FValorTotalNota:=0.0;
+            FObservacoes:='';
+            FDataCadastro:='';
+            FDataAlteracao:='';
+            FUmProduto:=TProduto.Create;
+            FUmFornecedorJ:=TFornecedor.Create;
+            FUmFornecedorF:= TFornecedorFisico.Create;
+            FUmaCP:=TCondicaoPagamento.create;
+end;
+
+destructor TCompra.destroy;
+begin
+             FUmProduto.Destroy;
+             FUmaCP.Destroy;
+             FUmFornecedorJ.Destroy;
+             FUmFornecedorF.Destroy;
+end;
+
+function TCompra.getCFOP: string;
+begin
+    Result:=FCFOP;
+end;
+
+function TCompra.getDataAlteracao: string;
+begin
+    Result:=  FDataAlteracao;
+end;
+
+function TCompra.getDataCadastro: string;
+begin
+   Result:=  FDataCadastro;
+end;
+
+function TCompra.getDataEmicao: string;
+begin
+     Result:= FDataEmicao;
+end;
+
+function TCompra.getDataEntrada: string;
+begin
+  Result:=FDataEntrada;
+end;
+
+function TCompra.getNumeroNota: Integer;
+begin
+    Result:=  FNumeroNota;
+end;
+
+function TCompra.getObservacoes: string;
+begin
+    Result:=  FObservacoes;
+end;
+
+function TCompra.getProdutos(Index: integer): TProduto;
+begin
+    Result:= FUmaListaProduto.Items[Index];
+end;
+
+function TCompra.getSerie: String;
+begin
+    Result:= FSerie;
+end;
+
+function TCompra.gettValorTotalNota: Double;
+begin
+   Result:= FValorTotalNota;
+end;
+
+function TCompra.getUmaCP: TCondicaoPagamento;
+begin
+    Result:= FUmaCP;
+end;
+
+function TCompra.getUmaListaProduto: TList;
+begin
+    Result:= FUmaListaProduto;
+end;
+
+function TCompra.getUmFornecedorF: TFornecedorFisico;
+begin
+    Result:=FUmFornecedorF;
+end;
+
+function TCompra.getUmFornecedorJ: TFornecedor;
+begin
+     Result:= FUmFornecedorJ;
+end;
+
+function TCompra.getUmProduto: TProduto;
+begin
+    Result:= FUmProduto;
+end;
+
+function TCompra.getValorFrete: Double;
+begin
+  Result:=FValorFrete;
+end;
+
+function TCompra.getValorTotalProdutos: Double;
+begin
+   Result:= FValorTotalProdutos;
+end;
+
+procedure TCompra.RemoverProduto(Index: integer);
+begin
+   FUmaListaProduto.Delete(Index);
+end;
+
+procedure TCompra.setCFOP(vCFOP: string);
+begin
+    FCFOP:=vCFOP;
+end;
+
+procedure TCompra.setDataAlteracao(vDataAlteracao: string);
+begin
+  FDataAlteracao:=vDataAlteracao;
+end;
+
+procedure TCompra.setDataCadastro(vDatacadastro: string);
+begin
+   FDataCadastro:=vDatacadastro;
+end;
+
+procedure TCompra.setDataEmicao(vDataEmicao: string);
+begin
+    FDataEmicao:=vDataEmicao;
+end;
+
+procedure TCompra.setDataEntrada(vDAtaEntrada: string);
+begin
+  FDataEntrada:=vDAtaEntrada;
+end;
+
+procedure TCompra.setNumeroNota(vNumeroNota: Integer);
+begin
+   FNumeroNota:=vNumeroNota;
+end;
+
+procedure TCompra.setObservacoes(vObservacoes: string);
+begin
+  FObservacoes:=vObservacoes;
+end;
+
+procedure TCompra.setSerie(vSerie: String);
+begin
+   FSerie:=vSerie;
+end;
+
+procedure TCompra.setUmaCP(VUmaCP: TCondicaoPagamento);
+begin
+   FUmaCP:=VUmaCP;
+end;
+
+procedure TCompra.setUmaListaProduto(vUmaListaProduto: TList);
+begin
+   FUmaListaProduto:=vUmaListaProduto;
+end;
+
+procedure TCompra.setUmFornecedorF(vUmFornecedor: TFornecedorFisico);
+begin
+  FUmFornecedorF:=vUmFornecedor;
+end;
+
+procedure TCompra.setUmFornecedorJ(vUmFornecedor: TFornecedor);
+begin
+   FUmFornecedorJ:=vUmFornecedor;
+end;
+
+procedure TCompra.setUmProduto(vUmPoduto: TProduto);
+begin
+     FUmProduto:=vUmPoduto;
+end;
+
+procedure TCompra.setValorFrete(vValorFrete: Double);
+begin
+   FValorFrete:=vValorFrete;
+end;
+
+procedure TCompra.setValorTotalNota(vValorTotalNota: Double);
+begin
+   FValorTotalNota:=vValorTotalNota;
+end;
+
+procedure TCompra.setValorTotalProdutos(vValorTotalProdutos: Double);
+begin
+   FValorTotalProdutos:=vValorTotalProdutos;
+end;
+
+end.

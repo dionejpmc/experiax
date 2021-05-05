@@ -1,0 +1,16 @@
+unit UCtrlContaPagar;
+
+interface
+uses UCtrl;
+type
+  TCtrlContaPagar = class (TCtrl)
+    private
+    protected
+    public
+
+
+  end;
+
+implementation
+
+end.

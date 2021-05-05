@@ -1,0 +1,14 @@
+unit UCliente;
+
+interface
+uses UClienteFisico;
+ type TCliente = class(TPessoaFisica)
+   private
+   protected
+   public
+
+ end;
+
+implementation
+
+end.

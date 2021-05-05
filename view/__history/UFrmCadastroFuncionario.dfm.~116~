@@ -1,0 +1,589 @@
+﻿inherited FrmCadastroFuncionario: TFrmCadastroFuncionario
+  Caption = 'Cadastro de Funcionario'
+  ClientHeight = 573
+  ClientWidth = 613
+  OnClose = FormClose
+  OnCreate = FormCreate
+  ExplicitTop = -45
+  ExplicitWidth = 629
+  ExplicitHeight = 611
+  PixelsPerInch = 96
+  TextHeight = 13
+  object TLblFuncionario: TRzLabel [0]
+    Left = 190
+    Top = 11
+    Width = 76
+    Height = 13
+    Caption = 'Funcionario *'
+  end
+  object TLblCargo: TRzLabel [1]
+    Left = 190
+    Top = 54
+    Width = 46
+    Height = 13
+    Caption = 'Cargo *'
+  end
+  inherited TLblDataCadastro: TRzLabel
+    Left = 8
+    Top = 523
+    ExplicitLeft = 8
+    ExplicitTop = 523
+  end
+  inherited TLblDataAlteracao: TRzLabel
+    Left = 360
+    Top = 523
+    ExplicitLeft = 360
+    ExplicitTop = 523
+  end
+  object TLblIdFuncionario: TRzLabel [4]
+    Left = 8
+    Top = 11
+    Width = 94
+    Height = 13
+    Caption = 'ID Funcionario *'
+  end
+  object TLblIdCargo: TRzLabel [5]
+    Left = 8
+    Top = 54
+    Width = 64
+    Height = 13
+    Caption = 'ID Cargo *'
+  end
+  inherited TBtnSalvar: TRzButton
+    Tag = 11
+    Top = 549
+    TabOrder = 10
+    OnClick = TBtnSalvarClick
+    ExplicitTop = 549
+  end
+  inherited TBtnLimpar: TRzButton
+    Tag = 12
+    Left = 284
+    Top = 549
+    TabOrder = 11
+    OnClick = TBtnLimparClick
+    ExplicitLeft = 284
+    ExplicitTop = 549
+  end
+  object TEdtFuncionario: TRzEdit [8]
+    Left = 272
+    Top = 8
+    Width = 336
+    Height = 21
+    CharCase = ecUpperCase
+    FrameHotColor = clBlue
+    FrameHotTrack = True
+    FrameHotStyle = fsButtonDown
+    FrameVisible = True
+    MaxLength = 50
+    TabOrder = 1
+    OnExit = TEdtFuncionarioExit
+    OnKeyPress = TEdtFuncionarioKeyPress
+  end
+  object TEdtcargo: TRzEdit [9]
+    Left = 272
+    Top = 51
+    Width = 244
+    Height = 21
+    CharCase = ecUpperCase
+    Enabled = False
+    FrameHotTrack = True
+    FrameVisible = True
+    MaxLength = 50
+    TabOrder = 3
+    OnKeyPress = TEdtcargoKeyPress
+  end
+  object TBtnBuscarCargo: TRzBitBtn [10]
+    Left = 535
+    Top = 48
+    Caption = 'Buscar'
+    TabOrder = 4
+    OnClick = TBtnBuscarCargoClick
+  end
+  object TGroupBoxEnderecoFuncionario: TRzGroupBox [11]
+    Left = 8
+    Top = 88
+    Width = 601
+    Height = 168
+    Caption = 'DADOS DE ENDERE'#199'O'
+    TabOrder = 5
+    object TLblLogradouro: TRzLabel
+      Left = 16
+      Top = 30
+      Width = 76
+      Height = 13
+      Caption = 'Logradouro *'
+      Transparent = True
+    end
+    object TLblNumero: TRzLabel
+      Left = 442
+      Top = 30
+      Width = 56
+      Height = 13
+      Caption = 'Numero *'
+      Transparent = True
+    end
+    object TLblCEP: TRzLabel
+      Left = 16
+      Top = 61
+      Width = 34
+      Height = 13
+      Caption = 'CEP *'
+      Transparent = True
+    end
+    object TLblbairro: TRzLabel
+      Left = 265
+      Top = 59
+      Width = 46
+      Height = 13
+      Caption = 'Bairro *'
+      Transparent = True
+    end
+    object TLblObservacoes: TRzLabel
+      Left = 15
+      Top = 131
+      Width = 74
+      Height = 13
+      Caption = 'Observa'#231#245'es'
+      Transparent = True
+    end
+    object TLblCidade: TRzLabel
+      Left = 186
+      Top = 92
+      Width = 51
+      Height = 13
+      Caption = 'Cidade *'
+      Transparent = True
+    end
+    object TLblIdCidade: TRzLabel
+      Left = 17
+      Top = 92
+      Width = 69
+      Height = 13
+      Caption = 'ID Cidade *'
+      Transparent = True
+    end
+    object TEdtCidade: TRzEdit
+      Left = 243
+      Top = 89
+      Width = 246
+      Height = 21
+      CharCase = ecUpperCase
+      Enabled = False
+      FrameHotTrack = True
+      FrameHotStyle = fsButtonDown
+      FrameVisible = True
+      MaxLength = 50
+      TabOrder = 5
+      OnKeyPress = TEdtCidadeKeyPress
+    end
+    object TBtnBuscarCidade: TRzButton
+      Left = 504
+      Top = 87
+      Caption = 'Buscar'
+      TabOrder = 6
+      OnClick = TBtnBuscarCidadeClick
+    end
+    object TEdtLogradouro: TRzEdit
+      Left = 118
+      Top = 27
+      Width = 315
+      Height = 21
+      CharCase = ecUpperCase
+      FrameHotTrack = True
+      FrameHotStyle = fsButtonDown
+      FrameVisible = True
+      MaxLength = 50
+      TabOrder = 0
+      OnExit = TEdtLogradouroExit
+      OnKeyPress = TEdtLogradouroKeyPress
+    end
+    object TEdtCEP: TRzEdit
+      Left = 118
+      Top = 56
+      Width = 141
+      Height = 21
+      FrameHotTrack = True
+      FrameHotStyle = fsButtonDown
+      FrameVisible = True
+      MaxLength = 9
+      TabOrder = 2
+      OnExit = TEdtCEPExit
+      OnKeyPress = TEdtCEPKeyPress
+    end
+    object TEdtBairro: TRzEdit
+      Left = 319
+      Top = 56
+      Width = 260
+      Height = 21
+      CharCase = ecUpperCase
+      FrameHotTrack = True
+      FrameHotStyle = fsButtonDown
+      FrameVisible = True
+      MaxLength = 50
+      TabOrder = 3
+      OnExit = TEdtBairroExit
+      OnKeyPress = TEdtBairroKeyPress
+    end
+    object TEdtObservacoe: TRzEdit
+      Left = 116
+      Top = 128
+      Width = 463
+      Height = 21
+      CharCase = ecUpperCase
+      FrameHotTrack = True
+      FrameHotStyle = fsButtonDown
+      FrameVisible = True
+      MaxLength = 50
+      TabOrder = 7
+      OnKeyPress = TEdtObservacoeKeyPress
+    end
+    object TEdtNumero: TRzEdit
+      Left = 499
+      Top = 27
+      Width = 80
+      Height = 21
+      FrameHotTrack = True
+      FrameHotStyle = fsButtonDown
+      FrameVisible = True
+      MaxLength = 5
+      TabOrder = 1
+      OnExit = TEdtNumeroExit
+      OnKeyPress = TEdtNumeroKeyPress
+    end
+    object TEdtIdCidade: TRzEdit
+      Left = 118
+      Top = 87
+      Width = 51
+      Height = 21
+      FrameHotTrack = True
+      FrameHotStyle = fsButtonDown
+      FrameVisible = True
+      TabOrder = 4
+      OnExit = TEdtIdCidadeExit
+      OnKeyPress = TEdtIdCidadeKeyPress
+    end
+  end
+  object TGroupBoxContatoFuncionario: TRzGroupBox [12]
+    Left = 8
+    Top = 262
+    Width = 602
+    Height = 90
+    Caption = 'DADOS DE CONTATO DE FUNCIONARIO'
+    TabOrder = 6
+    object TLblTelefoneResidencial1: TRzLabel
+      Left = 15
+      Top = 24
+      Width = 128
+      Height = 13
+      Caption = 'Telefone Residencial *'
+      Transparent = True
+    end
+    object TLblCelular1: TRzLabel
+      Left = 330
+      Top = 24
+      Width = 52
+      Height = 13
+      Caption = 'Celular *'
+      Transparent = True
+    end
+    object TLblFax: TRzLabel
+      Left = 15
+      Top = 56
+      Width = 20
+      Height = 13
+      Caption = 'Fax'
+      Transparent = True
+    end
+    object TLblEmail: TRzLabel
+      Left = 330
+      Top = 56
+      Width = 38
+      Height = 13
+      Caption = 'E-Mail '
+      Transparent = True
+    end
+    object TEdtTelefoneCelular: TRzEdit
+      Left = 388
+      Top = 21
+      Width = 149
+      Height = 21
+      FrameHotTrack = True
+      FrameHotStyle = fsButtonDown
+      FrameVisible = True
+      MaxLength = 15
+      TabOrder = 0
+      OnExit = TEdtTelefoneCelularExit
+    end
+    object TEdtTelefoneResidencial: TRzMaskEdit
+      Left = 152
+      Top = 24
+      Width = 129
+      Height = 21
+      FrameHotTrack = True
+      FrameVisible = True
+      MaxLength = 15
+      TabOrder = 1
+      OnExit = TEdtTelefoneResidencialExit
+    end
+    object TEdtFax: TRzMaskEdit
+      Left = 152
+      Top = 51
+      Width = 129
+      Height = 21
+      MaxLength = 15
+      TabOrder = 2
+    end
+    object TEdtEmail: TRzMaskEdit
+      Left = 389
+      Top = 48
+      Width = 190
+      Height = 21
+      FrameHotTrack = True
+      FrameVisible = True
+      MaxLength = 50
+      TabOrder = 3
+    end
+  end
+  inherited TDateTimePickerDataAlteracao: TRzDateTimePicker
+    Left = 480
+    Top = 522
+    Width = 128
+    TabOrder = 9
+    ExplicitLeft = 480
+    ExplicitTop = 522
+    ExplicitWidth = 128
+  end
+  inherited TDateTimePickerDataCadastro: TRzDateTimePicker
+    Left = 130
+    Top = 522
+    Width = 136
+    Enabled = False
+    TabOrder = 8
+    ExplicitLeft = 130
+    ExplicitTop = 522
+    ExplicitWidth = 136
+  end
+  inherited TBtnCancelar: TRzBitBtn
+    Left = 535
+    Top = 549
+    TabOrder = 0
+    ExplicitLeft = 535
+    ExplicitTop = 549
+  end
+  object TEdtIdCargo: TRzEdit [16]
+    Left = 111
+    Top = 49
+    Width = 55
+    Height = 21
+    FrameHotTrack = True
+    FrameHotStyle = fsButtonDown
+    FrameVisible = True
+    MaxLength = 5
+    TabOrder = 2
+    OnExit = TEdtIdCargoExit
+    OnKeyPress = TEdtIdCargoKeyPress
+  end
+  object RzGroupBox1: TRzGroupBox [17]
+    Left = 8
+    Top = 358
+    Width = 602
+    Height = 147
+    Caption = 'DADOS DE FUNCIONARIO'
+    TabOrder = 7
+    object TLblDataAdmicao: TRzLabel
+      Left = 15
+      Top = 124
+      Width = 109
+      Height = 13
+      Caption = 'Data de Admi'#231#227'o *'
+      Transparent = True
+    end
+    object TLblDataDemição: TRzLabel
+      Left = 337
+      Top = 124
+      Width = 99
+      Height = 13
+      Caption = 'Data de Demi'#231#227'o'
+      Transparent = True
+    end
+    object TLblCPF: TRzLabel
+      Left = 14
+      Top = 52
+      Width = 33
+      Height = 13
+      Caption = 'CPF *'
+      Transparent = True
+    end
+    object TLblCTPS: TRzLabel
+      Left = 15
+      Top = 84
+      Width = 42
+      Height = 13
+      Caption = 'CTPS *'
+      Transparent = True
+    end
+    object TLblRG: TRzLabel
+      Left = 15
+      Top = 20
+      Width = 28
+      Height = 13
+      Caption = 'RG *'
+      Transparent = True
+    end
+    object TLblDataNascimento: TRzLabel
+      Left = 337
+      Top = 84
+      Width = 108
+      Height = 13
+      Caption = 'Data Nascimento *'
+      Transparent = True
+    end
+    object TRadioGroupSexo: TRzRadioGroup
+      Left = 213
+      Top = 11
+      Width = 97
+      Height = 66
+      Caption = 'Sexo *'
+      TabOrder = 2
+      object TRadioBtnMasculino: TRzRadioButton
+        Left = 8
+        Top = 16
+        Width = 74
+        Height = 15
+        Caption = 'Masculino'
+        Checked = True
+        HotTrack = True
+        TabOrder = 0
+        TabStop = True
+        Transparent = True
+      end
+      object TRadioBtnFeminino: TRzRadioButton
+        Left = 8
+        Top = 37
+        Width = 70
+        Height = 15
+        Caption = 'Feminino'
+        HotTrack = True
+        TabOrder = 1
+        Transparent = True
+        TransparentColor = clWindowText
+      end
+    end
+    object TEdtCTPS: TRzEdit
+      Left = 63
+      Top = 81
+      Width = 121
+      Height = 21
+      CharCase = ecUpperCase
+      FrameHotTrack = True
+      FrameVisible = True
+      MaxLength = 15
+      TabOrder = 1
+      OnExit = TEdtCTPSExit
+    end
+    object TEdtRG: TRzEdit
+      Left = 63
+      Top = 17
+      Width = 121
+      Height = 21
+      HelpType = htKeyword
+      CharCase = ecUpperCase
+      FrameHotTrack = True
+      FrameVisible = True
+      MaxLength = 12
+      TabOrder = 0
+      OnExit = TEdtRGExit
+    end
+    object TDateTimeDataAdmicao: TRzDateTimePicker
+      Left = 137
+      Top = 119
+      Width = 136
+      Height = 21
+      Date = 41211.648728159720000000
+      Time = 41211.648728159720000000
+      TabOrder = 4
+      FrameHotTrack = True
+      FrameVisible = True
+    end
+    object tGroupBoxStatus: TRzGroupBox
+      Left = 491
+      Top = 11
+      Width = 96
+      Height = 66
+      Caption = 'Status *'
+      TabOrder = 3
+      object TRadioBtnAtivo: TRzRadioButton
+        Left = 8
+        Top = 16
+        Width = 48
+        Height = 15
+        Caption = 'Ativo'
+        Checked = True
+        HotTrack = True
+        TabOrder = 0
+        TabStop = True
+        Transparent = True
+        OnClick = TRadioBtnAtivoClick
+      end
+      object TRadioBtnInativo: TRzRadioButton
+        Left = 9
+        Top = 37
+        Width = 59
+        Height = 15
+        Caption = 'Inativo'
+        Enabled = False
+        HotTrack = True
+        TabOrder = 1
+        Transparent = True
+        Visible = False
+        OnClick = TRadioBtnInativoClick
+      end
+    end
+    object TDateTimeDataDemicao: TRzDateTimePicker
+      Left = 460
+      Top = 119
+      Width = 127
+      Height = 21
+      Date = 41211.811800358800000000
+      Time = 41211.811800358800000000
+      TabOrder = 5
+      FrameHotTrack = True
+      FrameVisible = True
+    end
+    object TEdtCPF: TRzMaskEdit
+      Left = 63
+      Top = 48
+      Width = 120
+      Height = 21
+      FrameHotTrack = True
+      FrameVisible = True
+      MaxLength = 15
+      TabOrder = 6
+      OnExit = TEdtCPFExit
+      OnKeyPress = TEdtCPFKeyPress
+    end
+    object TDateTimePickerDataNascimento: TRzDateTimePicker
+      Left = 460
+      Top = 81
+      Width = 127
+      Height = 21
+      Date = 41211.838335636570000000
+      Time = 41211.838335636570000000
+      TabOrder = 7
+    end
+  end
+  object TEdtIdFuncionario: TRzEdit [18]
+    Left = 111
+    Top = 10
+    Width = 55
+    Height = 21
+    Enabled = False
+    FrameHotTrack = True
+    FrameHotStyle = fsButtonDown
+    FrameVisible = True
+    MaxLength = 5
+    TabOrder = 12
+    OnKeyPress = TEdtIdFuncionarioKeyPress
+  end
+end

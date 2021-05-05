@@ -1,0 +1,12 @@
+unit UCtrlCargo;
+
+interface
+uses UCtrl;
+type
+    TCtrlCargo = class (TCtrl)
+
+    end;
+
+implementation
+
+end.

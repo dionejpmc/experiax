@@ -1,0 +1,96 @@
+unit UCidade;
+
+interface
+uses UEstado;
+type
+  TCidade = class
+
+  private
+
+  protected
+
+    XIdCidade:Integer;
+    XCidade:String[50];
+    XDataCadastro:String[10];
+    XDataAlteracao:String[10];
+    XEstado:TEstado;
+
+  public
+    procedure setIdCidade(vIdCidade:Integer);
+    procedure setCidade(VCidade:String);
+    procedure setDataCadastro(vDataCadastro:String);
+    procedure setDataAlteracao(vDataAlteracao:String);
+    procedure setEstado(vEstado:TEstado);
+
+    function  getIdCidade:Integer;
+    function  getCidade:String;
+    function  getDataCadastro:String;
+    function  getDataAlteracao:String;
+    function  getEstado:TEstado;
+
+    property IdCidade:Integer read getIdCidade write setIdCidade;
+    property Cidade:String read getCidade write setCidade;
+    property DataCadastro:String read getDataCadastro write setDataCadastro;
+    property DataAlteracao:String read getDataCadastro write setDataAlteracao;
+    property Estado:TEstado read getEstado write setEstado;
+
+
+  end;
+
+
+
+implementation
+
+{ TCidade }
+
+function TCidade.getCidade: String;
+begin
+
+end;
+
+function TCidade.getDataAlteracao: String;
+begin
+
+end;
+
+function TCidade.getDataCadastro: String;
+begin
+
+end;
+
+function TCidade.getEstado: Estado;
+begin
+
+end;
+
+function TCidade.getIdCidade: Integer;
+begin
+
+end;
+
+procedure TCidade.setCidade(VCidade: String);
+begin
+
+end;
+
+procedure TCidade.setDataAlteracao(vDataAlteracao: String);
+begin
+
+end;
+
+procedure TCidade.setDataCadastro(vDataCadastro: String);
+begin
+
+end;
+
+procedure TCidade.setEstado(vEstado: TEstado);
+begin
+
+end;
+
+procedure TCidade.setIdCidade(vIdCidade: Integer);
+begin
+
+end;
+
+end.

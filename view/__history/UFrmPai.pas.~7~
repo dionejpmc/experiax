@@ -1,0 +1,36 @@
+
+unit UFrmPai;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs;
+
+type
+  TFormPai = class(TForm)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    function isNum(s:string):Boolean;
+  end;
+
+var
+  FormPai: TFormPai;
+
+implementation
+
+
+{$R *.dfm}
+
+{ TFormPai }
+
+function TFormPai.isNum(s: string): Boolean;
+var
+  I : Integer;
+begin
+  Result:=TryStrToInt(s,i);
+end;
+
+end.

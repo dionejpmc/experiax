@@ -1,0 +1,11 @@
+unit UCtrlProduto;
+
+interface
+uses UCtrl;
+  type TCtrlProduto = class (TCtrl)
+
+  end;
+
+implementation
+
+end.

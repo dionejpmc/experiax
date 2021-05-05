@@ -1,0 +1,118 @@
+unit UFrmConsultarContasReceber;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmConsultarPai, Grids, DBGrids, RzDBGrid, ExtCtrls, RzPanel,
+  RzButton, StdCtrls, RzLabel, Mask, RzEdit, UFrmCadastroContasreceber, UDM,DB,UCtrlContaReceber,uContaReceber,
+  dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinCaramel, dxSkinCoffee,
+  dxSkinDarkRoom, dxSkinDarkSide, dxSkinFoggy, dxSkinGlassOceans,
+  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
+  dxSkinMcSkin, dxSkinMoneyTwins, dxSkinOffice2007Black, dxSkinOffice2007Blue,
+  dxSkinOffice2007Green, dxSkinOffice2007Pink, dxSkinOffice2007Silver,
+  dxSkinOffice2010Black, dxSkinOffice2010Blue, dxSkinOffice2010Silver,
+  dxSkinPumpkin, dxSkinSeven, dxSkinSharp, dxSkinSilver, dxSkinSpringTime,
+  dxSkinStardust, dxSkinSummer2008, dxSkinsDefaultPainters, dxSkinValentine,
+  dxSkinXmas2008Blue, cxLookAndFeels, dxSkinsForm;
+
+type
+  TFrmConsultarContasReceber = class(TFrmConsultarPai)
+    TEdtNumNota: TRzEdit;
+    TLblSerie: TRzLabel;
+    TEdtSerie: TRzEdit;
+    TLblNumNota: TRzLabel;
+    TBtnBuscarCliente: TRzButton;
+    RzGroupBox1: TRzGroupBox;
+    TDBGridContasReceber: TRzDBGrid;
+    procedure TBtnNovoClick(Sender: TObject);
+    procedure TBtnEditarClick(Sender: TObject);
+    procedure TDBGridContasReceDblClick(Sender: TObject);
+  private
+    { Private declarations }
+    protected
+          UmaContaReceber:TContaReceber;
+          UmFrmCadContaReceber:TFrmCadastroContasReceber;
+          UmaCtrlContaReceber:TCtrlContaReceber;
+  public
+    { Public declarations }
+    procedure ReconhecaObjeto(AContaReceber:TContaReceber);
+
+  end;
+
+var
+  FrmConsultarContasReceber: TFrmConsultarContasReceber;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmConsultarContasReceber.ReconhecaObjeto(
+  AContaReceber: TContaReceber);
+begin
+
+  UmaContaReceber:=AContaReceber;
+  UmaCtrlContaReceber:=TCtrlContaReceber.Create;
+   Self.TDBGridContasReceber.DataSource:=UmaCtrlContaReceber.GetDs;
+  UmFrmCadContaReceber:=TFrmCadastroContasReceber.Create(nil);
+end;
+
+procedure TFrmConsultarContasReceber.TBtnEditarClick(Sender: TObject);
+begin
+  inherited;
+  UmaCtrlContaReceber.Carregar(UmaContaReceber);
+  UmFrmCadContaReceber.TBtnLimpar.Visible:=False;
+  UmFrmCadContaReceber.ReconhecaObjeto(UmaContaReceber,UmaCtrlContaReceber);
+  if UmaContaReceber.Status = 2 then
+  begin
+      UmFrmCadContaReceber.TEdtSerie.Enabled:=False;
+      UmFrmCadContaReceber.TEdtNumNota.Enabled:=False;
+      UmFrmCadContaReceber.TEdtNumNota.Text:=IntToStr(UmaContaReceber.NumeroNota);
+      UmFrmCadContaReceber.TEdtSerie.Text:=UmaContaReceber.Serie;
+      UmFrmCadContaReceber.TedtValorConta.Text:=FloatToStr(StrToFloat(FormatFloat('#0.00',UmaContaReceber.Valor)));
+      UmFrmCadContaReceber.TEdtValorTotalConta.Text:=FloatToStr(StrToFloat(FormatFloat('#0.00',UmaContaReceber.Valor)));
+      UmFrmCadContaReceber.TDateTimePickerDataVencimento.DateTime:=StrToDateTime(UmaContaReceber.DataVencimento);
+      UmFrmCadContaReceber.TEdtCliente.Text:=UmaContaReceber.UmUmClienteJuridico.RS;
+      UmFrmCadContaReceber.TEdtIdCliente.Text:=IntToStr(UmaContaReceber.UmUmClienteJuridico.Id);
+      UmFrmCadContaReceber.TEdtIdFP.Text:=IntToStr(UmaContaReceber.UmaFP.Id);
+      UmFrmCadContaReceber.TDateTimePickerDataPagamento.DateTime:=Now;
+      UmFrmCadContaReceber.TEdtFP.Text:=UmaContaReceber.UmaFP.FP;
+      UmFrmCadContaReceber.TEdtObservacao.Text:=UmaContaReceber.Observacoes;
+      UmFrmCadContaReceber.TEdtDesconto.Text:='0,00';
+      UmFrmCadContaReceber.TEdtMulta.Text:='0,00';
+      UmFrmCadContaReceber.TBtnLimpar.Enabled:=False;
+      UmFrmCadContaReceber.TBtnLimpar.Visible:=False;
+      UmFrmCadContaReceber.TComboBoxStatus.Text:='Paga';
+      UmFrmCadContaReceber.TBtnSalvar.Caption:='Baixar';
+      UmFrmCadContaReceber.ShowModal;
+  end
+  else  if  UmaContaReceber.Status = 1 then
+  begin
+      ShowMessage('CONTA JÁ ESTA PAGA!');
+      Exit;
+  end
+  else if  UmaContaReceber.Status = 3 then
+  begin
+      ShowMessage('A CONTA ESTA CANCELADA');
+      Exit;
+  end
+  else
+      ShowMessage('ERRO DE RECUPERAÇÃO DE STATUS');
+end;
+
+procedure TFrmConsultarContasReceber.TBtnNovoClick(Sender: TObject);
+var UmcadContaReceber:TFrmCadastroContasReceber;
+
+begin
+  inherited;
+   UmFrmCadContaReceber.ReconhecaObjeto(UmaContaReceber,UmaCtrlContaReceber);
+   UmFrmCadContaReceber.ShowModal;
+end;
+
+procedure TFrmConsultarContasReceber.TDBGridContasReceDblClick(Sender: TObject);
+begin
+  inherited;
+  Self. UmaCtrlContaReceber.GetDs;
+end;
+
+end.

@@ -1,0 +1,11 @@
+unit UContaPagar;
+
+interface
+Type
+    TContaPagar = class
+
+    end;
+
+implementation
+
+end.

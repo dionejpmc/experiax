@@ -1,0 +1,60 @@
+unit UFrmCadastroClienteJuridico;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmCadastroPai, RzButton, StdCtrls, Mask, RzEdit, RzLabel, ExtCtrls,
+  RzPanel, RzRadChk, ComCtrls, RzDTP;
+
+type
+  TFrmCadastroClienteJuridico = class(TFormCadastroPai)
+    TGroupBoxEnderecoCliente: TRzGroupBox;
+    TLblLogradouro: TRzLabel;
+    TLblNumero: TRzLabel;
+    TLblCEP: TRzLabel;
+    TLblbairro: TRzLabel;
+    TLblObservacoes: TRzLabel;
+    TLblCidade: TRzLabel;
+    TEdtCidade: TRzEdit;
+    TBtnBuscarCidade: TRzButton;
+    TGroupBoxContatoCliente: TRzGroupBox;
+    TLblTelefoneComercial: TRzLabel;
+    TLblCelular1: TRzLabel;
+    TLblFax: TRzLabel;
+    TLblEmail: TRzLabel;
+    TEdtTelefoneResidencial: TRzEdit;
+    TEdtTelefoneCelular: TRzEdit;
+    TEdtFax: TRzEdit;
+    TEdtEmail: TRzEdit;
+    TEdtLogradouro: TRzEdit;
+    TEdtCEP: TRzEdit;
+    TEdtBairro: TRzEdit;
+    TEdtNumero: TRzEdit;
+    TEdtObservacoes: TRzEdit;
+    TEdtCNPJ: TRzEdit;
+    TEdtFantasia: TRzEdit;
+    TLblFantasia: TRzLabel;
+    TLblCNPJ: TRzLabel;
+    TEdtIE: TRzEdit;
+    TEdtRS: TRzEdit;
+    TLblRS: TRzLabel;
+    TLblIE: TRzLabel;
+    RzEdit1: TRzEdit;
+    TLblTelefoneComercial2: TRzLabel;
+    TLblIdCliente: TRzLabel;
+    TEdtIdCliente: TRzEdit;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmCadastroClienteJuridico: TFrmCadastroClienteJuridico;
+
+implementation
+
+{$R *.dfm}
+
+end.

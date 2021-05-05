@@ -1,0 +1,12 @@
+unit UCtrlContaReceber;
+
+interface
+uses UCtrl, UDaoContaReceber;
+type
+    TCtrlContaReceber = class (TCtrl)
+
+    end;
+
+implementation
+
+end.

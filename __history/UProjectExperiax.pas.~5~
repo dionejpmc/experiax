@@ -1,0 +1,42 @@
+unit UProjectExperiax;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs,UInterface,UAplica,UFrmMenuPrincipal,UInterface,UPais,UEstado,UFrmConsultarPais, Menus, RzPanel, ExtCtrls;
+type
+  TProjectExperiax = class(TForm)
+    RzStatusBar1: TRzStatusBar;
+    RzToolbar1: TRzToolbar;
+    MainMenu1: TMainMenu;
+    MENU1: TMenuItem;
+    SAIR1: TMenuItem;
+    procedure MENU1Click(Sender: TObject);
+  private
+    { Private declarations }
+    UmaInterface:TInterface;
+    UmPais:TPais;
+    UmEstado:TEstado;
+  public
+    { Public declarations }
+    procedure ReconhecaObjeto(AInterface:TInterface;OPais:TPais;OEstado:TEstado);
+  end;
+
+var
+  ProjectExperiax: TProjectExperiax;
+
+implementation
+
+{$R *.dfm}
+
+
+procedure TFrmMenuPrincipal.ReconhecaObjeto(AInterface: TInterface;
+  OPais: TPais; OEstado: TEstado);
+begin
+   UmPais:=OPais;
+   UmEstado:=OEstado;
+   UmaInterface:=Ainterface;
+end;
+
+end.

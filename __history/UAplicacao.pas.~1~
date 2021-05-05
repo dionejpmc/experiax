@@ -1,0 +1,52 @@
+unit UAplicacao;
+
+interface
+uses  UPais, UEstado, UCidade, UCtrlPais,Uinterface,UFrmMenuPrincipal;
+Type
+  TAplicacao = class(TObject)
+    private
+    protected
+
+      UmPais:TPais;
+      UmaCtrlPais:TCtrlPais;
+      UmaInterface:TInterface;
+      UmMenu:TFrmMenuPrincipal;
+
+    public
+
+      constructor Criate;
+      destructor Destroy;
+
+      function Execute:Integer;
+
+  end;
+
+
+implementation
+{$R *.dfm}
+
+{ TAplicacao }
+
+constructor TAplicacao.Criate;
+begin
+      UmPais:=TPais.Create;
+      UmaCtrlPais:=TCtrlPais.Criate;
+      UmaInterface:=TInterface.Create;
+      UmMenu:=TFrmMenuPrincipal.Create(nil);
+end;
+
+destructor TAplicacao.Destroy;
+begin
+  UmPais.Destroy;
+  UmaCtrlPais.Destroy;
+  UmaInterface.Destroy;
+  UmMenu.Destroy;
+
+end;
+function TAplicacao.Execute:Integer;
+begin
+     UmMenu.ReconhecaObjeto(UmaInterface,UmPais);
+     UmMenu.ShowModal;
+end;
+
+end.

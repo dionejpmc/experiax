@@ -1,0 +1,72 @@
+unit UCtrlFornecedor;
+
+interface
+uses UCtrl, UDaoFornecedor, DB;
+type
+    TCtrlFornecedor = class (TCtrl)
+      private
+      protected
+          UmaDaoFornecedor:TDaoFornecedor;
+      public
+        constructor Create;
+        destructor Destroy;
+        function Salvar(Objeto : TObject;Id:integer): string;
+        function GetDs : TDataSource;                                override;
+        function GetDSPF:TDataSource;
+        function Carregar( Objeto : TObject): Tobject;               override;
+        function Buscar(KeyId : Integer;KeyStr:String): boolean;     override;
+        function BuscarPF(KeyId: Integer; KeyStr: String): boolean;
+        function Excluir(Objeto : TObject): string;                  override;
+
+    end;
+
+implementation
+
+{ TCtrlFornecedor }
+
+function TCtrlFornecedor.Buscar(KeyId: Integer; KeyStr: String): boolean;
+begin
+     Result:=UmaDaoFornecedor.Buscar(KeyId,KeyStr);
+end;
+
+function TCtrlFornecedor.BuscarPF(KeyId: Integer; KeyStr: String): boolean;
+begin
+    Result:=UmaDaoFornecedor.BuscarPF(KeyId,KeyStr);
+end;
+
+function TCtrlFornecedor.Carregar(Objeto: TObject;Tipo:Integer): Tobject;
+begin
+   Result:= UmaDaoFornecedor.Carregar(Objeto);
+end;
+
+constructor TCtrlFornecedor.Create;
+begin
+    UmaDaoFornecedor:=TDaoFornecedor.Create;
+end;
+
+destructor TCtrlFornecedor.Destroy;
+begin
+    UmaDaoFornecedor.Destroy;
+end;
+
+function TCtrlFornecedor.Excluir(Objeto: TObject): string;
+begin
+    Result:=UmaDaoFornecedor.Excluir(Objeto);
+end;
+
+function TCtrlFornecedor.GetDs: TDataSource;
+begin
+    Result:=UmaDaoFornecedor.GetDs;
+end;
+
+function TCtrlFornecedor.GetDSPF: TDataSource;
+begin
+   Result:=UmaDaoFornecedor.GetDsPF;
+end;
+
+function TCtrlFornecedor.Salvar(Objeto: TObject;Id:integer): string;
+begin
+    Result:=UmaDaoFornecedor.Salvar(Objeto,id);
+end;
+
+end.

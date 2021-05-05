@@ -1,0 +1,241 @@
+unit UFrmCadastroEstado;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmCadastroPai, RzButton, ComCtrls, RzDTP, StdCtrls, RzLabel, Mask,
+  RzEdit,UFrmConsultarPais,UEstado,UCtrlEstado,UCtrlPais,UPais;
+
+type
+  TFrmCadastroEstado = class(TFormCadastroPai)
+    TLblId: TRzLabel;
+    TLblEstado: TRzLabel;
+    TLblDDD: TRzLabel;
+    TLblSigla: TRzLabel;
+    TLblPais: TRzLabel;
+    TLblIDPais: TRzLabel;
+    TEdtIdEstado: TRzEdit;
+    TEdtEstado: TRzEdit;
+    TEdtDDD: TRzEdit;
+    TEdtSigla: TRzEdit;
+    TEdtPais: TRzEdit;
+    TEdtIdPais: TRzEdit;
+    TBtnBuscarPais: TRzBitBtn;
+    procedure TBtnBuscarPaisClick(Sender: TObject);
+    procedure TBtnSalvarClick(Sender: TObject);
+    procedure TEdtIdPaisExit(Sender: TObject);
+    procedure TEdtIdEstadoKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtIdPaisKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtDDDKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtSiglaKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtPaisKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtEstadoKeyPress(Sender: TObject; var Key: Char);
+    procedure TBtnLimparClick(Sender: TObject);
+  private
+    { Private declarations }
+   // UmFrmCadEstado:TFrmCadastroEstado;
+    UmFrmConPais:TFrmConsultarPais;
+    UmaCtrlEstado:TCtrlEstado;
+    UmEstado:TEstado;
+  public
+    { Public declarations }
+    function ValidaCampos:Boolean;
+    function ReconhecaObjeto(OEstado:TEstado;ACtrlEstado:TCtrlEstado):Boolean;
+    procedure LimpaCampos;
+    procedure Carregar;
+  end;
+
+var
+  FrmCadastroEstado: TFrmCadastroEstado;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmCadastroEstado.Carregar;
+begin
+     Self.TEdtIdEstado.Text:= IntToStr( UmEstado.IdEstado);
+     Self.TEdtEstado.Text:= UmEstado.Estado;
+     Self.TEdtSigla.Text:= UmEstado.Sigla;
+     Self.TEdtDDD.Text:= UmEstado.DDD;
+     self.TEdtIdPais.Text:= IntToStr( UmEstado.Pais.IdPais);
+     Self.TEdtPais.Text:=   UmEstado.Pais.Pais;
+     Self.TDateTimePickerDataCadastro.DateTime:=StrToDateTime( UmEstado.DataCadastro);
+     Self.TDateTimePickerDataAlteracao.DateTime:=StrToDateTime(UmEstado.DataAlteracao);
+end;
+function TFrmCadastroEstado.ReconhecaObjeto(OEstado: TEstado;
+  ACtrlEstado: TCtrlEstado): Boolean;
+begin
+  UmEstado:=OEstado;
+  UmaCtrlEstado:=ACtrlEstado;
+  Self.LimpaCampos;
+end;
+
+procedure TFrmCadastroEstado.TBtnBuscarPaisClick(Sender: TObject);
+begin
+  inherited;
+
+    UmFrmConPais:=TFrmConsultarPais.Create(nil);
+    UmFrmConPais.ReconhecaObjeto(UmEstado.Pais);
+    UmFrmConPais.TBtnCancelar.Caption:='Selecionar';
+    UmFrmConPais.ShowModal;
+    Self.TEdtIdPais.Text:=IntToStr(UmEstado.Pais.IdPais);
+    Self.TEdtPais.Text:=UmEstado.Pais.Pais;
+    UmFrmConPais.Free;
+
+end;
+
+procedure TFrmCadastroEstado.TBtnLimparClick(Sender: TObject);
+begin
+  inherited;
+  Self.LimpaCampos;
+end;
+
+procedure TFrmCadastroEstado.TBtnSalvarClick(Sender: TObject);
+var MSG:String;
+    IntValue:integer;
+begin
+  inherited;
+   if Self.ValidaCampos = True then
+     begin
+       if TryStrToInt(Self.TEdtIdEstado.Text, IntValue) then
+           UmEstado.IdEstado:=intValue
+       else
+           UmEstado.IdEstado:= 0;
+       UmEstado.Estado:=Self.TEdtEstado.Text;
+       UmEstado.Sigla:=Self.TEdtSigla.Text;
+       UmEstado.DDD:=Self.TEdtDDD.Text;
+       UmEstado.Pais.IdPais:=StrToInt( Self.TEdtIdPais.Text);
+       UmEstado.Pais.Pais:=Self.TEdtPais.Text;
+       MSG:= UmaCtrlEstado.Salvar(UmEstado);
+       ShowMessage(MSG);
+     end;
+     if Self.ValidaCampos then
+     begin
+         Self.LimpaCampos;
+         Close;
+     end
+     else
+      Exit;
+end;
+
+procedure TFrmCadastroEstado.TEdtDDDKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+    if not (key in ['0'..'9',#8]) then
+       key := #0;
+end;
+
+procedure TFrmCadastroEstado.TEdtEstadoKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if not (key in ['A'..'Z','a'..'z',#8,#32,'ç','Ç']) then
+     key := #0;
+end;
+
+procedure TFrmCadastroEstado.TEdtIdEstadoKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  inherited;
+  if not (key in ['0'..'9',#8]) then
+    key := #0;
+end;
+
+procedure TFrmCadastroEstado.TEdtIdPaisExit(Sender: TObject);
+var UmaCtrlPais :TCtrlPais;
+    IntValue:integer;
+begin
+  inherited;
+  if TryStrToInt(Self.TEdtIdPais.Text, IntValue) then
+  begin
+     self.TEdtPais.Clear;
+     umaCtrlPais := TCtrlPais.Create;
+     UmEstado.Pais.IdPais:=StrtoInt(Self.TEdtIdPais.Text);
+     UmEstado.Pais.Pais:=self.TEdtPais.Text;
+     if not umaCtrlPais.Buscar(UmEstado.Pais.IdPais,Self.TEdtPais.Text) then
+      begin
+        MessageDlg('NENHUM REGISTRO ENCONTRADO!', mtInformation, [mbOK], 0);
+        Self.TEdtIdPais.Clear;
+        Self.TEdtPais.Clear;
+      end
+      else
+      begin
+            UmaCtrlPais.Carregar(UmEstado.Pais);
+            Self.TEdtIdPais.Text := IntToStr(UmEstado.Pais.IdPais);
+            Self.TEdtPais.Text := UmEstado.Pais.Pais;
+      end;
+  end
+  else
+  begin
+          Self.TEdtIdPais.Clear;
+          Self.TEdtPais.Clear;
+  end;
+ end;
+
+procedure TFrmCadastroEstado.TEdtIdPaisKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+   if not (key in ['0'..'9',#8]) then
+      key := #0;
+end;
+
+procedure TFrmCadastroEstado.TEdtPaisKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+   if not (key in ['A'..'Z','a'..'z',#8,#32,'ç','Ç']) then
+     key := #0;
+end;
+
+procedure TFrmCadastroEstado.TEdtSiglaKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if not (key in ['A'..'Z','a'..'z',#8,#32,'ç','Ç']) then
+     key := #0;
+end;
+
+procedure TFrmCadastroEstado.LimpaCampos;
+begin
+  Self.TEdtEstado.Clear;
+  Self.TEdtIdEstado.Clear;
+  Self.TEdtSigla.Clear;
+  self.TEdtPais.Clear;
+  Self.TEdtIdPais.Clear;
+  Self.TEdtDDD.Clear;
+
+end;
+function TFrmCadastroEstado.ValidaCampos: Boolean;
+begin
+  if Length(Self.TEdtEstado.Text) < 2   then
+  begin
+    Self.TEdtEstado.Color:=clWebSteelBlue;
+    Self.TEdtEstado.SetFocus;
+    Result:=False;
+    Exit;
+  end;
+  if Length( Self.TEdtDDD.Text) < 2   then
+  begin
+    Self.TEdtDDD.Color:=clWebSteelBlue;
+    Self.TEdtDDD.SetFocus;
+    Result:=False;
+    Exit;
+  end;
+  if Length( Self.TEdtSigla.Text) < 2   then
+  begin
+    Self.TEdtSigla.Color:=clWebSteelBlue;
+    Self.TEdtSigla.SetFocus;
+    Result:=False;
+    Exit;
+  end;
+  if Length( Self.TEdtPais.Text) < 2   then
+  begin
+    Self.TEdtIdPais.Color:=clWebSteelBlue;
+    Self.TEdtIdPais.SetFocus;
+    Result:=False;
+    Exit;
+  end
+  else
+    Result:=True;
+end;
+
+end.

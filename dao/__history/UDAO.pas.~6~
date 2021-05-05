@@ -1,0 +1,23 @@
+unit UDAO;
+
+interface
+uses UDM, DB;
+   type    TDao = class
+
+   private
+
+   protected
+   public
+     constructor Create;
+     destructor Destroy;
+
+
+
+end;
+
+implementation
+
+{ Dao }
+
+
+end.

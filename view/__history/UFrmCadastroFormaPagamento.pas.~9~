@@ -1,0 +1,66 @@
+unit UFrmCadastroFormaPagamento;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmCadastroPai, RzButton, StdCtrls, Mask, RzEdit, RzLabel, ComCtrls,
+  UCtrlFP,UFormaPagamento,
+  RzDTP;
+
+type
+  TFrmCadastroFP = class(TFormCadastroPai)
+    TLblFormaPagemento: TRzLabel;
+    TEdtFormaPagamento: TRzEdit;
+    TLblId: TRzLabel;
+    TEdtId: TRzEdit;
+    procedure TBtnLimparClick(Sender: TObject);
+  private
+    { Private declarations }
+  protected
+    UmaFP:TFormaPagamento;
+    UmaCtrlFP:TCtrlFP;
+  public
+    { Public declarations }
+    function ValidaCampos:Boolean;
+    function ReconhecaObjeto(AFP:TFormaPagamento;ACtrlFP:TCtrlFP):Boolean;
+    procedure LimpaCampos;
+  end;
+
+var
+  FrmCadastroFP: TFrmCadastroFP;
+
+implementation
+
+{$R *.dfm}
+
+{ TFrmCadastroFP }
+
+procedure TFrmCadastroFP.LimpaCampos;
+begin
+   Self.TEdtFormaPagamento.Clear;
+   Self.TEdtId.Clear;
+end;
+
+function TFrmCadastroFP.ReconhecaObjeto(AFP: TFormaPagamento;
+  ACtrlFP: TCtrlFP): Boolean;
+begin
+   UmaFP:=AFP;
+   UmaCtrlFP:=ACtrlFP;
+   Self.LimpaCampos;
+end;
+
+procedure TFrmCadastroFP.TBtnLimparClick(Sender: TObject);
+begin
+  inherited;
+
+   Self.TEdtFormaPagamento.Clear;
+   Self.TEdtId.Clear;
+end;
+
+function TFrmCadastroFP.ValidaCampos: Boolean;
+begin
+  Result:=True;
+end;
+
+end.

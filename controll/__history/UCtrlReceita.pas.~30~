@@ -1,0 +1,74 @@
+unit UCtrlReceita;
+
+interface
+uses UDaoReceita, UCtrl, DB;
+type
+    TCtrlReceita = class (TCtrl)
+      private
+      protected
+            UmaDaoReceita:TDAoReceita;
+
+      public
+            constructor Create;
+            destructor Destroy;
+
+            function Salvar(Objeto : TObject): string;          override;
+            function GetDs : TDataSource;                                 override;
+            function GetDsPR: TDataSource;
+            function Carregar( Objeto : TObject): Tobject;                override;
+            function Buscar(KeyId : Integer;KeyStr:String): boolean;      override;
+            function BuscarProduto(KeyId : Integer):Boolean;
+            function BuscarPR(KeyId : Integer):Boolean;
+            function Excluir(Objeto : TObject): string;                   override;
+
+    end;
+implementation
+
+{ TCtrlReceita }
+
+function TCtrlReceita.Buscar(KeyId: Integer; KeyStr: String): boolean;
+begin
+   Result:=UmaDaoReceita.Buscar(KeyId,KeyStr);
+end;
+
+function TCtrlReceita.BuscarPR(KeyId: Integer): Boolean;
+begin
+  Result:= UmaDaoReceita.BuscarPR(KeyId);
+end;
+
+function TCtrlReceita.Carregar(Objeto: TObject): Tobject;
+begin
+   Result:=UmaDaoReceita.Carregar(Objeto);
+end;
+
+constructor TCtrlReceita.Create;
+begin
+   UmaDaoReceita:=TDaoReceita.Create;
+end;
+
+destructor TCtrlReceita.Destroy;
+begin
+   UmaDaoReceita.Destroy;
+end;
+
+function TCtrlReceita.Excluir(Objeto: TObject): string;
+begin
+   Result:=   UmaDaoReceita.Excluir(Objeto);
+end;
+
+function TCtrlReceita.GetDs: TDataSource;
+begin
+   Result:= UmaDaoReceita.GetDs;
+end;
+
+function TCtrlReceita.GetDsPR: TDataSource;
+begin
+   Result:=UmaDaoReceita.GetDsPR;
+end;
+
+function TCtrlReceita.Salvar(Objeto: TObject): string;
+begin
+     Result:=UmaDaoReceita.Salvar(Objeto);
+end;
+
+end.

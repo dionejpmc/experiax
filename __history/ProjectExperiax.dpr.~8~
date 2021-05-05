@@ -1,0 +1,19 @@
+program ProjectExperiax;
+
+{$APPTYPE CONSOLE}
+
+uses
+  SysUtils,
+  UInterface in 'UInterface.pas';
+
+var UmaAplicacao:TAplicacao;
+begin
+  try
+    { TODO -oUser -cConsole Main : Insert code here }
+    UmaAplicacao:=TAplicacao.Create;
+    UmaAplicacao.Execute;
+    UmaAplicacao.Destroy;
+  except
+
+  end;
+end.

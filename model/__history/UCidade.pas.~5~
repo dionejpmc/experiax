@@ -1,0 +1,30 @@
+unit UCidade;
+
+interface
+uses UEstado;
+type
+  TCidade = class
+
+  private
+
+  protected
+
+    FIdCidade:Integer;
+    XCidade:String[50];
+    XDataCadastro:String[10];
+    XDataAlteracao:String[10];
+    XEstado:TEstado;
+
+  public
+
+    property IdCidade:Integer read getIdCidade write setIdCidade;
+    property Estado:String read getEstado write setEstado;
+    property Sigla:String read getSigla write setSigla;
+
+  end;
+
+
+
+implementation
+
+end.

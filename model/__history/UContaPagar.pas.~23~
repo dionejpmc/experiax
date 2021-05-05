@@ -1,0 +1,207 @@
+unit UContaPagar;
+
+interface
+uses UFormaPagamento, UFornecedor,UFornecedorFisico;
+Type
+    TContaPagar = class
+          private
+          protected
+            FNumeroParcela:Integer;
+            FValorTotal:Double;
+            FNumeroNota:Integer;
+            FSerie:string;
+            FUmaFP:TFormaPagamento;
+            FStatus:Integer;
+            FUmFornecedor:TFornecedor;
+            FUmFornecedorF:TFornecedorFisico;
+            FObservacoes:string;
+            FDataVencimento:string;
+            FDataCadastro:string;
+            FDataAlteracao:string;
+          public
+            constructor Create;
+            destructor Destroy;
+
+            procedure setNumeroPrcela(vNumeroParcela:Integer);
+            procedure setValorNOta(vValorNota:Double);
+            procedure setNumeroNota(vNumeroNota:Integer);
+            procedure setStatus(vStatus:Integer);
+            procedure setSerie(vSerie:string);
+            procedure setUmaFP(vUmaFP:TFormaPagamento);
+            procedure setUmFornecedor(vUmFornecedor:TFornecedor);
+            procedure setUmFornecedorF(vUmFornecedor:TFornecedorFisico);
+            procedure setObservacoes(vObservacoes:string);
+            procedure setDatavencimento(vDataVencimento:string);
+            procedure setDataCadastro(vDataCadastro:string);
+            procedure setDataAlteracao(vDataAlteracao:string);
+
+            function getNumeroParcela:Integer;
+            function getValorNOta:Double;
+            function getNumeroNota:Integer;
+            function getStatus:Integer;
+            function getSerie:string;
+            function getUmaFP:TFormaPagamento;
+            function getUmFornecedor:TFornecedor;
+            function getUmFornecedorF:TFornecedorFisico;
+            function getObservacoes:string;
+            function getDatavencimento:string;
+            function getDataCadastro:string;
+            function getDataAlteracao:string;
+
+            property NumeroParcela:Integer read getNumeroParcela write setNumeroPrcela;
+            property ValorNota:Double read getValorNOta write setValorNOta;
+            property NumeroNota:Integer read getNumeroNota write setNumeroNota;
+            property Status:Integer read getStatus write setStatus;
+            property Serie:string read getSerie write setSerie;
+            property UmFornecedor:TFornecedor read getUmFornecedor write setUmFornecedor;
+            property UmFornecedorF:TFornecedorFisico read getUmFornecedorF write setUmFornecedorF;
+            property Observacoes:string read getObservacoes write setObservacoes;
+            property DataVencimento:string read getDatavencimento write setDatavencimento;
+            property UmaFP:TFormaPagamento read getUmaFP write setUmaFP;
+            property DataCadastro:string read getDataCadastro write setDataCadastro;
+            property DataAlteracao:string read getDataAlteracao write setDataAlteracao;
+
+
+
+    end;
+
+implementation
+
+{ TContaPagar }
+
+constructor TContaPagar.create;
+begin
+    UmaFP:=TFormaPagamento.create;
+    UmFOrnecedor:=TFornecedor.Create;
+    UmFornecedorF:=TFornecedorFisico.Create;
+end;
+
+destructor TContaPagar.destroy;
+begin
+    UmaFP.destroy;
+    UmFOrnecedor.Destroy;
+    UmFornecedorF.Destroy;
+end;
+
+function TContaPagar.getDataAlteracao: string;
+begin
+   Result:= FDataAlteracao;
+end;
+
+function TContaPagar.getDataCadastro: string;
+begin
+  Result:=FDataCadastro;
+end;
+
+function TContaPagar.getDatavencimento: string;
+begin
+   Result:=FDataVencimento;
+end;
+
+function TContaPagar.getNumeroNota: Integer;
+begin
+    Result:=FNumeroNota;
+end;
+
+function TContaPagar.getNumeroParcela: Integer;
+begin
+   Result:=FNumeroParcela;
+
+end;
+
+function TContaPagar.getObservacoes: string;
+begin
+  Result:=FObservacoes;
+end;
+
+function TContaPagar.getSerie: string;
+begin
+  Result:=FSerie;
+end;
+
+function TContaPagar.getStatus: Integer;
+begin
+  Result:=FStatus;
+end;
+
+function TContaPagar.getUmaFP: TFormaPagamento;
+begin
+    Result:=FUmaFP;
+end;
+
+function TContaPagar.getUmFornecedor: TFornecedor;
+begin
+  Result:=FUmFOrnecedor;
+end;
+
+function TContaPagar.getUmFornecedorF: TFornecedorFisico;
+begin
+  Result:=FUmFornecedorF;
+end;
+
+function TContaPagar.getValorNOta: Double;
+begin
+   Result:=FValorTotal;
+end;
+
+procedure TContaPagar.setDataAlteracao(vDataAlteracao: string);
+begin
+   FDataAlteracao:=vDataAlteracao;
+end;
+
+procedure TContaPagar.setDataCadastro(vDataCadastro: string);
+begin
+   FDataCadastro:= vDataCadastro;
+end;
+
+procedure TContaPagar.setDatavencimento(vDataVencimento: string);
+begin
+  FDataVencimento:=vDataVencimento;
+end;
+
+procedure TContaPagar.setNumeroNota(vNumeroNota: Integer);
+begin
+    FNumeroNota:=vNumeroNota;
+end;
+
+procedure TContaPagar.setNumeroPrcela(vNumeroParcela: Integer);
+begin
+    FNumeroParcela:=vNumeroParcela;
+end;
+
+procedure TContaPagar.setObservacoes(vObservacoes: string);
+begin
+   FObservacoes:=vObservacoes;
+end;
+
+procedure TContaPagar.setSerie(vSerie: string);
+begin
+    FSerie:=vSerie;
+end;
+
+procedure TContaPagar.setStatus(vStatus: Integer);
+begin
+    FStatus:=vStatus;
+end;
+
+procedure TContaPagar.setUmaFP(vUmaFP: TFormaPagamento);
+begin
+   FUmaFP:=vUmaFP;
+end;
+
+procedure TContaPagar.setUmFornecedor(vUmFornecedor: TFornecedor);
+begin
+  FUmFOrnecedor:=vUmFornecedor;
+end;
+
+procedure TContaPagar.setUmFornecedorF(vUmFornecedor: TFornecedorFisico);
+begin
+   FUmFornecedorF:=vUmFornecedor;
+end;
+
+procedure TContaPagar.setValorNOta(vValorNota: Double);
+begin
+  FValorTotal:=vValorNota;
+end;
+
+end.

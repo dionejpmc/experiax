@@ -1,0 +1,158 @@
+unit UDaoCidade;
+
+interface
+
+uses UDao, SysUtils, DB, UCidade, UDaoEstado;
+
+type
+  TDaoCidade = class(TDao)
+
+  private
+
+  protected
+    UmaDaoEstado: TDaoEstado;
+
+  public
+    constructor Create; override;
+    destructor Destroy; override;
+    function Salvar(Objeto: TObject): string; override;
+    function GetDs: TDataSource; override;
+    function Carregar(Objeto: TObject): TObject; override;
+    function Buscar(KeyId: Integer; KeyStr: String): boolean; override;
+    function Excluir(Objeto: TObject): string; override;
+
+  end;
+
+implementation
+
+{ TDaoCidade }
+
+function TDaoCidade.Buscar(KeyId: Integer; KeyStr: String): boolean;
+var
+  TamStr: Integer;
+  SQL: String;
+begin
+  TamStr := Length(KeyStr);
+  if (KeyId <> 0) then
+    SQL := 'SELECT * FROM CIDADE WHERE ID=' + Inttostr(KeyId)
+  else if (TamStr <> 0) and (KeyId = 0) then
+    SQL :='SELECT * FROM CIDADE WHERE CIDADE LIKE'+QuotedStr('%'+KeyStr+'%')
+  else if (KeyId = 0) and (TamStr = 0) then
+    SQL := 'SELECT * FROM CIDADE ORDER BY CIDADE';
+
+  FDM.IBDataSetCidade.Close;
+  FDM.IBDataSetCidade.SelectSQL.Clear;
+  FDM.IBDataSetCidade.SelectSQL.Add(SQL);
+  FDM.IBDataSetCidade.Open;
+
+  Result := True;
+end;
+
+function TDaoCidade.Carregar(Objeto: TObject): TObject;
+var
+  UmaCidade: TCidade;
+begin
+  UmaCidade := TCidade(Objeto);
+  try
+    if not FDM.IBDataSetCidade.Active then
+    begin
+      FDM.IBDataSetCidade.Active := True;
+      FDM.IBDataSetCidade.Open;
+    end;
+    UmaCidade.IdCidade := FDM.IBDataSetCidadeID.Value;
+    UmaCidade.Cidade := FDM.IBDataSetCidadeCIDADE.Value;
+    UmaCidade.Estado.IdEstado := FDM.IBDataSetCidadeIDESTADO.Value;
+    UmaCidade.DataCadastro := DateToStr
+      (FDM.IBDataSetCidadeDATACADASTRO.Value);
+    UmaCidade.DataAlteracao := DateToStr
+      (FDM.IBDataSetCidadeDATAALTERACAO.Value);
+  Except
+
+  end;
+  Result := UmaCidade;
+end;
+
+constructor TDaoCidade.Create;
+begin
+  inherited;
+end;
+
+destructor TDaoCidade.Destroy;
+begin
+  inherited;
+end;
+
+function TDaoCidade.Excluir(Objeto: TObject): string;
+var
+  MSG: string;
+  UmaCidade: TCidade;
+begin
+  UmaCidade := TCidade(Objeto);
+  try
+    if not FDM.IBTransaction1.Active then
+    begin
+      FDM.IBTransaction1.Active := True;
+      FDM.IBTransaction1.StartTransaction;
+    end;
+    if FDM.IBDataSetCidade.Active then
+    begin
+      FDM.IBDataSetCidade.Active := True;
+      FDM.IBDataSetCidade.Open;
+    end;
+
+    FDM.IBDataSetCidade.Delete;
+
+    FDM.IBTransaction1.CommitRetaining;
+    MSG := UmaCidade.Cidade + ' Removido com Sucesso';
+
+  except
+    FDM.IBTransaction1.RollbackRetaining;
+    MSG := UmaCidade.Cidade + ' Não Pode ser Removido';
+  end;
+
+  Result := MSG;
+end;
+
+function TDaoCidade.GetDs: TDataSource;
+begin
+  Result := FDM.TDataSourceCidade;
+end;
+
+function TDaoCidade.Salvar(Objeto: TObject): string;
+var
+  MSG: string;
+  UmaCidade: TCidade;
+begin
+  UmaCidade := TCidade(Objeto);
+  try
+    if not FDM.IBTransaction1.Active then
+    begin
+      FDM.IBTransaction1.Active := True;
+      FDM.IBTransaction1.StartTransaction;
+    end;
+    if not FDM.IBDataSetCidade.Active then
+    begin
+      FDM.IBDataSetCidade.Active := True;
+      FDM.IBDataSetCidade.Open;
+    end;
+    FDM.IBDataSetCidade.Insert;
+
+    //FDM.IBDataSetCidadeID.Value := UmaCidade.IdCidade;
+    FDM.IBDataSetCidadeCIDADE.Value := UmaCidade.Cidade;
+    FDM.IBDataSetCidadeIDESTADO.Value := UmaCidade.Estado.IdEstado;
+    FDM.IBDataSetCidadeDATACADASTRO.Value :=Now;
+    FDM.IBDataSetCidadeDATAALTERACAO.Value := Now;
+
+    FDM.IBDataSetCidade.Post;
+
+    FDM.IBTransaction1.CommitRetaining;
+    MSG := UmaCidade.Cidade + ' Salva Com Sucesso';
+  except
+    FDM.IBTransaction1.RollbackRetaining;
+    MSG := UmaCidade.Cidade + ' Não Pode Ser  Salva' + 'FDm Value' +
+      DateTimeToStr(FDM.IBDataSetCidadeDATACADASTRO.Value);
+  end;
+  Result := MSG;
+end;
+
+end.

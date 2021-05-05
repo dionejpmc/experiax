@@ -1,0 +1,21 @@
+unit UDAO;
+
+interface
+uses UDM, DB;
+   type    TDao = class
+
+   private
+
+   protected
+   public
+
+
+
+end;
+
+implementation
+
+{ Dao }
+
+
+end.

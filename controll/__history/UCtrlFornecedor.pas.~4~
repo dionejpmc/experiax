@@ -1,0 +1,60 @@
+unit UCtrlFornecedor;
+
+interface
+uses UCtrl, UDaoFornecedor, DB;
+type
+    TCtrlFornecedor = class (TCtrl)
+      private
+      protected
+          UmaDaoFornecedor:TDaoFornecedor;
+      public
+        constructor Create;
+        destructor Destroy;
+        function Salvar(Objeto : TObject): string;                   override;
+        function GetDs : TDataSource;                                override;
+        function Carregar( Objeto : TObject): Tobject;               override;
+        function Buscar(KeyId : Integer;KeyStr:String): boolean;     override;
+        function Excluir(Objeto : TObject): string;                  override;
+
+    end;
+
+implementation
+
+{ TCtrlFornecedor }
+
+function TCtrlFornecedor.Buscar(KeyId: Integer; KeyStr: String): boolean;
+begin
+
+end;
+
+function TCtrlFornecedor.Carregar(Objeto: TObject): Tobject;
+begin
+
+end;
+
+constructor TCtrlFornecedor.Create;
+begin
+
+end;
+
+destructor TCtrlFornecedor.Destroy;
+begin
+
+end;
+
+function TCtrlFornecedor.Excluir(Objeto: TObject): string;
+begin
+
+end;
+
+function TCtrlFornecedor.GetDs: TDataSource;
+begin
+
+end;
+
+function TCtrlFornecedor.Salvar(Objeto: TObject): string;
+begin
+
+end;
+
+end.

@@ -1,0 +1,68 @@
+program ProjectExperiax;
+
+{$APPTYPE CONSOLE}
+
+uses
+  SysUtils,
+  UCtrl in '..\Telas versao 1B_201206-05\controll\UCtrl.pas',
+  UCtrlPais in '..\Telas versao 1B_201206-05\controll\UCtrlPais.pas',
+  UDAO in '..\Telas versao 1B_201206-05\dao\UDAO.pas',
+  UDAOPais in '..\Telas versao 1B_201206-05\dao\UDAOPais.pas',
+  UDM in '..\Telas versao 1B_201206-05\dbexperiax\UDM.pas' {DataModule1: TDataModule},
+  UCidade in '..\Telas versao 1B_201206-05\model\UCidade.pas',
+  UEstado in '..\Telas versao 1B_201206-05\model\UEstado.pas',
+  UPais in '..\Telas versao 1B_201206-05\model\UPais.pas',
+  UFrmCadastroCargo in '..\Telas versao 1B_201206-05\view\UFrmCadastroCargo.pas' {FrmCadastroCargo},
+  UFrmCadastroCidade in '..\Telas versao 1B_201206-05\view\UFrmCadastroCidade.pas' {FrmCadastroCidade},
+  UFrmCadastroCliente in '..\Telas versao 1B_201206-05\view\UFrmCadastroCliente.pas' {FrmCadastroCliente},
+  UFrmCadastroClienteJuridico in '..\Telas versao 1B_201206-05\view\UFrmCadastroClienteJuridico.pas' {FrmCadastroClienteJuridico},
+  UFrmCadastroCompra in '..\Telas versao 1B_201206-05\view\UFrmCadastroCompra.pas' {FrmCadastroCompra},
+  UFrmCadastroCondicaoPagamento in '..\Telas versao 1B_201206-05\view\UFrmCadastroCondicaoPagamento.pas' {FrmCadastroCondicaoPagamento},
+  UFrmCadastroContasPagar in '..\Telas versao 1B_201206-05\view\UFrmCadastroContasPagar.pas' {FrmCadastroContasPagar},
+  UFrmCadastroContasReceber in '..\Telas versao 1B_201206-05\view\UFrmCadastroContasReceber.pas' {FrmCadastroContasReceber},
+  UFrmCadastroEstado in '..\Telas versao 1B_201206-05\view\UFrmCadastroEstado.pas' {FrmCadastroEstado},
+  UFrmCadastroFormaPagamento in '..\Telas versao 1B_201206-05\view\UFrmCadastroFormaPagamento.pas' {FrmCadastroFP},
+  UFrmCadastroFornecedor in '..\Telas versao 1B_201206-05\view\UFrmCadastroFornecedor.pas' {FrmCadastroFornecedor},
+  UFrmCadastroFuncionario in '..\Telas versao 1B_201206-05\view\UFrmCadastroFuncionario.pas' {FrmCadastroFuncionario},
+  UFrmCadastroOP in '..\Telas versao 1B_201206-05\view\UFrmCadastroOP.pas' {FrmCadastroOP},
+  UFrmCadastroPai in '..\Telas versao 1B_201206-05\view\UFrmCadastroPai.pas' {FormCadastroPai},
+  UFrmCadastroPais in '..\Telas versao 1B_201206-05\view\UFrmCadastroPais.pas' {FrmCadastroPais},
+  UFrmCadastroPerfil in '..\Telas versao 1B_201206-05\view\UFrmCadastroPerfil.pas' {FrmCadastroPerfilAcesso},
+  UFrmCadastroProduto in '..\Telas versao 1B_201206-05\view\UFrmCadastroProduto.pas' {FrmCadastroProduto},
+  UFrmCadastroReceita in '..\Telas versao 1B_201206-05\view\UFrmCadastroReceita.pas' {FrmCadastroReceita},
+  UFrmCadastroUsuario in '..\Telas versao 1B_201206-05\view\UFrmCadastroUsuario.pas' {FrmCadastroUsuario},
+  UFrmCadastroVenda in '..\Telas versao 1B_201206-05\view\UFrmCadastroVenda.pas' {FrmCadastroVenda},
+  UFrmConsultarCargo in '..\Telas versao 1B_201206-05\view\UFrmConsultarCargo.pas' {FrmConsultarCargo},
+  UFrmConsultarCidade in '..\Telas versao 1B_201206-05\view\UFrmConsultarCidade.pas' {FrmConsultarCidade},
+  UFrmConsultarClienteFisico in '..\Telas versao 1B_201206-05\view\UFrmConsultarClienteFisico.pas' {FrmConsultarClienteFisico},
+  UFrmConsultarClienteJuridico in '..\Telas versao 1B_201206-05\view\UFrmConsultarClienteJuridico.pas' {FrmConsultarClienteJuridico},
+  UFrmConsultarCompra in '..\Telas versao 1B_201206-05\view\UFrmConsultarCompra.pas' {FrmConsultarCompra},
+  UFrmConsultarCondicaoPagamento in '..\Telas versao 1B_201206-05\view\UFrmConsultarCondicaoPagamento.pas' {FrmConsultarCondicaoPagamento},
+  UFrmConsultarContasPagar in '..\Telas versao 1B_201206-05\view\UFrmConsultarContasPagar.pas' {FrmConsultarContasPagar},
+  UFrmConsultarContasReceber in '..\Telas versao 1B_201206-05\view\UFrmConsultarContasReceber.pas' {FrmConsultarContasReceber},
+  UFrmConsultarEstado in '..\Telas versao 1B_201206-05\view\UFrmConsultarEstado.pas' {FrmConsultarEstado},
+  UFrmConsultarFormaPagamento in '..\Telas versao 1B_201206-05\view\UFrmConsultarFormaPagamento.pas' {FrmConsultarFormaPagamento},
+  UFrmConsultarFornecedor in '..\Telas versao 1B_201206-05\view\UFrmConsultarFornecedor.pas' {FrmConsultarFornecedor},
+  UFrmConsultarFuncionario in '..\Telas versao 1B_201206-05\view\UFrmConsultarFuncionario.pas' {FrmConsultarFuncionario},
+  UFrmConsultarOrdemProducao in '..\Telas versao 1B_201206-05\view\UFrmConsultarOrdemProducao.pas' {FrmConsultarOrdemProducao},
+  UFrmConsultarPai in '..\Telas versao 1B_201206-05\view\UFrmConsultarPai.pas' {FrmConsultarPai},
+  UFrmConsultarPais in '..\Telas versao 1B_201206-05\view\UFrmConsultarPais.pas' {FrmConsultarPais},
+  UFrmConsultarProduto in '..\Telas versao 1B_201206-05\view\UFrmConsultarProduto.pas' {FrmConsultarProduto},
+  UFrmConsultarReceita in '..\Telas versao 1B_201206-05\view\UFrmConsultarReceita.pas' {FrmConsultarReceita},
+  UFrmConsultarVenda in '..\Telas versao 1B_201206-05\view\UFrmConsultarVenda.pas' {FrmConsultarVenda},
+  UFrmMenuPrincipal in '..\Telas versao 1B_201206-05\view\UFrmMenuPrincipal.pas' {FrmMenuPrincipal},
+  UFrmPai in '..\Telas versao 1B_201206-05\view\UFrmPai.pas' {FormPai},
+  UAplicacao in 'UAplicacao.pas',
+  UInterface in 'UInterface.pas';
+
+var UmaAplicacao:TAplicacao;
+begin
+  try
+    { TODO -oUser -cConsole Main : Insert code here }
+    UmaAplicacao:=TAplicacao.Create;
+    UmaAplicacao.Execute;
+    UmaAplicacao.Destroy;
+  except
+
+  end;
+end.

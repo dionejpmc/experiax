@@ -1,0 +1,92 @@
+unit UFormaPagamento;
+
+interface
+type
+    TFormaPagamento = class
+    private
+    protected
+      FId:integer;
+      FFP:String[50];
+      FDataCadastro:String[10];
+      FDataAlteracao:String[10];
+    public
+      constructor create;
+      destructor destroy;
+
+      procedure setId(vId:integer);
+      procedure setFP(vFP:String);
+      procedure setDataCadastro(vDataCadastro:String);
+      procedure setDataAlteracao(vDataAlteracao:String);
+
+      function getId:Integer;
+      function getFP:string;
+      function getDataCadastro:string;
+      function getDataAlteracao:string;
+
+
+      property Id:Integer read getId write setId;
+      property FP:string read getFP write setFP;
+      property DataCadastro:string read getDataCadastro write setDataCadastro;
+      property DataAlteracao:string read getDataAlteracao write setDataAlteracao;
+
+    end;
+
+
+implementation
+
+{ TFormaPagamento }
+
+constructor TFormaPagamento.create;
+begin
+      FId:=0;
+      FFP:='';
+      FDataCadastro:='';
+      FDataAlteracao:='';
+end;
+
+destructor TFormaPagamento.destroy;
+begin
+
+end;
+
+function TFormaPagamento.getDataAlteracao: string;
+begin
+
+end;
+
+function TFormaPagamento.getDataCadastro: string;
+begin
+
+end;
+
+function TFormaPagamento.getFP: string;
+begin
+
+end;
+
+function TFormaPagamento.getId: Integer;
+begin
+
+end;
+
+procedure TFormaPagamento.setDataAlteracao(vDataAlteracao: String);
+begin
+
+end;
+
+procedure TFormaPagamento.setDataCadastro(vDataCadastro: String);
+begin
+
+end;
+
+procedure TFormaPagamento.setFP(vFP: String);
+begin
+
+end;
+
+procedure TFormaPagamento.setId(vId: integer);
+begin
+
+end;
+
+end.

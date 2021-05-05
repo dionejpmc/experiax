@@ -1,0 +1,96 @@
+inherited FrmConsultarContasReceber: TFrmConsultarContasReceber
+  Caption = 'Consultar Contas Receber'
+  ClientHeight = 242
+  ClientWidth = 743
+  ExplicitWidth = 759
+  ExplicitHeight = 280
+  PixelsPerInch = 96
+  TextHeight = 13
+  object TLblSerie: TRzLabel [0]
+    Left = 197
+    Top = 8
+    Width = 33
+    Height = 13
+    Caption = 'Serie *'
+  end
+  object TLblNumNota: TRzLabel [1]
+    Left = 8
+    Top = 8
+    Width = 87
+    Height = 13
+    Caption = 'Numero da Nota *'
+  end
+  inherited TBtnNovo: TRzBitBtn
+    Top = 215
+    OnClick = TBtnNovoClick
+    ExplicitTop = 215
+  end
+  inherited TBtnEditar: TRzBitBtn
+    Left = 197
+    Top = 215
+    Caption = '&Baixar'
+    OnClick = TBtnEditarClick
+    ExplicitLeft = 197
+    ExplicitTop = 215
+  end
+  inherited TBtnExcluir: TRzBitBtn
+    Top = 215
+    Enabled = False
+    Visible = False
+    ExplicitTop = 215
+  end
+  inherited TBtnCancelar: TRzBitBtn
+    Left = 660
+    Top = 215
+    ExplicitLeft = 660
+    ExplicitTop = 215
+  end
+  inherited TBtnLimpar: TRzButton
+    Left = 504
+    Top = 215
+    ExplicitLeft = 504
+    ExplicitTop = 215
+  end
+  object TEdtNumNota: TRzEdit [7]
+    Left = 101
+    Top = 8
+    Width = 65
+    Height = 21
+    TabOrder = 5
+  end
+  object TEdtSerie: TRzEdit [8]
+    Left = 264
+    Top = 8
+    Width = 64
+    Height = 21
+    TabOrder = 6
+  end
+  object TBtnBuscarCliente: TRzButton [9]
+    Left = 353
+    Top = 8
+    Caption = 'Buscar'
+    TabOrder = 7
+  end
+  object RzGroupBox1: TRzGroupBox [10]
+    Left = 8
+    Top = 39
+    Width = 727
+    Height = 170
+    Caption = 'RzGroupBox1'
+    TabOrder = 8
+    object TDBGridContasReceber: TRzDBGrid
+      Left = 16
+      Top = 16
+      Width = 705
+      Height = 145
+      DataSource = DataModule1.TDataSourceContasReceber
+      DefaultDrawing = True
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+    end
+  end
+end

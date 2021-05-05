@@ -1,0 +1,62 @@
+unit UCtrlCompra;
+
+interface
+uses UCtrl,DB, UDaoCompra;
+type
+  TCtrlCompra = class (TCtrl)
+  private
+
+  protected
+    UmaDaoCompra:TDaoCompra;
+
+  public
+        constructor Create;
+        destructor Destroy;
+        function Salvar(Objeto : TObject): string;                   override;
+        function GetDs : TDataSource;                                override;
+        function Carregar( Objeto : TObject): Tobject;               override;
+        function Buscar(KeyId : Integer;KeyStr:String): boolean;     override;
+        function Excluir(Objeto : TObject): string;                  override;
+
+  end;
+
+implementation
+
+{ TCtrlCompra }
+
+function TCtrlCompra.Buscar(KeyId: Integer; KeyStr: String): boolean;
+begin
+
+end;
+
+function TCtrlCompra.Carregar(Objeto: TObject): Tobject;
+begin
+
+end;
+
+constructor TCtrlCompra.Create;
+begin
+
+end;
+
+destructor TCtrlCompra.Destroy;
+begin
+
+end;
+
+function TCtrlCompra.Excluir(Objeto: TObject): string;
+begin
+
+end;
+
+function TCtrlCompra.GetDs: TDataSource;
+begin
+
+end;
+
+function TCtrlCompra.Salvar(Objeto: TObject): string;
+begin
+
+end;
+
+end.

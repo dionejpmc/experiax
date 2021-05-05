@@ -1,0 +1,31 @@
+unit UFrmConsultarPai;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmPai, Grids, DBGrids, RzDBGrid, ExtCtrls, RzPanel, RzButton;
+
+type
+  TFrmConsultarPai = class(TFormPai)
+    TBtnNovo: TRzBitBtn;
+    TBtnEditar: TRzBitBtn;
+    TBtnExcluir: TRzBitBtn;
+    TBtnCancelar: TRzBitBtn;
+    TBtnLimpar: TRzButton;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmConsultarPai: TFrmConsultarPai;
+
+implementation
+
+{$R *.dfm}
+
+
+
+end.

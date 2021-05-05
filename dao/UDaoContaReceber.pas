@@ -1,0 +1,145 @@
+unit UDaoContaReceber;
+
+interface
+uses UDao, UDM, DB, SysUtils, UContaReceber;
+type
+  TDaoContaReceber = class (TDao)
+  private
+  protected
+  public
+            constructor Create;                                      override;
+            destructor Destroy;                                      override;
+            function Salvar(Objeto: TObject): string;                override;
+            function GetDs: TDataSource;                             override;
+            function Carregar(Objeto: TObject): TObject;             override;
+            function Buscar(KeyId: Integer; KeyStr: String): boolean;override;
+            function Excluir(Objeto: TObject): string;               override;
+  end;
+
+implementation
+
+{ TDaoContaReceber }
+
+function TDaoContaReceber.Buscar(KeyId: Integer; KeyStr: String): boolean;
+var SQL:string;
+begin
+
+end;
+
+function TDaoContaReceber.Carregar(Objeto: TObject): TObject;
+var UmaContaReceber:TContaReceber;
+begin
+    UmaContaReceber:=TContaReceber(Objeto);
+
+   if not FDM.IBDataSetContaReceber.Active then
+   begin
+     FDM.IBDataSetContaReceber.Active:=True;
+     FDM.IBDataSetContaReceber.Open;
+   end;
+
+   UmaContaReceber.NumeroNota:=FDM.IBDataSetContaReceberNUMERONOTA.Value;
+   UmaContaReceber.Serie:=FDM.IBDataSetContaReceberSERIE.Value;
+   UmaContaReceber.UmaFP.Id:=FDM.IBDataSetContaReceberIDFP.Value;
+   UmaContaReceber.UmaFP.FP:=FDM.IBDataSetContaReceberFORMAPAGAMENTO.Value;
+   UmaContaReceber.UmUmClienteJuridico.RS:=FDM.IBDataSetContaReceberCLIENTE.Value;
+   UmaContaReceber.UmUmClienteJuridico.Id:=FDM.IBDataSetContaReceberIDCLIENTE.Value;
+   UmaContaReceber.DataVencimento:=DateTimeToStr(FDM.IBDataSetContaReceberDATAVENCIMENTO.Value);
+   UmaContaReceber.DataPagamento:=DateTimeToStr(FDM.IBDataSetContaReceberDATAPAGAMENTO.Value);
+   UmaContaReceber.DataCadastro:=DateTimeToStr(FDM.IBDataSetContaReceberDATACADASTRO.Value);
+   UmaContaReceber.DataAlteracao:=DateTimeToStr(FDM.IBDataSetContaReceberDATAALTERACAO.Value);
+   UmaContaReceber.Valor:=  FDM.IBDataSetContaReceberVALORTOTALCONTA.Value;
+   UmaContaReceber.ValorNota:=FDM.IBDataSetContaReceberVALORTOTALCONTA.Value;
+   UmaContaReceber.Observacoes:=FDM.IBDataSetContaReceberOBSERVACOES.Value;
+   if FDM.IBDataSetContaReceberSTATUS.Value = 'Paga' then
+      UmaContaReceber.Status:= 1
+   else if FDM.IBDataSetContaReceberSTATUS.Value = 'Pendente' then
+       UmaContaReceber.Status:= 2
+   else if FDM.IBDataSetContaReceberSTATUS.Value = 'Cancelada' then
+       UmaContaReceber.Status:= 3;
+
+
+   Result:=UmaContaReceber;
+
+end;
+
+constructor TDaoContaReceber.Create;
+begin
+  inherited;
+
+end;
+
+destructor TDaoContaReceber.Destroy;
+begin
+
+  inherited;
+end;
+
+function TDaoContaReceber.Excluir(Objeto: TObject): string;
+begin
+
+end;
+
+function TDaoContaReceber.GetDs: TDataSource;
+begin
+    Result:=FDM.TDataSourceContasReceber;
+end;
+
+function TDaoContaReceber.Salvar(Objeto: TObject): string;
+var UmaContaRecebr:TContaReceber;
+    MSG:string;
+begin
+      UmaContaRecebr:=TContaReceber(Objeto);
+      try
+           if not FDM.IBTransaction1.Active then
+           begin
+               FDM.IBTransaction1.Active:=True;
+               FDM.IBTransaction1.StartTransaction;
+           end;
+
+
+           if not FDM.IBDataSetContaReceber.Active then
+           begin
+              FDM.IBDataSetContaReceber.Active:=True;
+              FDM.IBDataSetContaReceber.Open;
+           end;
+
+           FDM.IBDataSetContaReceber.Edit;
+           if UmaContaRecebr.Status = 1 then
+           begin
+               FDM.IBDataSetContaReceberVALORPAGO.Value:=StrToFloat(FormatFloat('#0.00',UmaContaRecebr.ValorNota));
+               FDM.IBDataSetContaReceberSTATUS.Value:='Paga';
+               FDM.IBDataSetContaReceberJUROS.Value:=StrToFloat(FormatFloat('#0.00',UmaContaRecebr.Juros));
+               FDM.IBDataSetContaReceberDESCONTO.Value:=StrToFloat(FormatFloat('#0.00',  UmaContaRecebr.Desconto));
+               FDM.IBDataSetContaReceberDATAPAGAMENTO.Value:=StrToDateTime(UmaContaRecebr.DataPagamento);
+               FDM.IBDataSetContaReceberOBSERVACOES.Value:=UmaContaRecebr.Observacoes;
+               FDM.IBDataSetContaReceberDATAALTERACAO.Value:=StrToDateTime(UmaContaRecebr.DataAlteracao);
+               MSG:='CONTA A RECEBER BAIXADA COM SUCESSO!!!';
+           end
+           else if UmaContaRecebr.Status = 3 then
+           begin
+             FDM.IBDataSetContaReceberSTATUS.Value:='Cancelada';
+             FDM.IBDataSetContaReceberDATAPAGAMENTO.Value:=StrToDateTime(UmaContaRecebr.DataPagamento);
+             FDM.IBDataSetContaReceberOBSERVACOES.Value:=UmaContaRecebr.Observacoes;
+             FDM.IBDataSetContaReceberDATAALTERACAO.Value:=StrToDateTime(UmaContaRecebr.DataAlteracao);
+             MSG:='CONTA A RECEBER CANCELADA COM SUCESSO!!!';
+           end
+           else
+           begin
+            MSG:='ERRO AO BAIXAR CONTA A RECEBER!!!';
+            Result:=MSG;
+            Exit;
+           end;
+
+
+            FDM.IBDataSetContaReceber.Post;
+
+           FDM.IBTransaction1.CommitRetaining;
+      except
+            FDM.IBTransaction1.RollbackRetaining;
+            MSG:='ERRO AO BAIXAR CONTA A RECEBER!!!';
+
+      end;
+      Result:=MSG;
+end;
+
+end.

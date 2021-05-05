@@ -1,0 +1,34 @@
+unit UFrmConsultarClienteFisico;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmConsultarPai, RzButton, ExtCtrls, RzPanel, StdCtrls, Mask,
+  RzEdit, RzLabel, Grids, DBGrids, RzDBGrid;
+
+type
+  TFrmConsultarClienteFisico = class(TFrmConsultarPai)
+    TGroupBoxClienteFisico: TRzGroupBox;
+    TLblCliente: TRzLabel;
+    TEdtCliente: TRzEdit;
+    TBtnBuscarCliente: TRzButton;
+    TLblCPF: TRzLabel;
+    TEdtCPF: TRzEdit;
+    RzDBGrid1: TRzDBGrid;
+    TLblIdCidade: TRzLabel;
+    TEdtIdCidade: TRzEdit;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmConsultarClienteFisico: TFrmConsultarClienteFisico;
+
+implementation
+
+{$R *.dfm}
+
+end.

@@ -1,0 +1,64 @@
+inherited FrmCadastroFP: TFrmCadastroFP
+  Caption = 'Cadastro de Forma de Pagamento'
+  ClientHeight = 290
+  ClientWidth = 570
+  ExplicitWidth = 586
+  ExplicitHeight = 328
+  PixelsPerInch = 96
+  TextHeight = 13
+  object TLblFormaPagemento: TRzLabel [0]
+    Left = 150
+    Top = 8
+    Width = 133
+    Height = 13
+    Caption = 'Forma de Pagemento *'
+    LightTextStyle = True
+  end
+  inherited TLblDataCadastro: TRzLabel
+    Left = 8
+    Top = 218
+    ExplicitLeft = 8
+    ExplicitTop = 218
+  end
+  inherited TLblDataAlteracao: TRzLabel
+    Left = 305
+    Top = 218
+    ExplicitLeft = 305
+    ExplicitTop = 218
+  end
+  object TLblId: TRzLabel [3]
+    Left = 8
+    Top = 8
+    Width = 25
+    Height = 13
+    Caption = 'ID *'
+  end
+  inherited TDateTimePickerDataAlteracao: TRzDateTimePicker
+    Left = 433
+    Top = 216
+    ExplicitLeft = 433
+    ExplicitTop = 216
+  end
+  object TEdtFormaPagamento: TRzEdit [7]
+    Left = 289
+    Top = 8
+    Width = 273
+    Height = 21
+    TabOrder = 3
+  end
+  inherited TDateTimePickerDataCadastro: TRzDateTimePicker
+    Left = 132
+    Top = 216
+    TabOrder = 5
+    ExplicitLeft = 132
+    ExplicitTop = 216
+  end
+  object TEdtId: TRzEdit
+    Left = 64
+    Top = 8
+    Width = 62
+    Height = 21
+    Enabled = False
+    TabOrder = 6
+  end
+end

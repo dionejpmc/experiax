@@ -1,0 +1,21 @@
+unit UPessoaJuridica;
+
+interface
+uses UPessoa;
+type
+    TPessoaJuridica = Class(TPessoa)
+    private
+    protected
+     FRS:string;
+     FFantasia:string;
+     FIE:String;
+     FCNPJ:String;
+     FTelefone2:string;
+     FCelular2:string;
+    public
+
+    End;
+
+implementation
+
+end.

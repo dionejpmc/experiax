@@ -1,0 +1,127 @@
+unit UDaoFP;
+
+interface
+uses UDM, DB, UDAO, SysUtils, UFormaPagamento;
+type
+    TDaoFP = class(TDAo)
+      private
+      protected
+      public
+          constructor Create;                                            override;
+          destructor Destroy;                                            override;
+          function Salvar( Objeto : TObject): string;                    override;
+          function GetDs : TDataSource;                                  override;
+          function Carregar( Objeto: TObject): Tobject;                  override;
+          function Buscar(KeyId : Integer;KeyStr:String): boolean;       override;
+          function Excluir( Objeto : TObject): string;                   override;
+
+    end;
+
+implementation
+
+{ TDaoFP }
+
+function TDaoFP.Buscar(KeyId: Integer; KeyStr: String): boolean;
+var TamStr:Integer;
+    SQL:String;
+begin
+   TamStr:=Length(keyStr);
+ if (keyId <> 0  ) then
+   SQL:='SELECT * FROM FORMAPAGAMENTO WHERE ID='+Inttostr(keyId)
+ else if (TamStr <> 0)  and (keyId = 0) then
+   SQL:='SELECT * FROM FORMAPAGAMENTO WHERE FORMAPAGAMENTO LIKE'+QuotedStr(KeyStr+'%')
+ else if (keyId = 0) and (TamStr = 0) then
+   SQL:='SELECT * FROM FORMAPAGAMENTO ORDER BY FORMAPAGAMENTO';
+
+    FDM.IBDataSetFormaPagamento.Close;
+    FDM.IBDataSetFormaPagamento.SelectSQL.Clear;
+    FDM.IBDataSetFormaPagamento.SelectSQL.Add(SQL);
+    FDM.IBDataSetFormaPagamento.Open;
+
+    Result:=True;
+
+end;
+
+function TDaoFP.Carregar(Objeto: TObject): Tobject;
+var UmaFP:TFormaPagamento;
+begin
+    UmaFP:=TFormaPagamento(Objeto);
+  if not FDM.IBDataSetFormaPagamento.Active then
+    FDM.IBDataSetFormaPagamento.Open;
+
+  UmaFP.Id:=FDM.IBDataSetFormaPagamentoID.Value;
+  UmaFP.FP:=FDM.IBDataSetFormaPagamentoFORMAPAGAMENTO.Value;
+  UmaFP.DataCadastro:=DateTimeToStr( FDM.IBDataSetFormaPagamentoDATACADASTRO.Value);
+  UmaFP.DataAlteracao:=DateTimeToStr(FDM.IBDataSetFormaPagamentoDATAALTERACAO.Value);
+
+  Result:=UmaFP;
+end;
+
+constructor TDaoFP.Create;
+begin
+  inherited;
+
+end;
+
+destructor TDaoFP.Destroy;
+begin
+
+  inherited;
+end;
+
+function TDaoFP.Excluir(Objeto: TObject): string;
+begin
+
+end;
+
+function TDaoFP.GetDs: TDataSource;
+begin
+    Result:=FDM.TDataSourceFormaPagamento;
+end;
+
+function TDaoFP.Salvar(Objeto: TObject): string;
+var MSG:String;
+    UmaFP:TFormaPagamento;
+begin
+    UmaFP:=TFormaPagamento(Objeto);
+    try
+     if not FDM.IBTransaction1.Active then
+     begin
+         FDM.IBTransaction1.Active:=True;
+         FDM.IBTransaction1.StartTransaction;
+     end;
+     if not FDM.IBDataSetFormaPagamento.Active then
+     begin
+        FDM.IBDataSetFormaPagamento.Active:=True;
+        FDM.IBDataSetFormaPagamento.Open;
+     end;
+     if UmaFP.Id = 0 then
+     begin
+       FDM.IBDataSetFormaPagamento.Insert;
+
+       FDM.IBDataSetFormaPagamentoFORMAPAGAMENTO.Value:=UmaFP.FP;
+       FDM.IBDataSetFormaPagamentoDATACADASTRO.Value:=Now;
+       MSG:=' FORMA DE PAGAMENTO SALVA COM SUCESSO.';
+     end
+     else if UmaFP.Id > 0 then
+          
+     begin
+        FDM.IBDataSetFormaPagamento.Edit;
+        FDM.IBDataSetFormaPagamentoFORMAPAGAMENTO.Value:=UmaFP.FP;
+        FDM.IBDataSetFormaPagamentoDATAALTERACAO.Value:=Now;
+        MSG:=' FORMA DE PAGAMENTO EDITADA COM SUCESSO.';
+     end;
+     FDM.IBDataSetFormaPagamento.Post;
+
+     FDM.IBTransaction1.CommitRetaining;
+
+
+   except
+     FDM.IBTransaction1.RollbackRetaining;
+     MSG:=' ERRO AO SALVAR FORMA DE PAGAMENTO.';
+    end;
+     Result:=MSG;
+
+end;
+
+end.

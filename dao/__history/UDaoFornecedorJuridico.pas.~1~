@@ -1,0 +1,14 @@
+unit UDaoFornecedorJuridico;
+
+interface
+uses UDao;
+type
+    TDaoFornecedorJuridico = class (TDao)
+      private
+      protected
+      public
+    end;
+
+implementation
+
+end.

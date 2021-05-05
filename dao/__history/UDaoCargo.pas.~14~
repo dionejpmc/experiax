@@ -1,0 +1,133 @@
+unit UDaoCargo;
+
+interface
+uses Udao, UDM, DB, SysUtils, UCargo, Messages;
+type
+    TDaoCargo = class (TDao)
+    private
+    protected
+    public
+      constructor Create;                                            override;
+      destructor Destroy;                                            override;
+      function Salvar( Objeto : TObject): string;                    override;
+      function GetDs : TDataSource;                                  override;
+      function Carregar( Objeto: TObject): Tobject;                  override;
+      function Buscar(KeyId : Integer;KeyStr:String): boolean;       override;
+      function Excluir( Objeto : TObject): string;                   override;
+
+
+    end;
+
+implementation
+
+{ TDaoCargo }
+
+function TDaoCargo.Buscar(KeyId: Integer; KeyStr: String): boolean;
+var TamStr:Integer;
+    SQL:String;
+begin
+   TamStr:=Length(keyStr);
+ if (keyId <> 0  ) then
+   SQL:='SELECT * FROM CARGO WHERE ID='+Inttostr(keyId)
+ else if (TamStr <> 0)  and (keyId = 0) then
+   SQL:='SELECT * FROM CARGO WHERE CARGO LIKE'+QuotedStr(KeyStr+'%')
+ else if (keyId = 0) and (TamStr = 0) then
+   SQL:='SELECT * FROM CARGO ORDER BY CARGO';
+
+    FDM.IBDataSetCargo.Close;
+    FDM.IBDataSetCargo.SelectSQL.Clear;
+    FDM.IBDataSetCargo.SelectSQL.Add(SQL);
+    FDM.IBDataSetCargo.Open;
+
+    Result:=True;
+end;
+
+function TDaoCargo.Carregar(Objeto: TObject): Tobject;
+var UmCargo:TCargo;
+begin
+     UmCargo:=TCargo(Objeto);
+     if not FDM.IBDataSetCargo.Active then
+       FDM.IBDataSetCargo.Open;
+     UmCargo.IdCargo:=FDM.IBDataSetCargoID.Value;
+     UmCargo.Cargo:=FDM.IBDataSetCargoCARGO.Value;
+     UmCargo.DataCadastro:=DateToStr(FDM.IBDataSetEstadoDATACADASTRO.Value);
+     UmCargo.DataAlteracao:=DateToStr(FDM.IBDataSetEstadoDATAALTERACAO.Value);
+
+     Result:=UmCargo;
+end;
+
+constructor TDaoCargo.Create;
+begin
+  inherited;
+
+
+end;
+
+destructor TDaoCargo.Destroy;
+begin
+
+  inherited;
+end;
+
+function TDaoCargo.Excluir(Objeto: TObject): string;
+var MSG:String;
+    UmCargo:TCargo;
+begin
+    UmCargo:=TCargo(Objeto);
+    try
+     if not FDM.IBTransaction1.Active then
+        FDM.IBTransaction1.StartTransaction;
+     if not FDM.IBDataSetCargo.Active then
+        FDM.IBDataSetCargo.Open;
+
+     FDM.IBDataSetCargo.Delete;
+
+     FDM.IBTransaction1.CommitRetaining;
+     MSG:=UmCargo.Cargo+' Removido com Sucesso';
+    except
+      FDM.IBTransaction1.RollbackRetaining;
+      MSG:= UmCargo.Cargo+' Não Pode Ser Removido';
+    end;
+    Result:=MSG;
+
+end;
+
+function TDaoCargo.GetDs: TDataSource;
+begin
+    Result:= FDM.TDataSourceCargo;
+end;
+
+function TDaoCargo.Salvar(Objeto: TObject): string;
+var MSG:String;
+    UmCargo:TCargo;
+begin
+  UmCargo:=TCargo(Objeto);
+  try
+     if not FDM.IBTransaction1.Active then
+     begin
+         FDM.IBTransaction1.Active:=True;
+         FDM.IBTransaction1.StartTransaction;
+     end;
+     if not FDM.IBDataSetCargo.Active then
+     begin
+        FDM.IBDataSetCargo.Active:=True;
+        FDM.IBDataSetCargo.Open;
+     end;
+     FDM.IBDataSetCargo.Insert;
+
+     FDM.IBDataSetCargoID.Value:=UmCargo.IdCargo;
+     FDM.IBDataSetCargoCARGO.Value:=UmCargo.Cargo;
+     FDM.IBDataSetCargoDATACADASTRO.Value:=Now;
+     FDM.IBDataSetCargoDATAALTERACAO.Value:=Now;
+     FDM.IBDataSetEstado.Post;
+
+     FDM.IBTransaction1.CommitRetaining;
+     MSG:= UmCargo.Cargo+' Salvo com Sucesso';
+  except
+    FDM.IBTransaction1.RollbackRetaining;
+    MSG:='Não Foi Possivel Salvar '+UmCargo.Cargo;
+  end;
+  Result:=MSG;
+end;
+
+end.

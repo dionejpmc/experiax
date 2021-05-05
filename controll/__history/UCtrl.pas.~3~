@@ -1,0 +1,67 @@
+unit UCtrl;
+
+interface
+uses Classes,DB, uDM;
+
+   type TCtrl = class
+
+  private
+  protected
+  public
+     constructor Create;
+     destructor Destroy;
+     function Salvar( obj : TObject): string;   virtual;
+     function GetDS : TDataSource;              virtual;
+     function Carregar(obj : TObject) : TObject; virtual;
+     function Buscar(chave : string): boolean;  virtual;
+     procedure BuscarId (id: integer); virtual;
+     function Excluir( obj : TObject) : String; virtual;
+
+end;
+
+implementation
+
+{ Controller }
+
+function TCtrl.Buscar(chave: string): boolean;
+begin
+
+end;
+
+procedure TCtrl.BuscarId(id: integer);
+begin
+
+end;
+
+function TCtrl.Carregar(obj : TObject): TObject;
+begin
+
+end;
+
+constructor TCtrl.Create;
+begin
+
+end;
+
+destructor TCtrl.Destroy;
+begin
+
+end;
+
+function TCtrl.Excluir(obj: TObject): String;
+begin
+
+end;
+
+function TCtrl.GetDS: TDataSource;
+begin
+
+end;
+
+function TCtrl.Salvar(obj: TObject): string;
+begin
+
+end;
+
+end.
+

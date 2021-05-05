@@ -1,0 +1,38 @@
+unit UFornecedorFisico;
+
+interface
+uses UPessoaFisica,UProduto,Classes;
+type
+    TFornecedorFisico = class (TPessoaFisica)
+        private
+
+        protected
+            FProduto:TProduto;
+            ListaProduto:TList;
+        public
+            constructor Create;
+            destructor Destroy;
+
+            procedure setProduto(vProduto:TProduto);
+
+            function getProduto:TProduto;
+
+            property Produto:TProduto read getProduto write setProduto;
+            end;
+
+
+implementation
+
+{ TFornecedorFisico }
+
+constructor TFornecedorFisico.Create;
+begin
+   FTipo:='Fisico';
+end;
+
+destructor TFornecedorFisico.Destroy;
+begin
+
+end;
+
+end.

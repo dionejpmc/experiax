@@ -1,0 +1,50 @@
+unit UFrmSelecionarCompraBYData;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, RzButton, ComCtrls, RzDTP, StdCtrls, RzLabel;
+
+type
+  TForm1 = class(TForm)
+    DateTime1: TRzDateTimePicker;
+    DateTime2: TRzDateTimePicker;
+    RzBitBtn1: TRzBitBtn;
+    TBtnOK: TRzBitBtn;
+    Lbl1: TRzLabel;
+    Lbl2: TRzLabel;
+    procedure DateTime1Exit(Sender: TObject);
+    procedure DateTime2Exit(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.DateTime1Exit(Sender: TObject);
+begin
+    if Self.DateTime1.DateTime > Self.DateTime2.DateTime then
+    begin
+        Self.DateTime1.DateTime:=Now;
+        ShowMessage('A 1° DATA DEVE SER IGUAL OU MENOR QUE A SEGUNDA.');
+    end;
+end;
+
+procedure TForm1.DateTime2Exit(Sender: TObject);
+begin
+    if Self.DateTime1.DateTime > Self.DateTime2.DateTime then
+    begin
+        Self.DateTime1.DateTime:=Now;
+        ShowMessage('A 1° DATA DEVE SER IGUAL OU MENOR QUE A SEGUNDA.');
+    end;
+end;
+
+end.

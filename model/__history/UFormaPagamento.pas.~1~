@@ -1,0 +1,11 @@
+unit UFormaPagamento;
+
+interface
+type
+    TFormaPagamento = class
+
+    end;
+
+implementation
+
+end.

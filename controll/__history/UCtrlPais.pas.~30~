@@ -1,0 +1,69 @@
+unit UCtrlPais;
+
+interface
+uses
+    UCtrl,DB, UDaoPais;
+
+type TCtrlPais  = class (TCtrl)
+
+    private
+
+    protected
+        FDaoPais: TDaoPais;
+    public
+      constructor Create;                            override;
+      destructor Destroy;                            override;
+      function SalvarPais(Objeto:TObject):String;    override;
+      function GetDS:TDataSource;                    override;
+      function Carregar(Objeto:TObject):TObject;     override;
+      function Buscar(key:String):boolean;           override;
+      function Excluir(Objeto:TObject):String;       override;
+end;
+
+implementation
+
+{ TCtrlPais }
+
+
+
+
+{ TCtrlPais }
+
+function TCtrlPais.Buscar(key: String): boolean;
+begin
+
+end;
+
+function TCtrlPais.Carregar(Objeto: TObject): TObject;
+begin
+
+end;
+
+constructor TCtrlPais.Create;
+begin
+  inherited;
+  FDaoPais:=TDAOPais.Create;
+end;
+
+destructor TCtrlPais.Destroy;
+begin
+  inherited;
+  FDaoPais.Destroy;
+end;
+
+function TCtrlPais.Excluir(Objeto: TObject): String;
+begin
+
+end;
+
+function TCtrlPais.GetDS: TDataSource;
+begin
+
+end;
+
+function TCtrlPais.SalvarPais(Objeto: TObject): String;
+begin
+
+end;
+
+end.

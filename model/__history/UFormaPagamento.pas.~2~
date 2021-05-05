@@ -1,0 +1,27 @@
+unit UFormaPagamento;
+
+interface
+type
+    TFormaPagamento = class
+     public
+      constructor create;
+      destructor destroy;
+
+    end;
+
+
+implementation
+
+{ TFormaPagamento }
+
+constructor TFormaPagamento.create;
+begin
+
+end;
+
+destructor TFormaPagamento.destroy;
+begin
+
+end;
+
+end.

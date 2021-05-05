@@ -1,0 +1,167 @@
+inherited FrmConsultarReceita: TFrmConsultarReceita
+  Caption = 'Consultar Receita'
+  ClientHeight = 457
+  ClientWidth = 623
+  DefaultMonitor = dmDesktop
+  Position = poDesktopCenter
+  ExplicitWidth = 639
+  ExplicitHeight = 495
+  PixelsPerInch = 96
+  TextHeight = 13
+  object TLblReceita: TRzLabel [0]
+    Left = 166
+    Top = 21
+    Width = 45
+    Height = 13
+    Caption = 'Receita *'
+  end
+  object TLblIdReceita: TRzLabel [1]
+    Left = 8
+    Top = 21
+    Width = 59
+    Height = 13
+    Caption = 'ID Receita *'
+  end
+  inherited TBtnNovo: TRzBitBtn
+    Top = 423
+    OnClick = TBtnNovoClick
+    ExplicitTop = 423
+  end
+  inherited TBtnEditar: TRzBitBtn
+    Top = 423
+    ExplicitTop = 423
+  end
+  inherited TBtnExcluir: TRzBitBtn
+    Top = 423
+    ExplicitTop = 423
+  end
+  inherited TBtnCancelar: TRzBitBtn
+    Left = 524
+    Top = 423
+    ExplicitLeft = 524
+    ExplicitTop = 423
+  end
+  inherited TBtnLimpar: TRzButton
+    Top = 423
+    ExplicitTop = 423
+  end
+  object TGroupBoxReceita: TRzGroupBox
+    Left = 8
+    Top = 55
+    Width = 591
+    Height = 362
+    Caption = 'DADOS DA RECEITA'
+    TabOrder = 5
+    object TDBGridReceita: TRzDBGrid
+      Left = 7
+      Top = 24
+      Width = 564
+      DataSource = DataModule1.TDataSourceReceita
+      DefaultDrawing = True
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'ID'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'RECEITA'
+          Width = 257
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'OBSERVACAO'
+          Width = 234
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DATACADASTRO'
+          Width = 109
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DATAALTERACAO'
+          Width = 97
+          Visible = True
+        end>
+    end
+    object tGroupBoxPRODUTOSDARECEITA: TRzGroupBox
+      Left = 7
+      Top = 160
+      Width = 564
+      Height = 193
+      Caption = 'PRODUTOS DA RECEITA'
+      TabOrder = 1
+      object TDBGridPRODUTOSDARECEITA: TRzDBGrid
+        Left = 16
+        Top = 32
+        Width = 537
+        Height = 145
+        DataSource = DataModule1.TDataSourceProdutoReceita
+        DefaultDrawing = True
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'IDPRODUTO'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'IDRECEITA'
+            Width = 112
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'QTDE'
+            Width = 75
+            Visible = True
+          end>
+      end
+    end
+  end
+  object TEdtReceita: TRzEdit
+    Left = 224
+    Top = 18
+    Width = 289
+    Height = 21
+    CharCase = ecUpperCase
+    FrameHotTrack = True
+    FrameVisible = True
+    MaxLength = 50
+    TabOrder = 6
+  end
+  object TBtnBuscarReceita: TRzButton
+    Left = 524
+    Top = 15
+    FrameColor = 7617536
+    Caption = 'Buscar'
+    Color = 15791348
+    HotTrack = True
+    TabOrder = 7
+  end
+  object TEdtIdReceita: TRzEdit
+    Left = 80
+    Top = 18
+    Width = 57
+    Height = 21
+    MaxLength = 5
+    TabOrder = 8
+  end
+end

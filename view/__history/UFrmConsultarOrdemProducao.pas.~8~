@@ -1,0 +1,42 @@
+unit UFrmConsultarOrdemProducao;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmConsultarPai, RzButton, ExtCtrls, RzPanel, Grids, DBGrids,
+  RzDBGrid, StdCtrls, Mask, RzEdit, RzLabel, UFrmCadastroOP, ComCtrls, RzDTP;
+
+type
+  TFrmConsultarOrdemProducao = class(TFrmConsultarPai)
+    TGroupBoxOP: TRzGroupBox;
+    TDBGridOP: TRzDBGrid;
+    TLblCliente: TRzLabel;
+    TBtnBuscarCliente: TRzButton;
+    RzEdit1: TRzEdit;
+    RzDateTimePicker1: TRzDateTimePicker;
+    TLblDataEmicao: TRzLabel;
+    procedure TBtnNovoClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmConsultarOrdemProducao: TFrmConsultarOrdemProducao;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmConsultarOrdemProducao.TBtnNovoClick(Sender: TObject);
+var UmCadOP:TFrmCadastroOP;
+begin
+  inherited;
+   UmCadOP:=TFrmCadastroOP.Create(nil);
+   UmCadOP.ShowModal;
+   UmCadOP.Free;
+end;
+
+end.

@@ -1,0 +1,89 @@
+unit UFrmConsultarCargo;
+
+interface
+
+uses
+  SysUtils,Windows, Messages,  Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmConsultarPai, StdCtrls, Mask, RzEdit, RzLabel, ExtCtrls, RzPanel,
+  RzButton, Grids, DBGrids, RzDBGrid, UDM,UCargo, UCtrlCargo, UFrmCadastroCargo;
+
+type
+  TFrmConsultarCargo = class(TFrmConsultarPai)
+    TGroupBoxCargo: TRzGroupBox;
+    TLblCargo: TRzLabel;
+    TEdtCargo: TRzEdit;
+    TDBGridCargo: TRzDBGrid;
+    TBtnBuscarCargo: TRzBitBtn;
+    TLblId: TRzLabel;
+    TEdtId: TRzEdit;
+    procedure TBtnNovoClick(Sender: TObject);
+    procedure TBtnCancelarClick(Sender: TObject);
+    procedure TBtnBuscarCargoClick(Sender: TObject);
+    procedure TEdtCargoKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtIdKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+  protected
+    UmCargo:TCargo;
+    UmaCtrlCargo:TCtrlCargo;
+    UmFrmCadCargo:TFrmCadastroCargo;
+
+  public
+    { Public declarations }
+    procedure ReconhecaObjeto(OCargo:TCargo);
+  end;
+var
+  FrmConsultarCargo: TFrmConsultarCargo;
+implementation
+
+{$R *.dfm}
+
+procedure TFrmConsultarCargo.ReconhecaObjeto(OCargo: TCargo);
+begin
+    UmCargo:=OCargo;
+    UmaCtrlCargo:=TCtrlCargo.Create;
+    UmFrmCadCargo:=TFrmCadastroCargo.Create(nil);
+    Self.TDBGridCargo.DataSource:=UmaCtrlCargo.GetDs;
+end;
+
+procedure TFrmConsultarCargo.TBtnBuscarCargoClick(Sender: TObject);
+begin
+  inherited;
+  if Self.TEdtId.Text <> '' then
+     UmaCtrlCargo.Buscar(StrToInt(Self.TEdtId.Text),'');
+  if Self.TEdtCargo.Text <> '' then
+    UmaCtrlCargo.Buscar(0,Self.TEdtCargo.Text);
+  Self.TEdtCargo.Clear;
+  Self.TEdtId.Clear;
+end;
+
+procedure TFrmConsultarCargo.TBtnCancelarClick(Sender: TObject);
+begin
+  inherited;
+  if Self.TBtnCancelar.Caption = 'Selecionar' then
+    UmCargo:=TCargo(UmaCtrlCargo.Carregar(UmCargo));
+  Close;
+end;
+
+procedure TFrmConsultarCargo.TBtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  UmFrmCadCargo.ReconhecaObjeto(UmCargo,UmaCtrlCargo);
+  UmFrmCadCargo.ShowModal;
+end;
+
+procedure TFrmConsultarCargo.TEdtCargoKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if not (key in ['A'..'Z','a'..'z',#8,#32,'ç','Ç']) then
+     key := #0;
+end;
+
+procedure TFrmConsultarCargo.TEdtIdKeyPress(Sender: TObject; var Key:Char);
+begin
+  inherited;
+  if not (key in ['0'..'9',#8]) then
+     key := #0;
+end;
+
+end.

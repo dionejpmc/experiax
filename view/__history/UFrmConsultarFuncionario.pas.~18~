@@ -1,0 +1,67 @@
+unit UFrmConsultarFuncionario;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmConsultarPai, RzButton, Grids, DBGrids, RzDBGrid, ExtCtrls,
+  RzPanel, StdCtrls, Mask, RzEdit, RzLabel,UFuncionario, UCtrlFuncionario,
+  UFrmCadastroFuncionario, UDM, cxGraphics, cxControls, cxLookAndFeels,
+  cxLookAndFeelPainters, cxContainer, cxEdit, dxSkinsCore,
+  dxSkinsDefaultPainters, cxStyles, cxSchedulerStorage,
+  cxSchedulerCustomControls, cxSchedulerDateNavigator, cxDateNavigator,
+  cxTextEdit, cxMaskEdit, cxDropDownEdit, cxCalendar;
+
+type
+  TFrmConsultarFuncionario = class(TFrmConsultarPai)
+    TGroupBoxFuncionario: TRzGroupBox;
+    TDBGridFuncionario: TRzDBGrid;
+    TLblFuncionario: TRzLabel;
+    TEdtFuncionario: TRzEdit;
+    TBtnBuscarFuncionario: TRzButton;
+    TLblId: TRzLabel;
+    TEdtIdFuncionario: TRzEdit;
+    procedure TBtnCancelarClick(Sender: TObject);
+    procedure TBtnNovoClick(Sender: TObject);
+  private
+    { Private declarations }
+  protected
+    UmFuncionario:TFuncionario;
+    UmaCtrlFuncionario:TCtrlFuncionario;
+    UmFrmCadFuncionario:TFrmCadastroFuncionario;
+  public
+    { Public declarations }
+    procedure ReconhecaObjeto(OFuncionario:TFuncionario);
+  end;
+
+var
+  FrmConsultarFuncionario: TFrmConsultarFuncionario;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmConsultarFuncionario.ReconhecaObjeto(OFuncionario: TFuncionario);
+begin
+    UmFuncionario:=OFuncionario;
+    UmaCtrlFuncionario:=TCtrlFuncionario.Create;
+    UmFrmCadFuncionario:=TFrmCadastroFuncionario.Create(nil);
+    Self.TDBGridFuncionario.DataSource:=UmaCtrlFuncionario.GetDs;
+end;
+
+procedure TFrmConsultarFuncionario.TBtnCancelarClick(Sender: TObject);
+begin
+  inherited;
+  If self.TBtnCancelar.Caption = 'Selecionar' then
+     UmFuncionario:=TFuncionario( UmaCtrlFuncionario.Carregar(UmFuncionario));
+  close;
+end;
+
+procedure TFrmConsultarFuncionario.TBtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  UmFrmCadFuncionario.ReconhecaObjeto(UmFuncionario,UmaCtrlFuncionario);
+  UmFrmCadFuncionario.ShowModal;
+end;
+
+end.

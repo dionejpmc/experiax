@@ -1,0 +1,63 @@
+unit UCtrlEstado;
+
+interface
+uses UDaoEstado, UCtrl, DB;
+type
+    TCtrlEstado = class(TCtrl)
+
+  private
+  protected
+    UmaDaoEstado:tDaoEstado
+  public
+    constructor Create;
+    destructor Destroy;
+
+    function Salvar(Obj : TObject): string;      override;
+    function GetDs : TDataSource;                override;
+    function Carregar( Obj : TObject): Tobject;  override;
+    function Buscar(key : string): boolean;      override;
+    function Excluir(Obj : TObject): string;     override;
+
+end;
+
+
+implementation
+
+{ TCtrlEstado }
+
+function TCtrlEstado.Buscar(key: string): boolean;
+begin
+
+end;
+
+function TCtrlEstado.Carregar(Obj: TObject): Tobject;
+begin
+
+end;
+
+constructor TCtrlEstado.Create;
+begin
+
+end;
+
+destructor TCtrlEstado.Destroy;
+begin
+
+end;
+
+function TCtrlEstado.Excluir(Obj: TObject): string;
+begin
+
+end;
+
+function TCtrlEstado.GetDs: TDataSource;
+begin
+
+end;
+
+function TCtrlEstado.Salvar(Obj: TObject): string;
+begin
+
+end;
+
+end.

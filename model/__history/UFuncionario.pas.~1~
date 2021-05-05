@@ -1,0 +1,29 @@
+unit UFuncionario;
+
+interface
+uses UPessoaFisica;
+type
+    TFuncionario = Class (TPessoaFisica)
+      private
+      protected
+        FCTPS:String;
+        FStatus:Integer;
+        FDataAdmicao:String[10];
+        FDataDemicao:String[10];
+      public
+        constructor Create;
+        destructor Destroy;
+
+        procedure setCTPS(vCTPS:string);
+        procedure setStatus(vStatus:integer);
+        procedure setDataAdmicao(vDataAdmicao:String);
+        procedure setDataDemicao(vDatademicao:String);
+
+        function getCTPS:String
+
+    End;
+
+
+implementation
+
+end.

@@ -1,0 +1,30 @@
+unit URelatorio;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, qrpctrls, QRCtrls, QuickRpt, ExtCtrls, UDM;
+
+type
+  TTFrmRelatorio = class(TForm)
+    QuickRepCOMPRA: TQuickRep;
+    Header1: THeader;
+    QRImage2: TQRImage;
+    QRPLabel1: TQRPLabel;
+    QRImage3: TQRImage;
+    QRGridReport1: TQRGridReport;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  TFrmRelatorio: TTFrmRelatorio;
+
+implementation
+
+{$R *.dfm}
+
+end.

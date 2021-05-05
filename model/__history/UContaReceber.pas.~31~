@@ -1,0 +1,274 @@
+unit UContaReceber;
+
+interface
+uses UFormaPagamento, UClienteFisico,UClienteJuridico;
+type
+    TContaReceber = class
+       private
+       protected
+            FNumeroParcela:Integer;
+            FValorTotal:Double;
+            FValor:Double;
+            FDesconto:Double;
+            FJuros:Double;
+            FNumeroNota:Integer;
+            FSerie:string;
+            FUmaFP:TFormaPagamento;
+            FStatus:Integer;
+            FUmClienteJuridico:TClienteJuridico;
+            FUmClienteFisico:TClienteFisico;
+            FObservacoes:string;
+            FDataVencimento:string;
+            FDataPagamento:string;
+            FDataCadastro:string;
+            FDataAlteracao:string;
+       public
+
+            procedure setNumeroParcela(vNumeroParcela:Integer);
+            procedure setValorTotalNOta(vValorTotalNota:Double);
+            procedure setValor(vValor:Double);
+            procedure setDesconto(vDesconto:Double);
+            procedure setJuros(vJuros:Double);
+            procedure setNumeroNota(vNumeroNota:Integer);
+            procedure setStatus(vStatus:Integer);
+            procedure setSerie(vSerie:string);
+            procedure setUmaFP(vUmaFP:TFormaPagamento);
+            procedure setUmClienteJuridico(vUmClienteJuridico:TClienteJuridico);
+            procedure setUmClienteFisico(vUmClienteFisico:TClienteFisico);
+            procedure setObservacoes(vObservacoes:string);
+            procedure setDatavencimento(vDataVencimento:string);
+            procedure setDataPagamento(vDAtaPagamento:string);
+            procedure setDataCadastro(vDataCadastro:string);
+            procedure setDataAlteracao(vDataAlteracao:string);
+
+            function getNumeroParcela:Integer;
+            function getValorTotalNota:Double;
+            function getValor:Double;
+            function getJuros:Double;
+            function getDesconto:Double;
+            function getNumeroNota:Integer;
+            function getStatus:Integer;
+            function getSerie:string;
+            function getUmaFP:TFormaPagamento;
+            function getUmClienteFisico:TClienteFisico;
+            function getUmClienteJuridico:TClienteJuridico;
+            function getObservacoes:string;
+            function getDatavencimento:string;
+            function getDAtaPAgamento:string;
+            function getDataCadastro:string;
+            function getDataAlteracao:string;
+
+            property NumeroParcela:Integer read getNumeroParcela write setNumeroParcela;
+            property ValorNota:Double read getValorTotalNOta write setValorTotalNOta;
+            property Valor:Double read getValor write setValor;
+            property Desconto:Double read getDesconto write setDesconto;
+            property Juros:Double read getJuros write setJuros;
+            property NumeroNota:Integer read getNumeroNota write setNumeroNota;
+            property Status:Integer read getStatus write setStatus;
+            property Serie:string read getSerie write setSerie;
+            property UmUmClienteJuridico:TClienteJuridico read getUmClienteJuridico write setUmClienteJuridico;
+            property UmClienteFIsico:TClienteFisico read getUmClienteFisico write setUmClienteFisico;
+            property Observacoes:string read getObservacoes write setObservacoes;
+            property DataVencimento:string read getDatavencimento write setDatavencimento;
+            property UmaFP:TFormaPagamento read getUmaFP write setUmaFP;
+            property DataPagamento:string read getDAtaPAgamento write setDataPagamento;
+            property DataCadastro:string read getDataCadastro write setDataCadastro;
+            property DataAlteracao:string read getDataAlteracao write setDataAlteracao;
+
+            constructor Create;
+            destructor Destroy;
+    end;
+
+implementation
+
+{ TContaReceber }
+
+constructor TContaReceber.create;
+begin
+            FNumeroParcela:=0;
+            FValorTotal:=0.0;
+            FValor:=0.0;
+            FDesconto:=0.0;
+            FJuros:=0.0;
+            FNumeroNota:=0;
+            FSerie:='';
+            FUmaFP:=TFormaPagamento.Create;
+            FStatus:=nil;
+            FUmClienteJuridico:=TClienteJuridico.Create;
+            FUmClienteFisico:=TClienteFisico;
+            FObservacoes:='';
+            FDataVencimento:='';
+            FDataPagamento:='';
+            FDataCadastro:='';
+            FDataAlteracao:='';
+end;
+
+destructor TContaReceber.destroy;
+begin
+    FUmClienteJuridico.Destroy;
+    FUmClienteFisico.Destroy;
+end;
+
+function TContaReceber.getDataAlteracao: string;
+begin
+    Result:=FDataAlteracao;
+end;
+
+function TContaReceber.getDataCadastro: string;
+begin
+   Result:=FDataCadastro;
+end;
+
+function TContaReceber.getDAtaPAgamento: string;
+begin
+   Result:=FDataPagamento;
+end;
+
+function TContaReceber.getDatavencimento: string;
+begin
+   Result:=FDataVencimento;
+end;
+
+function TContaReceber.getDesconto: Double;
+begin
+   Result:=FDesconto;
+end;
+
+function TContaReceber.getJuros: Double;
+begin
+  Result:=FJuros;
+end;
+
+function TContaReceber.getNumeroNota: Integer;
+begin
+   Result:=FNumeroNota;
+end;
+
+function TContaReceber.getNumeroParcela: Integer;
+begin
+   Result:=FNumeroParcela;
+end;
+
+function TContaReceber.getObservacoes: string;
+begin
+   Result:=FObservacoes;
+end;
+
+function TContaReceber.getSerie: string;
+begin
+    Result:=FSerie;
+end;
+
+function TContaReceber.getStatus: Integer;
+begin
+    Result:=FStatus;
+end;
+
+function TContaReceber.getUmaFP: TFormaPagamento;
+begin
+   Result:=FUmaFP;
+end;
+
+function TContaReceber.getUmClienteFisico: TClienteFisico;
+begin
+   Result:=FUmClienteFisico;
+end;
+
+function TContaReceber.getUmClienteJuridico: TClienteJuridico;
+begin
+  Result:=FUmClienteJuridico;
+end;
+
+function TContaReceber.getValor: Double;
+begin
+   Result:=FValor;
+end;
+
+function TContaReceber.getValorTotalNota: Double;
+begin
+   Result:=FValorTotal;
+end;
+
+procedure TContaReceber.setDataAlteracao(vDataAlteracao: string);
+begin
+    FDataAlteracao:=vDataAlteracao;
+end;
+
+procedure TContaReceber.setDataCadastro(vDataCadastro: string);
+begin
+    FDataCadastro:=vDataCadastro;
+end;
+
+procedure TContaReceber.setDataPagamento(vDAtaPagamento: string);
+begin
+   FDataPagamento:=vDAtaPagamento;
+end;
+
+procedure TContaReceber.setDatavencimento(vDataVencimento: string);
+begin
+   FDataVencimento:=vDataVencimento;
+end;
+
+procedure TContaReceber.setDesconto(vDesconto: Double);
+begin
+  FDesconto:=vDesconto;
+end;
+
+procedure TContaReceber.setJuros(vJuros: Double);
+begin
+  FJuros:=vJuros;
+end;
+
+procedure TContaReceber.setNumeroNota(vNumeroNota: Integer);
+begin
+  FNumeroParcela:=vNumeroNota;
+end;
+
+procedure TContaReceber.setNumeroParcela(vNumeroParcela: Integer);
+begin
+   FNumeroParcela:=vNumeroParcela;
+
+end;
+
+procedure TContaReceber.setObservacoes(vObservacoes: string);
+begin
+    FObservacoes:=vObservacoes;
+end;
+
+procedure TContaReceber.setSerie(vSerie: string);
+begin
+
+end;
+
+procedure TContaReceber.setStatus(vStatus: Integer);
+begin
+  FStatus:=vStatus;
+end;
+
+procedure TContaReceber.setUmaFP(vUmaFP: TFormaPagamento);
+begin
+
+end;
+
+procedure TContaReceber.setUmClienteFisico(vUmClienteFisico: TClienteFisico);
+begin
+    FUmClienteFisico:=vUmClienteFisico;
+end;
+
+procedure TContaReceber.setUmClienteJuridico(
+  vUmClienteJuridico: TClienteJuridico);
+begin
+   FUmClienteJuridico:=vUmClienteJuridico;
+end;
+
+procedure TContaReceber.setValor(vValor: Double);
+begin
+   FValor:=vValor;
+end;
+
+procedure TContaReceber.setValorTotalNOta(vValorTotalNota: Double);
+begin
+    FValorTotal:=vValorTotalNota;
+end;
+
+end.

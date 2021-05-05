@@ -1,0 +1,46 @@
+unit UCidade;
+
+interface
+uses UEstado;
+type
+  TCidade = class
+
+  private
+
+  protected
+
+    XIdCidade:Integer;
+    XCidade:String[50];
+    XDataCadastro:String[10];
+    XDataAlteracao:String[10];
+    XEstado:TEstado;
+
+  public
+    procedure setIdCidade(vIdCidade:Integer);
+    procedure setCidade(VCidade:String);
+    procedure setDataCadastro(vDataCadastro:String);
+    procedure setDataAlteracao(vDataAlteracao:String);
+    procedure setEstado(vEstado:TEstado);
+
+    function  getIdCidade:Integer;
+    function  getCidade:String;
+    function  getDataCadastro:String;
+    function  getDataAlteracao:String;
+    function  getEstado:Estado;
+
+    property IdCidade:Integer read getIdCidade write setIdCidade;
+    property Cidade:String read getCidade write setCidade;
+    property DataCadastro:String read getDataCadastro write setDataCadastro;
+    property DataAlteracao:String read getDataCadastro write setDataAlteracao;
+    property Estado:String read getEstado write setEstado;
+
+
+    property
+
+  end;
+
+
+
+implementation
+
+end.

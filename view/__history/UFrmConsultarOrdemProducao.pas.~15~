@@ -1,0 +1,63 @@
+unit UFrmConsultarOrdemProducao;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmConsultarPai, RzButton, ExtCtrls, RzPanel, Grids, DBGrids,
+  RzDBGrid, StdCtrls, Mask, RzEdit, RzLabel, UFrmCadastroOP, ComCtrls, RzDTP,
+  dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinCaramel, dxSkinCoffee,
+  dxSkinDarkRoom, dxSkinDarkSide, dxSkinFoggy, dxSkinGlassOceans,
+  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
+  dxSkinMcSkin, dxSkinMoneyTwins, dxSkinOffice2007Black, dxSkinOffice2007Blue,
+  dxSkinOffice2007Green, dxSkinOffice2007Pink, dxSkinOffice2007Silver,
+  dxSkinOffice2010Black, dxSkinOffice2010Blue, dxSkinOffice2010Silver,
+  dxSkinPumpkin, dxSkinSeven, dxSkinSharp, dxSkinSilver, dxSkinSpringTime,
+  dxSkinStardust, dxSkinSummer2008, dxSkinsDefaultPainters, dxSkinValentine,
+  dxSkinXmas2008Blue, cxLookAndFeels, dxSkinsForm, UFrmCadastroReceita, uReceita,
+  UOrdemProducao, UCtrlOrdemProducao, UDM,DB;
+
+type
+  TFrmConsultarOrdemProducao = class(TFrmConsultarPai)
+    TGroupBoxOP: TRzGroupBox;
+    TDBGridOP: TRzDBGrid;
+    TLblCliente: TRzLabel;
+    TBtnBuscarCliente: TRzButton;
+    RzEdit1: TRzEdit;
+    RzDateTimePicker1: TRzDateTimePicker;
+    TLblDataEmicao: TRzLabel;
+    procedure TBtnNovoClick(Sender: TObject);
+  private
+    { Private declarations }
+  protected
+    UmaOP:TOrdemProducao;
+    UmaCtrlOP:TCtrlOP;
+  public
+    { Public declarations }
+    procedure ReconhecaObjeto(AOP:TOrdemProducao);
+  end;
+
+var
+  FrmConsultarOrdemProducao: TFrmConsultarOrdemProducao;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmConsultarOrdemProducao.ReconhecaObjeto(AOP: TOrdemProducao);
+begin
+  UmaOP:=AOP;
+  UmaCTrlOP:=
+end;
+
+procedure TFrmConsultarOrdemProducao.TBtnNovoClick(Sender: TObject);
+var UmCadOP:TFrmCadastroOP;
+begin
+  inherited;
+   UmCadOP:=TFrmCadastroOP.Create(nil);
+   UmCadOP.TDateTimePickerDataAlteracao.Visible:=False;
+   UmCadOP.TLblDataAlteracao.Visible:=False;
+   UmCadOP.ShowModal;
+end;
+
+end.

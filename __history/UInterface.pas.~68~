@@ -1,0 +1,213 @@
+unit UInterface;
+interface
+uses UPais,UEstado,UCidade, UCargo, UFuncionario,UProduto,UReceita,UFornecedor, UFornecedorFisico,
+UOrdemProducao,UCompra,UVenda,UCondicaoPagamento,UFormaPagamento,UContaPagar,UContaReceber,
+UClienteFisico,UClienteJuridico,UFrmConsultarPais,
+UFrmConsultarEstado,UFrmConsultarCidade,UFrmConsultarCargo, UFrmConsultarFuncionario, UFrmConsultarFornecedor,
+UFrmConsultarProduto,UFrmConsultarReceita, UFrmConsultarContasReceber,UFrmConsultarContasPagar,
+UFrmConsultarCondicaoPagamento, UFrmConsultarFormaPagamento, UFrmConsultarCompra,
+UFrmConsultarVenda, UFrmConsultarOrdemProducao, UFrmConsultarCliente, UFrmRelatorioCompra,
+Messages,Dialogs,SysUtils, UFrmSelecionarCompraBYData;
+Type
+  TInterface = class
+
+  private
+
+  protected
+    UmFrmConPais:TFrmConsultarPais;
+    UmFrmConEstado:TFrmConsultarEstado;
+    UmFrmConCidade:TFrmConsultarCidade;
+    UmFrmConCargo:TFrmConsultarCargo;
+    UmFrmConFuncionario:TFrmConsultarFuncionario;
+    UmFrmConProduto:TFrmConsultarProduto;
+    UmFrmConOP:TFrmConsultarOrdemProducao;
+    UmFrmConReceita:TFrmConsultarReceita;
+    UmFrmConFornecedor:TFrmConsultarFornecedor;
+    UmFrmConCliente:TFrmConsultarCliente;
+    UmFrmConCompra:TFrmConsultarCompra;
+    UmFrmConVenda:TFrmConsultarVenda;
+    UmFrmConFormaPagamento:TFrmConsultarFormaPagamento;
+    UmFrmConCondicaoPagamento:TFrmConsultarCondicaoPagamento;
+    UmFrmConContasPagar:TFrmConsultarContasPagar;
+    UmFrmConContasReceber:TFrmConsultarContasReceber;
+
+  public
+    constructor Create;
+    destructor Destroy;
+
+    procedure PecadadosPais(Opais:TPais);
+    procedure PecadadosEstado(OEstado:TEstado);
+    procedure PecaDadosCidade(ACidade:TCidade);
+    procedure PecaDadosCargo(OCargo:TCargo);
+    procedure PecaDadosFuncionario(OFuncionario:TFuncionario);
+    procedure PecaDadosProduto(OProduto:TProduto);
+    procedure PecaDadosReceita(AReceita:TReceita);
+    procedure PecaDadosFornecedor(OFornecedor:TFornecedor;OForneceodorFIsico:TFornecedorFisico);
+    procedure PecaDadosCliente(OClienteF:TClienteFisico;OClienteJ:TClienteJuridico);
+    procedure PecaDadosCompra(Acompra:TCompra);
+    procedure PecaDadosVenda(AVenda:TVenda);
+    procedure PecaDadosFormaPagamento(AFormaPagamento:TFormaPagamento);
+    procedure PecaDadosCondicaoPagamento(ACondicaoPagamento:TCondicaoPagamento);
+    procedure PecaDadosContasPagar(AContaPagar:TContaPagar);
+    procedure PecaDadosContasReceber(AContaReceber:TContaReceber);
+    procedure PecaDadosOP(AOP:TOrdemProducao);
+    procedure GeraRelatorioCompra;
+
+  end;
+implementation
+Constructor Tinterface.create;
+begin
+    UmFrmConPais:=TFrmConsultarPais.Create(nil);
+    UmFrmConEstado:=TFrmConsultarEstado.Create(nil);
+    UmFrmConCidade:=TFrmConsultarCidade.Create(nil);
+    UmFrmConCargo:=TFrmConsultarCargo.Create(nil);
+    UmFrmConFuncionario:=TFrmConsultarFuncionario.Create(nil);
+    UmFrmConProduto:=TFrmConsultarProduto.Create(nil);
+    UmFrmConReceita:=TFrmConsultarReceita.Create(nil);
+    UmFrmConFornecedor:=TFrmConsultarFornecedor.Create(nil);
+    UmFrmConOP:=TFrmConsultarOrdemProducao.Create(nil);
+    UmFrmConCliente:=TFrmConsultarCliente.Create(nil);
+    UmFrmConCompra:=TFrmConsultarCompra.Create(nil);
+    UmFrmConVenda:=TFrmConsultarVenda.Create(nil);
+    UmFrmConFormaPagamento:=TFrmConsultarFormaPagamento.Create(nil);
+    UmFrmConCondicaoPagamento:=TFrmConsultarCondicaoPagamento.Create(nil);
+    UmFrmConContasPagar:=TFrmConsultarContasPagar.Create(nil);
+    UmFrmConContasReceber:=TFrmConsultarContasReceber.Create(nil);
+end;
+Destructor Tinterface.Destroy;
+begin
+  UmFrmConPais.Free;
+  UmFrmConEstado.Free;
+  UmFrmConCidade.Free;
+  UmFrmConCargo.Free;
+  UmFrmConFuncionario.Free;
+  UmFrmConProduto.Free;
+  UmFrmConReceita.Free;
+  UmFrmConFornecedor.Free;
+  UmFrmConOP.Free;
+  UmFrmConCliente.Free;
+  UmFrmConCompra.Free;
+  //UmFrmConVenda.Free;
+  UmFrmConFormaPagamento.Free;
+  UmFrmConCondicaoPagamento.Free;
+  UmFrmConContasPagar.Free;
+  UmFrmConContasReceber.Free;
+end;
+procedure TInterface.GeraRelatorioCompra;
+var UmRelatorioCompra:TFrmRelatorioCompra;
+    UmFrmSelecionarCompraByData: TFrmSelectByData;
+begin
+    if MessageDlg('FILTRAR COMPRAS POR DATA', mtConfirmation,[mbYes,mbNo],0) = mrYes then
+    begin
+          UmFrmSelecionarCompraByData:=TFrmSelectByData.Create(nil);
+          UmFrmSelecionarCompraByData.ShowModal;
+          UmFrmSelecionarCompraByData.Free;
+          UmRelatorioCompra:=TFrmRelatorioCompra.Create(nil);
+          UmRelatorioCompra.QRPQuickrepCompra.Preview;
+          UmRelatorioCompra.Free;
+    end
+    else
+    begin
+          UmRelatorioCompra:=TFrmRelatorioCompra.Create(nil);
+          UmRelatorioCompra.QRPQuickrepCompra.Preview;
+          UmRelatorioCompra.Free;
+    end;
+end;
+
+procedure TInterface.PecaDadosCargo(OCargo: TCargo);
+begin
+  UmFrmConCargo.ReconhecaObjeto(OCargo);
+  UmFrmConCargo.ShowModal;
+end;
+
+procedure TInterface.PecaDadosCidade(ACidade: TCidade);
+begin
+   UmFrmConCidade.ReconhecaObjeto(ACidade);
+   UmFrmConCidade.ShowModal;
+end;
+
+procedure TInterface.PecaDadosCliente(OClienteF: TClienteFisico;OClienteJ:TClienteJuridico);
+begin
+   UmFrmConCliente.ReconhecaObjeto(OClienteF,OClienteJ);
+   UmFrmConCliente.ShowModal;
+end;
+
+procedure TInterface.PecaDadosCompra(Acompra: TCompra);
+begin
+  UmFrmConCompra.ReconhecaObjeto(Acompra);
+  UmFrmConCompra.ShowModal;
+end;
+
+procedure TInterface.PecaDadosCondicaoPagamento(
+  ACondicaoPagamento: TCondicaoPagamento);
+begin
+    UmFrmConCondicaoPagamento.ReconhecaObjeto(ACondicaoPagamento);
+    UmFrmConCondicaoPagamento.ShowModal;
+end;
+
+procedure TInterface.PecaDadosContasPagar(AContaPagar: TContaPagar);
+begin
+   UmFrmConContasPagar.ReconhecaObjeto(AContaPagar);
+   UmFrmConContasPagar.ShowModal;
+end;
+
+procedure TInterface.PecaDadosContasReceber(AContaReceber: TContaReceber);
+begin
+    UmFrmConContasReceber.ReconhecaObjeto(AContaReceber);
+    UmFrmConContasReceber.ShowModal;
+end;
+
+procedure TInterface.PecadadosEstado(OEstado: TEstado);
+begin
+   UmFrmConEstado.ReconhecaObjeto(OEstado);
+   UmFrmConEstado.ShowModal;
+end;
+
+procedure TInterface.PecaDadosFormaPagamento(AFormaPagamento: TFormaPagamento);
+begin
+    UmFrmConFormaPagamento.ReconhecaObjeto(AFormaPagamento);
+   UmFrmConFormaPagamento.ShowModal;
+end;
+
+procedure TInterface.PecaDadosFornecedor(OFornecedor:TFornecedor;OForneceodorFIsico:TFornecedorFisico);
+begin
+   UmFrmConFornecedor.ReconhecaObjeto(OFornecedor,OForneceodorFIsico);
+   UmFrmConFornecedor.ShowModal;
+end;
+
+procedure TInterface.PecaDadosFuncionario(OFuncionario: TFuncionario);
+begin
+    UmFrmConFuncionario.ReconhecaObjeto(OFuncionario);
+    UmFrmConFuncionario.ShowModal;
+end;
+
+procedure TInterface.PecaDadosOP(AOP: TOrdemProducao);
+begin
+   UmFrmConOP.ReconhecaObjeto(AOP);
+   UmFrmConOP.ShowModal;
+end;
+
+procedure Tinterface.PecadadosPais(Opais:TPais);
+begin
+     UmFrmConPais.ReconhecaObjeto(OPais);
+     UmFrmConPais.ShowModal;
+end;
+procedure TInterface.PecaDadosProduto(OProduto: TProduto);
+begin
+   UmFrmConProduto.ReconhecaObjeto(OProduto);
+   UmFrmConProduto.ShowModal;
+end;
+
+procedure TInterface.PecaDadosReceita(AReceita: TReceita);
+begin
+   UmFrmConReceita.ReconhecaObjeto(AReceita);
+   UmFrmConReceita.ShowModal;
+end;
+
+procedure TInterface.PecaDadosVenda(AVenda: TVenda);
+begin
+   UmFrmConVenda.ReconhecaObjeto(AVenda);
+   UmFrmConVenda.ShowModal;
+end;
+
+end.

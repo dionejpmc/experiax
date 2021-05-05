@@ -1,0 +1,34 @@
+unit UClienteFisico;
+
+interface
+uses UPessoaFisica;
+ type TClienteFisico = class(TPessoaFisica)
+   private
+   protected
+     FIdClienteFisico:Integer;
+   public
+
+   //Construtores e Destrutore
+    constructor Create;
+    destructor Destroy;
+   //Procedimentos da classe Cliente Fisico
+
+   //Funçoes da classe Cliente Fisico
+
+
+ end;
+
+implementation
+
+{ TCliente }
+
+constructor TClienteFisico.Create;
+begin
+end;
+
+destructor TClienteFisico.Destroy;
+begin
+end;
+
+
+end.

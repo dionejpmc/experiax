@@ -1,0 +1,53 @@
+unit UFrmCadastroPai;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmPai, RzButton, StdCtrls, Mask, RzEdit, RzLabel, ComCtrls, RzDTP;
+
+type
+  TFormCadastroPai = class(TFormPai)
+    TBtnSalvar: TRzButton;
+    TBtnLimpar: TRzButton;
+    TLblDataCadastro: TRzLabel;
+    TLblDataAlteracao: TRzLabel;
+    TDateTimePickerDataAlteracao: TRzDateTimePicker;
+    TDateTimePickerDataCadastro: TRzDateTimePicker;
+    TBtnCancelar: TRzBitBtn;
+    procedure ValidateFrmDate();
+    procedure TBtnCancelarClick(Sender: TObject);
+    procedure FormClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FormCadastroPai: TFormCadastroPai;
+
+implementation
+
+{$R *.dfm}
+procedure TFormCadastroPai.FormClick(Sender: TObject);
+begin
+  inherited;
+   (Sender as TRzEdit).Color:=clWindow;
+end;
+
+procedure TFormCadastroPai.TBtnCancelarClick(Sender: TObject);
+begin
+  inherited;
+  close;
+end;
+
+procedure TFormCadastroPai.ValidateFrmDate();
+begin
+  if (TDateTimePickerDataCadastro.Time > TDateTimePickerDataAlteracao.Time) then
+  begin
+    ShowMessage('ERRO DE DATA ->  A Data de Cadastro Não Pode ser superior a data de Alteração ');
+  end;
+end;
+
+end.

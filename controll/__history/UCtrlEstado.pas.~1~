@@ -1,0 +1,17 @@
+unit UCtrlEstado;
+
+interface
+uses UDaoPais, UCtrl;
+type
+    TCtrlEstado = class(TCtrl)
+
+  private
+  protected
+  public
+
+end;
+
+
+implementation
+
+end.

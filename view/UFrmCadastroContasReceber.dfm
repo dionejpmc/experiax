@@ -1,0 +1,297 @@
+inherited FrmCadastroContasReceber: TFrmCadastroContasReceber
+  Top = 110
+  Caption = 'Cadastro de Contas a Receber'
+  ClientHeight = 360
+  ClientWidth = 607
+  FormStyle = fsMDIForm
+  Position = poDesktopCenter
+  ExplicitWidth = 623
+  ExplicitHeight = 398
+  PixelsPerInch = 96
+  TextHeight = 13
+  object TLblCliente: TRzLabel [0]
+    Left = 159
+    Top = 55
+    Width = 51
+    Height = 13
+    Caption = 'Cliente *'
+  end
+  object TLblValorConta: TRzLabel [1]
+    Left = 8
+    Top = 181
+    Width = 68
+    Height = 13
+    Caption = 'Valor Conta'
+  end
+  object TLblObservacao: TRzLabel [2]
+    Left = 5
+    Top = 258
+    Width = 68
+    Height = 13
+    Caption = 'Observa'#231#227'o'
+  end
+  object TLblCP: TRzLabel [3]
+    Left = 159
+    Top = 100
+    Width = 115
+    Height = 13
+    Caption = 'Forma Pagamento *'
+  end
+  object TLblNumNota: TRzLabel [4]
+    Left = 8
+    Top = 16
+    Width = 104
+    Height = 13
+    Caption = 'Numero da Nota *'
+  end
+  object TLblSerie: TRzLabel [5]
+    Left = 203
+    Top = 19
+    Width = 41
+    Height = 13
+    Caption = 'Serie *'
+  end
+  inherited TLblDataCadastro: TRzLabel
+    Left = 3
+    Top = 301
+    ExplicitLeft = 3
+    ExplicitTop = 301
+  end
+  inherited TLblDataAlteracao: TRzLabel
+    Left = 348
+    Top = 301
+    ExplicitLeft = 348
+    ExplicitTop = 301
+  end
+  object RzLabel1: TRzLabel [8]
+    Left = 8
+    Top = 100
+    Width = 42
+    Height = 13
+    Caption = 'ID FP *'
+  end
+  object RzLabel2: TRzLabel [9]
+    Left = 8
+    Top = 55
+    Width = 69
+    Height = 13
+    Caption = 'ID Cliente *'
+  end
+  object RzLabel3: TRzLabel [10]
+    Left = 8
+    Top = 139
+    Width = 109
+    Height = 13
+    Caption = 'Data Vencimento *'
+  end
+  object TLblStatus: TRzLabel [11]
+    Left = 297
+    Top = 139
+    Width = 47
+    Height = 13
+    Caption = 'Status *'
+  end
+  object TLblDataPagamento: TRzLabel [12]
+    Left = 297
+    Top = 181
+    Width = 110
+    Height = 13
+    Caption = 'Data  Pagamento *'
+  end
+  object TLblTlblDesconto: TRzLabel [13]
+    Left = 204
+    Top = 221
+    Width = 69
+    Height = 13
+    Caption = 'Desconto %'
+  end
+  object TLblMulta: TRzLabel [14]
+    Left = 8
+    Top = 221
+    Width = 46
+    Height = 13
+    Caption = 'Multa %'
+  end
+  object TLblValorTotalConta: TRzLabel [15]
+    Left = 408
+    Top = 221
+    Width = 73
+    Height = 13
+    Caption = 'Valor Total *'
+  end
+  inherited TBtnSalvar: TRzButton
+    Top = 330
+    TabOrder = 19
+    OnClick = TBtnSalvarClick
+    ExplicitTop = 330
+  end
+  inherited TBtnLimpar: TRzButton
+    Left = 273
+    Top = 330
+    TabOrder = 12
+    OnClick = TBtnLimparClick
+    ExplicitLeft = 273
+    ExplicitTop = 330
+  end
+  inherited TDateTimePickerDataAlteracao: TRzDateTimePicker
+    Left = 470
+    Top = 301
+    TabOrder = 15
+    ExplicitLeft = 470
+    ExplicitTop = 301
+  end
+  object TEdtCliente: TRzEdit [19]
+    Left = 232
+    Top = 52
+    Width = 282
+    Height = 21
+    Enabled = False
+    TabOrder = 7
+  end
+  object TBtnBuscarCliente: TRzButton [20]
+    Left = 520
+    Top = 52
+    Caption = 'Buscar'
+    Enabled = False
+    TabOrder = 16
+  end
+  object TEdtValorConta: TRzEdit [21]
+    Left = 144
+    Top = 178
+    Width = 89
+    Height = 21
+    Enabled = False
+    TabOrder = 8
+  end
+  object TEdtObservacao: TRzEdit [22]
+    Left = 96
+    Top = 256
+    Width = 385
+    Height = 21
+    TabOrder = 4
+  end
+  object TEdtFP: TRzEdit [23]
+    Left = 297
+    Top = 97
+    Width = 216
+    Height = 21
+    Enabled = False
+    TabOrder = 9
+  end
+  object TBtnBuscarFP: TRzButton [24]
+    Left = 519
+    Top = 94
+    Caption = 'Buscar'
+    Enabled = False
+    TabOrder = 10
+  end
+  object TEdtSerie: TRzEdit [25]
+    Left = 250
+    Top = 16
+    Width = 64
+    Height = 21
+    Enabled = False
+    TabOrder = 13
+  end
+  object TEdtNumNota: TRzEdit [26]
+    Left = 123
+    Top = 16
+    Width = 65
+    Height = 21
+    Enabled = False
+    TabOrder = 14
+  end
+  inherited TDateTimePickerDataCadastro: TRzDateTimePicker
+    Left = 137
+    Top = 301
+    Enabled = False
+    TabOrder = 17
+    ExplicitLeft = 137
+    ExplicitTop = 301
+  end
+  inherited TBtnCancelar: TRzBitBtn
+    Left = 527
+    Top = 330
+    TabOrder = 20
+    ExplicitLeft = 527
+    ExplicitTop = 330
+  end
+  object TEdtIdFP: TRzEdit [29]
+    Left = 83
+    Top = 97
+    Width = 54
+    Height = 21
+    Enabled = False
+    TabOrder = 5
+  end
+  object TEdtIdCliente: TRzEdit [30]
+    Left = 83
+    Top = 52
+    Width = 54
+    Height = 21
+    Enabled = False
+    TabOrder = 6
+  end
+  object TDateTimePickerDataVencimento: TRzDateTimePicker [31]
+    Left = 144
+    Top = 139
+    Width = 129
+    Height = 21
+    Date = 41087.647815358800000000
+    Time = 41087.647815358800000000
+    Enabled = False
+    TabOrder = 11
+  end
+  object TComboBoxStatus: TRzComboBox [32]
+    Left = 366
+    Top = 136
+    Width = 125
+    Height = 21
+    TabOrder = 0
+    OnKeyPress = TComboBoxStatusKeyPress
+    Items.Strings = (
+      'Paga')
+  end
+  object TDateTimePickerDataPagamento: TDateTimePicker [33]
+    Left = 429
+    Top = 178
+    Width = 124
+    Height = 21
+    Date = 41159.705278611110000000
+    Time = 41159.705278611110000000
+    TabOrder = 1
+  end
+  object TEdtDesconto: TRzEdit [34]
+    Left = 297
+    Top = 218
+    Width = 86
+    Height = 21
+    MaxLength = 5
+    TabOrder = 3
+    TextHint = '0,00'
+    OnExit = TEdtDescontoExit
+  end
+  object TEdtMulta: TRzEdit [35]
+    Left = 83
+    Top = 218
+    Width = 78
+    Height = 21
+    MaxLength = 5
+    TabOrder = 2
+    TextHint = '0,00'
+    OnExit = TEdtMultaExit
+  end
+  object TEdtValorTotalConta: TRzEdit [36]
+    Left = 487
+    Top = 218
+    Width = 107
+    Height = 21
+    Enabled = False
+    MaxLength = 10
+    TabOrder = 18
+    TextHint = 'R$ 0,00'
+  end
+  inherited dxSkinController1: TdxSkinController
+    Top = 246
+  end
+end

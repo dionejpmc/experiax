@@ -1,0 +1,123 @@
+unit UPais;
+
+interface
+type
+  TPais = class
+    private
+         FIdPais: Integer;
+         FPais: String[50];
+         FSigla:String[3];
+         FDDI:String[3];
+         FDataCadastro:String[10];
+         FDataAlteracao:String[10];
+
+     protected
+
+         procedure setIdPais(vIdPais:Integer);
+         procedure setPais(vPais:String);
+         procedure setSigla(VSigla:String);
+         procedure setDDI(vDDI:String);
+         procedure setDataCadastro(vDtCad:String);
+         procedure setDataAlteracao(vDtAlt:String);
+
+         function getIdPais:Integer;
+         function getPais:String;
+         function getSigla:String;
+         function getDDI:String;
+         function getDataCadastro:String;
+         function getDataAlteracao:String;
+
+     public
+         constructor Create;
+         destructor Destroy;
+
+         //Property Metod
+         property IdPais: Integer read getIdPais write setIdPais;
+         property Pais: String read getPais write setPais;
+         property DDI: String read getDDI write setDDI;
+         property DataCadastro: String read getDataCadastro write setDataCadastro;
+         property DataAlteracao: String read getDataAlteracao write setDataAlteracao;
+  end;
+
+implementation
+
+{ TPais }
+
+{ TPais }
+
+constructor TPais.Create;
+begin
+         FIdPais:= Integer(nil);
+         FPais:='';
+         FSigla:='';
+         FDDI:='';
+         FDataCadastro:='';
+         FDataAlteracao:='';
+end;
+
+destructor TPais.Destroy;
+begin
+
+end;
+
+function TPais.getDataAlteracao: String;
+begin
+    result:= Self.FDataCadastro;
+end;
+
+function TPais.getDataCadastro: String;
+begin
+   result:= Self.FDataCadastro;
+end;
+
+function TPais.getDDI: String;
+begin
+  result:=Self.FDDI;
+end;
+
+function TPais.getIdPais: Integer;
+begin
+  result:=Self.FIdPais;
+end;
+
+function TPais.getPais: String;
+begin
+  result:=Self.FPais;
+end;
+
+function TPais.getSigla: String;
+begin
+  result:=Self.FSigla;
+end;
+
+procedure TPais.setDataAlteracao(vDtAlt: String);
+begin
+  Self.FDataAlteracao:=vDtAlt;
+end;
+
+procedure TPais.setDataCadastro(vDtCad: String);
+begin
+  Self.FDataCadastro:=vDtCad;
+end;
+
+procedure TPais.setDDI(vDDI: String);
+begin
+  Self.FDDI:=vDDI;
+end;
+
+procedure TPais.setIdPais(vIdPais: Integer);
+begin
+  Self.FIdPais:=vIdPais;
+end;
+
+procedure TPais.setPais(vPais: String);
+begin
+  Self.FPais:=vPais;
+end;
+
+procedure TPais.setSigla(vSigla: String);
+begin
+  Self.FSigla:=vSigla;
+end;
+
+end.

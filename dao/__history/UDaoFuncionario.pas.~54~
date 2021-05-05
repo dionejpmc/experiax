@@ -1,0 +1,233 @@
+unit UDaoFuncionario;
+
+interface
+Uses Udao, DB,SysUtils, UFuncionario;
+type
+    TDaoFuncionario = class(TDao)
+      private
+
+      protected
+
+      public
+            constructor Create;                                        override;
+            destructor Destroy;                                        override;
+            function Salvar(Objeto: TObject): string;                  override;
+            function GetDs: TDataSource;                               override;
+            function Carregar(Objeto: TObject): TObject;               override;
+            function Buscar(KeyId: Integer; KeyStr: String): boolean;  override;
+            function Excluir(Objeto: TObject): string;                 override;
+
+
+    end;
+
+implementation
+
+{ TDaoFuncionario }
+
+function TDaoFuncionario.Buscar(KeyId: Integer; KeyStr: String): boolean;
+var
+  TamStr: Integer;
+  SQL: String;
+begin
+  TamStr := Length(KeyStr);
+  if (KeyId <> 0) then
+    SQL := 'SELECT * FROM FUNCIONARIO WHERE ID=' + Inttostr(KeyId)
+  else if (TamStr <> 0) and (KeyId = 0) then
+    SQL :='SELECT * FROM FUNCIONARIO WHERE FUNCIONARIO LIKE' + QuotedStr('%'+KeyStr+'%')
+  else if (KeyId = 0) and (TamStr = 0) then
+    SQL := 'SELECT * FROM FUNCIONARIO ORDER BY FUNCIONARIO';
+
+
+  FDM.IBDataSetFuncionario.Close;
+  FDM.IBDataSetFuncionario.SelectSQL.Clear;
+  FDM.IBDataSetFuncionario.SelectSQL.Add(SQL);
+  FDM.IBDataSetFuncionario.Open;
+
+  if (FDM.IBDataSetFuncionarioID.Value = KeyId) and (KeyId <> 0) then
+      Result:=True
+  else
+      Result:=False;
+end;
+
+function TDaoFuncionario.Carregar(Objeto: TObject): TObject;
+var UmFuncionario: TFuncionario;
+begin
+  UmFuncionario := TFuncionario(Objeto);
+  try
+    if not FDM.IBDataSetFuncionario.Active then
+    begin
+      FDM.IBDataSetFuncionario.Active := True;
+      FDM.IBDataSetFuncionario.Open;
+    end;
+    UmFuncionario.Id := FDM.IBDataSetFuncionarioID.Value;
+    UmFuncionario.Cargo.IdCargo:= FDM.IBDataSetFuncionarioIDCARGO.Value;
+    UmFuncionario.Cargo.Cargo:=FDM.IBDataSetCargoCARGO.Value;
+    UmFuncionario.Cidade.IdCidade:= FDM.IBDataSetFuncionarioIDCIDADE.Value;
+    UmFuncionario.Cidade.Cidade:=FDM.IBDataSetCidadeCIDADE.Value;
+    UmFuncionario.Nome:= FDM.IBDataSetFuncionarioFUNCIONARIO.Value;
+    UmFuncionario.CTPS:= FDM.IBDataSetFuncionarioCTPS.Value;
+    UmFuncionario.RG:=FDM.IBDataSetFuncionarioRG.Value;
+    UmFuncionario.CPF:=FDM.IBDataSetFuncionarioCPF.Value;
+    UmFuncionario.Sexo:=FDM.IBDataSetFuncionarioSEXO.Value;
+    UmFuncionario.Status:=FDM.IBDataSetFuncionarioSTATUS.Value;
+    UmFuncionario.Logradouro:=FDM.IBDataSetFuncionarioLOGRADOURO.Value;
+    UmFuncionario.Numero:=FDM.IBDataSetFuncionarioNUMERO.Value;
+    UmFuncionario.Cep:=FDM.IBDataSetFuncionarioCEP.Value;
+    UmFuncionario.Bairro:=FDM.IBDataSetFuncionarioBAIRRO.Value;
+    UmFuncionario.Observacoes:=FDM.IBDataSetFuncionarioOBSERVACOES.Value;
+    UmFuncionario.Telefone:=FDM.IBDataSetFuncionarioTELEFONERESIDENCIAL.Value;
+    UmFuncionario.Celular:=FDM.IBDataSetFuncionarioCELULAR.Value;
+    UmFuncionario.Fax:=FDM.IBDataSetFuncionarioFAX.Value;
+    UmFuncionario.Email:=FDM.IBDataSetFuncionarioEMAIL.Value;
+    UmFuncionario.DataNascimento:=DateTimeToStr(FDM.IBDataSetFuncionarioDATANASCIMENTO.Value);
+    UmFuncionario.DataAdmicao:=DateTimeToStr( FDM.IBDataSetFuncionarioDATAADMICAO.Value);
+
+    UmFuncionario.DataDemicao:=DateTimeToStr(FDM.IBDataSetFuncionarioDATADEMICAO.Value);
+    UmFuncionario.DataCadastro:=DateTimeToStr( FDM.IBDataSetFuncionarioDATACADASTRO.Value);
+    UmFuncionario.DataAlteracao:=DateTimeToStr( FDM.IBDataSetFuncionarioDATAALTERACAO.Value);
+
+  Except
+      Exit;
+  end;
+   Result := UmFuncionario;
+end;
+
+constructor TDaoFuncionario.Create;
+begin
+  inherited;
+end;
+
+destructor TDaoFuncionario.Destroy;
+begin
+  inherited;
+end;
+
+function TDaoFuncionario.Excluir(Objeto: TObject): string;
+var UmFuncionario:TFuncionario;
+begin
+     UmCargo:=TCargo(Objeto);
+   try
+   if Self.Buscar(UmCargo.IdCargo,'') then
+   begin
+       IdCargo:=UmCargo.IdCargo;
+       if not (FDM.IBTransaction1.Active) then
+       FDM.IBTransaction1.StartTransaction;
+
+       FDM.IBDataSetCargo.Close;
+       FDM.IBDataSetCargo.SelectSQL.Text:='SELECT * FROM CARGO WHERE ID = ' + intToStr(IdCargo);
+       FDM.IBDataSetCargo.Open;
+       FDM.IBDataSetCargo.Delete;
+       FDM.IBTransaction1.CommitRetaining;
+       FDM.IBDataSetCargo.Close;
+       FDM.IBDataSetCargo.SelectSQL.Text:='SELECT * FROM CARGO ORDER BY ID ';
+       FDM.IBDataSetCargo.Open;
+       MSG:='CARGO EXCLUIDO COM SUCESSO.';
+       Result:=MSG;
+   end;
+   except
+      FDM.IBTransaction1.RollbackRetaining;
+      MSG:='ERRO AO EXCLUIR CARGO.';
+      Result:=MSG;
+   end;
+end;
+
+function TDaoFuncionario.GetDs: TDataSource;
+begin
+     Result := FDM.TDataSourceFuncionario;
+end;
+
+function TDaoFuncionario.Salvar(Objeto: TObject): string;
+var MSG,SQL:String;
+    UmFuncionario:TFuncionario;
+begin
+  UmFuncionario:=TFuncionario(Objeto);
+  try
+     if not FDM.IBTransaction1.Active then
+     begin
+         FDM.IBTransaction1.Active:=True;
+         FDM.IBTransaction1.StartTransaction;
+     end;
+     if not FDM.IBDataSetFuncionario.Active then
+     begin
+        FDM.IBDataSetFuncionario.Active:=True;
+        FDM.IBDataSetFuncionario.Open;
+     end;
+     if UmFuncionario.Id = 0 then
+     begin
+         FDM.IBDataSetFuncionario.Insert;
+
+         FDM.IBDataSetFuncionarioFUNCIONARIO.Value:=UmFuncionario.Nome;
+         FDM.IBDataSetFuncionarioIDCARGO.Value:= UmFuncionario.Cargo.IdCargo;
+         FDM.IBDataSetFuncionarioIDCIDADE.Value:=UmFuncionario.Cidade.IdCidade;
+         FDM.IBDataSetFuncionarioSEXO.Value:=UmFuncionario.Sexo;
+         FDM.IBDataSetFuncionarioCTPS.Value:=UmFuncionario.CTPS;
+         FDM.IBDataSetFuncionarioRG.Value:= UmFuncionario.RG;
+         FDM.IBDataSetFuncionarioCPF.Value:=UmFuncionario.CPF;
+         FDM.IBDataSetFuncionarioSTATUS.Value:=UmFuncionario.Status;
+         FDM.IBDataSetFuncionarioDATANASCIMENTO.Value:=StrToDateTime( UmFuncionario.DataNascimento);
+         FDM.IBDataSetFuncionarioDATAADMICAO.Value:=StrToDateTime(UmFuncionario.DataAdmicao);
+         if UmFuncionario.Status = 0 then
+            FDM.IBDataSetFuncionarioDATADEMICAO.Value:=StrToDateTime(UmFuncionario.DataDemicao);
+         FDM.IBDataSetFuncionarioLOGRADOURO.Value:=UmFuncionario.Logradouro;
+         FDM.IBDataSetFuncionarioNUMERO.Value:=UmFuncionario.Numero;
+         FDM.IBDataSetFuncionarioCEP.Value:=UmFuncionario.Cep;
+         FDM.IBDataSetFuncionarioBAIRRO.Value:=UmFuncionario.Bairro;
+         FDM.IBDataSetFuncionarioOBSERVACOES.Value:=UmFuncionario.Observacoes;
+         FDM.IBDataSetFuncionarioTELEFONERESIDENCIAL.Value:=UmFuncionario.Telefone;
+         FDM.IBDataSetFuncionarioCELULAR.Value:=UmFuncionario.Celular;
+         FDM.IBDataSetFuncionarioFAX.Value:=UmFuncionario.Fax;
+         FDM.IBDataSetFuncionarioEMAIL.Value:=UmFuncionario.Email;
+         FDM.IBDataSetFuncionarioDATACADASTRO.Value:=Now;
+         MSG:=UmFuncionario.Nome+' SALVO COM SUCESSO.';
+     end
+     else
+     begin
+         FDM.IBDataSetFuncionario.Edit;
+
+         FDM.IBDataSetFuncionarioFUNCIONARIO.Value:=UmFuncionario.Nome;
+         FDM.IBDataSetFuncionarioIDCARGO.Value:= UmFuncionario.Cargo.IdCargo;
+         FDM.IBDataSetFuncionarioIDCIDADE.Value:=UmFuncionario.Cidade.IdCidade;
+         FDM.IBDataSetFuncionarioSEXO.Value:=UmFuncionario.Sexo;
+         FDM.IBDataSetFuncionarioCTPS.Value:=UmFuncionario.CTPS;
+         FDM.IBDataSetFuncionarioRG.Value:= UmFuncionario.RG;
+         FDM.IBDataSetFuncionarioCPF.Value:=UmFuncionario.CPF;
+         FDM.IBDataSetFuncionarioSTATUS.Value:=UmFuncionario.Status;
+         FDM.IBDataSetFuncionarioDATANASCIMENTO.Value:=StrToDateTime(UmFuncionario.DataNascimento);
+         FDM.IBDataSetFuncionarioDATAADMICAO.Value:=StrToDateTime(UmFuncionario.DataAdmicao);
+         FDM.IBDataSetFuncionarioDATADEMICAO.Value:=StrToDateTime(UmFuncionario.DataDemicao);
+         FDM.IBDataSetFuncionarioLOGRADOURO.Value:=UmFuncionario.Logradouro;
+         FDM.IBDataSetFuncionarioNUMERO.Value:=UmFuncionario.Numero;
+         FDM.IBDataSetFuncionarioCEP.Value:=UmFuncionario.Cep;
+         FDM.IBDataSetFuncionarioBAIRRO.Value:=UmFuncionario.Bairro;
+         FDM.IBDataSetFuncionarioOBSERVACOES.Value:=UmFuncionario.Observacoes;
+         FDM.IBDataSetFuncionarioTELEFONERESIDENCIAL.Value:=UmFuncionario.Telefone;
+         FDM.IBDataSetFuncionarioCELULAR.Value:=UmFuncionario.Celular;
+         FDM.IBDataSetFuncionarioFAX.Value:=UmFuncionario.Fax;
+         FDM.IBDataSetFuncionarioEMAIL.Value:=UmFuncionario.Email;
+         FDM.IBDataSetFuncionarioDATAALTERACAO.Value:=Now;
+         MSG:=UmFuncionario.Nome+' EDITADO COM SUCESSO.';
+     end;
+
+     FDM.IBDataSetFuncionario.Post;
+
+     FDM.IBTransaction1.CommitRetaining;
+
+
+  except
+    FDM.IBTransaction1.RollbackRetaining;
+    MSG:=UmFuncionario.Nome+ ' NÃO PODE SER SALVO.';
+
+    SQL := 'SELECT * FROM FUNCIONARIO ORDER BY FUNCIONARIO';
+
+    FDM.IBDataSetFuncionario.Close;
+    FDM.IBDataSetFuncionario.SelectSQL.Clear;
+    FDM.IBDataSetFuncionario.SelectSQL.Add(SQL);
+    FDM.IBDataSetFuncionario.Open;
+  end;
+
+
+  Result:=MSG;
+
+end;
+
+end.

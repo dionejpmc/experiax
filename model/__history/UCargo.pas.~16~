@@ -1,0 +1,26 @@
+unit UCargo;
+
+interface
+type
+    TCargo = class(TObject)
+      private
+      protected
+        FIdCargo:integer;
+        FCargo:string;
+        FDataCadastro:string;
+        FDataAlteracao:string;
+
+      public
+        constructor Create;
+        destructor Destroy;
+
+        procedure setIdCargo(vIdCargo:Integer);
+        procedure setCargo(vcargo:string);
+        procedure setDataCadastro(vDataCadastro:string);
+        procedure setDataAlteracao(vDataAlteracao:string);
+
+    end;
+
+implementation
+
+end.

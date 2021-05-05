@@ -1,0 +1,14 @@
+unit UCliente;
+
+interface
+uses UPessoa;
+ type TClente = class(TPessoa)
+   private
+   protected
+   public
+
+ end;
+
+implementation
+
+end.

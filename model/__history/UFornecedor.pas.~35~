@@ -1,0 +1,53 @@
+unit UFornecedorJ;
+
+interface
+uses UPessoaJuridica,UProduto, ListActns, classes;
+const Max = 5;
+type
+  TFornecedor = class(TPessoaJuridica)
+  private
+  protected
+
+
+    FProduto:TProduto;
+    ListaProduto:TList;
+  public
+    constructor Create;
+    destructor Destroy;
+
+    procedure setProduto(vProduto:TProduto);
+
+    function getProduto:TProduto;
+
+    property Produto:TProduto read getProduto write setProduto;
+
+  end;
+
+implementation
+
+{ TFornecedor }
+
+constructor TFornecedor.Create;
+var i:Integer;
+begin
+inherited;
+  FProduto:=TProduto.Create;
+end;
+
+destructor TFornecedor.Destroy;
+var I:Integer;
+begin
+inherited;
+    FProduto.Destroy;
+end;
+function TFornecedor.getProduto:TProduto;
+begin
+ Result:=FProduto;
+end;
+
+procedure TFornecedor.setProduto(vProduto: TProduto);
+begin
+   FProduto:=vProduto;
+end;
+
+end.

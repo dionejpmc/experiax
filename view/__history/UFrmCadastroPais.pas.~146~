@@ -1,0 +1,163 @@
+unit UFrmCadastroPais;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmCadastroPai, RzButton, StdCtrls, RzLabel, Mask, RzEdit, ComCtrls,
+  RzDTP, ExtCtrls, UPais, UCtrlPais;
+
+type
+  TFrmCadastroPais = class(TFormCadastroPai)
+
+    TEdtPais: TRzExpandEdit;
+    TLblPais: TRzLabel;
+    TEdtSigla: TRzEdit;
+    TLblSigla: TRzLabel;
+    TLblDDI: TRzLabel;
+    TEdtDDI: TRzEdit;
+    TLblIdPais: TRzLabel;
+    TEdtIdPais: TRzEdit;
+    procedure TBtnSalvarClick(Sender: TObject);
+    procedure TBtnLimparClick(Sender: TObject);
+    procedure TEdtIdPaisKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtPaisKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtSiglaKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtDDIKeyPress(Sender: TObject; var Key: Char);
+    procedure TEdtSiglaExit(Sender: TObject);
+    procedure TEdtDDIExit(Sender: TObject);
+  private
+    { Private declarations }
+    UmPais:TPais;
+    UmaCtrlPais:TCtrlPais;
+    UmFrmCadPais:TFrmCadastroPais;
+
+  public
+    { Public declarations }
+    function ValidaCampos:Boolean;
+    function ReconhecaObjeto(OPais:TPais;ACtrlPais:TCtrlPais):Boolean;
+    procedure LimpaCampos;
+  end;
+
+var
+  FrmCadastroPais: TFrmCadastroPais;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmCadastroPais.LimpaCampos;
+begin
+  Self.TEdtIdPais.Clear;
+  Self.TEdtPais.Clear;
+  Self.TEdtSigla.Clear;
+  Self.TEdtDDI.Clear;
+end;
+
+function TFrmCadastroPais.ReconhecaObjeto(OPais: TPais;
+  ACtrlPais: TCtrlPais): Boolean;
+begin
+  UmPais:=OPais;
+  UmaCtrlPais:=ACtrlPais;
+  Self.LimpaCampos;
+
+end;
+
+procedure TFrmCadastroPais.TBtnLimparClick(Sender: TObject);
+begin
+  inherited;
+   Self.LimpaCampos;
+end;
+
+procedure TFrmCadastroPais.TBtnSalvarClick(Sender: TObject);
+var MSG:string;
+    intValue:Integer;
+begin
+  inherited;
+  Self.ReconhecaObjeto(UmPais,UmaCtrlPais);
+  if self.ValidaCampos then
+  begin
+    if TryStrToInt(Self.TEdtIdPais.Text,intValue) then
+         UmPais.IdPais:= intValue
+    else
+         UmPais.IdPais:= 0;
+    UmPais.Pais:= Self.TEdtPais.Text;
+    UmPais.Sigla:=Self.TEdtSigla.Text;
+    UmPais.DDI:=Self.TEdtDDI.Text;
+    UmPais.DataCadastro:=DateTimeToStr(Self.TDateTimePickerDataCadastro.Time);
+    UmPais.DataAlteracao:=DateTimeToStr(Now);
+
+    MSG:=UmaCtrlPais.Salvar(UmPais);
+    ShowMessage(MSG);
+    Self.LimpaCampos;
+    Close;
+  end;
+end;
+
+procedure TFrmCadastroPais.TEdtDDIExit(Sender: TObject);
+begin
+  inherited;
+  Self.TEdtDDI.Color:=clWindow;
+end;
+
+procedure TFrmCadastroPais.TEdtDDIKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if not (key in ['1'..'9',#8]) then
+     key := #0;
+end;
+
+procedure TFrmCadastroPais.TEdtIdPaisKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if not (key in ['0'..'9',#8]) then
+     key := #0;
+end;
+
+procedure TFrmCadastroPais.TEdtPaisKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+   if not (key in ['A'..'Z','a'..'z',#8,#32,'ç','Ç']) then
+     key := #0;
+end;
+
+procedure TFrmCadastroPais.TEdtSiglaExit(Sender: TObject);
+begin
+  inherited;
+    Self.TEdtSigla.Color:=clWindow;
+end;
+
+procedure TFrmCadastroPais.TEdtSiglaKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+   if not (key in ['A'..'Z','a'..'z',#8,#32,'ç','Ç']) then
+     key := #0;
+end;
+
+function TFrmCadastroPais.ValidaCampos:Boolean;
+begin
+   if Length( Self.TEdtPais.Text) < 2   then
+  begin
+    Self.TEdtPais.Color:=clWebSteelBlue;
+    Self.TEdtPais.SetFocus;
+    Result:=False;
+    Exit;
+  end;
+  if Length( Self.TEdtDDI.Text) < 2   then
+  begin
+    Self.TEdtDDI.Color:=clWebSteelBlue;
+    Self.TEdtDDI.SetFocus;
+    Result:=False;
+    Exit;
+  end;
+  if Length( Self.TEdtSigla.Text) < 2   then
+  begin
+    Self.TEdtSigla.Color:=clWebSteelBlue;
+    Self.TEdtSigla.SetFocus;
+    Result:=False;
+    Exit;
+  end
+  else
+    Result:=True;
+end;
+end.

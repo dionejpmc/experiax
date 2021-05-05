@@ -1,0 +1,187 @@
+unit UFrmConsultarProduto;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmConsultarPai, RzButton, Grids, DBGrids, RzDBGrid, ExtCtrls,
+  RzPanel, StdCtrls, Mask, RzEdit, RzLabel, UProduto, UCtrlProduto,UFrmCadastroProduto,UDM,
+  dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinCaramel, dxSkinCoffee,
+  dxSkinDarkRoom, dxSkinDarkSide, dxSkinFoggy, dxSkinGlassOceans,
+  dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
+  dxSkinMcSkin, dxSkinMoneyTwins, dxSkinOffice2007Black, dxSkinOffice2007Blue,
+  dxSkinOffice2007Green, dxSkinOffice2007Pink, dxSkinOffice2007Silver,
+  dxSkinOffice2010Black, dxSkinOffice2010Blue, dxSkinOffice2010Silver,
+  dxSkinPumpkin, dxSkinSeven, dxSkinSharp, dxSkinSilver, dxSkinSpringTime,
+  dxSkinStardust, dxSkinSummer2008, dxSkinsDefaultPainters, dxSkinValentine,
+  dxSkinXmas2008Blue, cxLookAndFeels, dxSkinsForm;
+
+type
+  TFrmConsultarProduto = class(TFrmConsultarPai)
+    TGroupBoxProduto: TRzGroupBox;
+    TDBGridProduto: TRzDBGrid;
+    TLblProduto: TRzLabel;
+    TEdtProduto: TRzEdit;
+    TBtnBuscarProduto: TRzButton;
+    TLblIDProduto: TRzLabel;
+    TEdtId: TRzEdit;
+    procedure TBtnNovoClick(Sender: TObject);
+    procedure TBtnCancelarClick(Sender: TObject);
+    procedure TBtnBuscarProdutoClick(Sender: TObject);
+    procedure TEdtIdKeyPress(Sender: TObject; var Key: Char);
+    procedure TBtnEditarClick(Sender: TObject);
+    procedure TBtnExcluirClick(Sender: TObject);
+  private
+    { Private declarations }
+  protected
+    UmProduto:TProduto;
+    UmaCtrlProduto:TCtrlProduto;
+    UmFrmCadProduto:TFrmCadastroProduto;
+  public
+    { Public declarations }
+    procedure ReconhecaObjeto(OProduto:TProduto);
+  end;
+
+var
+  FrmConsultarProduto: TFrmConsultarProduto;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFrmConsultarProduto.ReconhecaObjeto(OProduto: TProduto);
+begin
+  UmProduto:=OProduto;
+  UmaCtrlProduto:=TCtrlProduto.Create;
+  UmFrmCadProduto:=TFrmCadastroProduto.Create(nil);
+  Self.TDBGridProduto.DataSource:=UmaCtrlProduto.GetDs;
+end;
+
+procedure TFrmConsultarProduto.TBtnBuscarProdutoClick(Sender: TObject);
+begin
+  inherited;
+  if (Self.TBtnCancelar.Caption = 'Selecionar') or (Self.TBtnCancelar.Caption = '&Cancelar') or (Self.TBtnCancelar.Caption = 'Cancelar') then
+  begin
+      if Self.TEdtId.Text <> '' then
+         UmaCtrlProduto.Buscar(StrToInt(Self.TEdtId.Text),'');
+      if Self.TEdtProduto.Text <> '' then
+        UmaCtrlProduto.Buscar(0,Self.TEdtProduto.Text);
+      Self.TEdtProduto.Clear;
+      Self.TEdtId.Clear;
+  end
+  else if (Self.TBtnCancelar.Caption = 'Selecionar') then
+  begin
+      if Self.TEdtId.Text <> '' then
+         UmaCtrlProduto.BuscarProduto(3);
+      if Self.TEdtProduto.Text <> '' then
+        UmaCtrlProduto.BuscarProduto(3);
+      Self.TEdtProduto.Clear;
+      Self.TEdtId.Clear;
+
+  end;
+
+end;
+
+procedure TFrmConsultarProduto.TBtnCancelarClick(Sender: TObject);
+begin
+  inherited;
+  if Self.TBtnCancelar.Caption = 'Selecionar' then
+     UmProduto:=TProduto(UmaCtrlProduto.Carregar(UmProduto))
+  else if Self.TBtnCancelar.Caption = 'SelecionarR' then
+     UmProduto:=TProduto(UmaCtrlProduto.Carregar(UmProduto));
+  Close;
+end;
+
+procedure TFrmConsultarProduto.TBtnEditarClick(Sender: TObject);
+begin
+  inherited;
+  UmFrmCadProduto.ReconhecaObjeto(UmProduto,UmaCtrlProduto);
+  UmaCtrlProduto.Carregar(UmProduto);
+  if True {UmaCtrlProduto.Buscar(UmProduto.IdProduto,'')} then
+  begin
+      UmFrmCadProduto.TEdtIdProduto.Text:=IntToStr(UmProduto.IdProduto);
+      UmFrmCadProduto.TEdtProduto.Text:=UmProduto.Produto;
+      UmFrmCadProduto.TEdtDescricao.Text:=UmProduto.Descricao;
+      UmFrmCadProduto.TEdtMarca.Text:=UmProduto.Marca;
+      UmFrmCadProduto.TEdtLocalizacao.Text:=UmProduto.Localizacao;
+      UmFrmCadProduto.TEdtVLCompra.Text:=FloatToStr(UmProduto.ValorCompra);
+      UmFrmCadProduto.TEdtVlVenda.Text:=FloatToStr(UmProduto.ValorVenda);
+      UmFrmCadProduto.TEdtIPI.Text:=FloatToStr(UmProduto.IPI);
+      UmFrmCadProduto.TEdtICMS.Text:=FloatToStr(UmProduto.ICMS);
+      UmFrmCadProduto.TDateTimePickerDataAlteracao.DateTime:=Now;
+      UmFrmCadProduto.TEdtQtde.Text:=UmProduto.Qtde;
+      UmFrmCadProduto.TEdtObservacao.Text:=UmProduto.Observacao;
+      if UmProduto.TipoUnidade = 1 then
+          UmFrmCadProduto.TLblUnidadeMedida.Caption:='Kg'
+      else if UmProduto.TipoUnidade = 2 then
+          UmFrmCadProduto.TLblUnidadeMedida.Caption:='Litros'
+      else if UmProduto.TipoUnidade = 3 then
+          UmFrmCadProduto.TLblUnidadeMedida.Caption:='Unidades';
+     if UmProduto.Tipo = 1 then
+          UmFrmCadProduto.TRadioBtnProdutoMateriaPrima.Checked:=True;
+     if UmProduto.Tipo = 2 then
+          UmFrmCadProduto.TRadioBtnProdutoComun.Checked:=True;
+     if UmProduto.Tipo = 3 then
+          UmFrmCadProduto.TRadioBtnProdutoProducao.Checked:=True;
+     UmFrmCadProduto.TEdtVlVenda.Enabled:=True;
+     UmFrmCadProduto.TDateTimePickerDataCadastro.DateTime:=StrToDateTime(UmProduto.DataCadastro);
+     UmFrmCadProduto.TDateTimePickerDataCadastro.Enabled:=False;
+     UmFrmCadProduto.TBtnLimpar.Enabled:=false;
+      if UmProduto.TipoUnidade = 1 then
+      begin
+          UmFrmCadProduto.TCheckKG.Checked:=True;
+          UmFrmCadProduto.TCheckKG.Checked:=True;
+      end
+      else if UmProduto.TipoUnidade = 2 then
+      begin
+         UmFrmCadProduto.TCheckLitros.Checked:=True;
+         UmFrmCadProduto.TCheckLitros.Checked:=True;
+
+      end
+      else if UmProduto.TipoUnidade = 3 then
+      begin
+         UmFrmCadProduto.TCheckUnidades.Checked:=True;
+         UmFrmCadProduto.TCheckUnidades.Checked:=True;
+      end;
+
+
+     UmFrmCadProduto.ShowModal;
+  end
+  else
+    ShowMessage('O PRODUTO SELECIONADO NÃO EXISTE.');
+end;
+
+procedure TFrmConsultarProduto.TBtnExcluirClick(Sender: TObject);
+begin
+  inherited;
+  UmaCtrlProduto.Carregar(UmProduto);
+  if (MessageDlg('DESEJA REALIZAR A EXCLUSÃO DOS DADOS.', mtConfirmation,[mbYes,mbNo],0) = IDYes)  then
+    begin
+        if UmaCtrlProduto.Buscar(UmProduto.IdProduto,'') then
+        begin
+            ShowMessage(UmaCtrlProduto.Excluir(UmProduto));
+        end
+        else
+            ShowMessage('O PRODUTO SELECIONADO  NÃO EXISTE');
+    end;
+end;
+
+procedure TFrmConsultarProduto.TBtnNovoClick(Sender: TObject);
+begin
+  inherited;
+  UmFrmCadProduto.ReconhecaObjeto(UmProduto, UmaCtrlProduto);
+  UmFrmCadProduto.TDateTimePickerDataAlteracao.Visible:=False;
+  UmFrmCadProduto.TLblDataAlteracao.Visible:=False;
+  UmFrmCadProduto.TDateTimePickerDataCadastro.DateTime:=Now;
+
+  UmFrmCadProduto.ShowModal;
+end;
+
+procedure TFrmConsultarProduto.TEdtIdKeyPress(Sender: TObject; var Key: Char);
+begin
+  inherited;
+  if not (key in ['0'..'9',#8]) then
+     key := #0;
+end;
+
+end.

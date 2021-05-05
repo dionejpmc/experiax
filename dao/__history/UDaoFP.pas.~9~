@@ -1,0 +1,87 @@
+unit UDaoFP;
+
+interface
+uses UDM, DB, UDAO, SysUtils, UFormaPagamento;
+type
+    TDaoFP = class(TDAo)
+      private
+      protected
+      public
+          constructor Create;                                            override;
+          destructor Destroy;                                            override;
+          function Salvar( Objeto : TObject): string;                    override;
+          function GetDs : TDataSource;                                  override;
+          function Carregar( Objeto: TObject): Tobject;                  override;
+          function Buscar(KeyId : Integer;KeyStr:String): boolean;       override;
+          function Excluir( Objeto : TObject): string;                   override;
+
+    end;
+
+implementation
+
+{ TDaoFP }
+
+function TDaoFP.Buscar(KeyId: Integer; KeyStr: String): boolean;
+var TamStr:Integer;
+    SQL:String;
+begin
+   TamStr:=Length(keyStr);
+ if (keyId <> 0  ) then
+   SQL:='SELECT * FROM FORMAPAGAMENTO WHERE ID='+Inttostr(keyId)
+ else if (TamStr <> 0)  and (keyId = 0) then
+   SQL:='SELECT * FROM FORMAPAGAMENTO WHERE FORMAPAGAMENTO LIKE'+QuotedStr(KeyStr+'%')
+ else if (keyId = 0) and (TamStr = 0) then
+   SQL:='SELECT * FROM FORMAPAGAMENTO ORDER BY FORMAPAGAMENTO';
+
+    FDM.IBDataSetFormaPagamento.Close;
+    FDM.IBDataSetFormaPagamento.SelectSQL.Clear;
+    FDM.IBDataSetFormaPagamento.SelectSQL.Add(SQL);
+    FDM.IBDataSetFormaPagamento.Open;
+
+    Result:=True;
+
+end;
+
+function TDaoFP.Carregar(Objeto: TObject): Tobject;
+var UmaFP:TFormaPagamento;
+begin
+    UmaFP:=TFormaPagamento(Objeto);
+  if not FDM.IBDataSetFormaPagamento.Active then
+    FDM.IBDataSetFormaPagamento.Open;
+
+  UmaFP.Id:=FDM.IBDataSetFormaPagamentoID.Value;
+  UmaFP.Pais:=FDM.IBDataSetFormaPagamentoFORMAPAGAMENTO.Value;
+  UmaFP.DataCadastro:=DateTimeToStr( FDM.IBDataSetFormaPagamentoDATACADASTRO.Value);
+  UmaFP.DataAlteracao:=DateTimeToStr(FDM.IBDataSetFormaPagamentoDATAALTERACAO.Value);
+
+  Result:=UmPais;
+end;
+
+constructor TDaoFP.Create;
+begin
+  inherited;
+
+end;
+
+destructor TDaoFP.Destroy;
+begin
+
+  inherited;
+end;
+
+function TDaoFP.Excluir(Objeto: TObject): string;
+begin
+
+end;
+
+function TDaoFP.GetDs: TDataSource;
+begin
+
+end;
+
+function TDaoFP.Salvar(Objeto: TObject): string;
+begin
+
+end;
+
+end.

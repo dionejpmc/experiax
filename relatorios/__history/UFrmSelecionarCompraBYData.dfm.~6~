@@ -1,0 +1,66 @@
+object FrmSelectByData: TFrmSelectByData
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize, biMaximize, biHelp]
+  BorderStyle = bsSizeToolWin
+  Caption = 'DATA'
+  ClientHeight = 150
+  ClientWidth = 170
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Lbl1: TRzLabel
+    Left = 0
+    Top = 15
+    Width = 34
+    Height = 13
+    Caption = 'Do dia:'
+  end
+  object Lbl2: TRzLabel
+    Left = 0
+    Top = 71
+    Width = 47
+    Height = 13
+    Caption = 'At'#233' o dia:'
+  end
+  object DateTime1: TRzDateTimePicker
+    Left = 53
+    Top = 15
+    Width = 111
+    Height = 21
+    Date = 41241.034675613420000000
+    Time = 41241.034675613420000000
+    TabOrder = 0
+    OnExit = DateTime1Exit
+  end
+  object DateTime2: TRzDateTimePicker
+    Left = 51
+    Top = 69
+    Width = 111
+    Height = 21
+    Date = 41241.034675613420000000
+    Time = 41241.034675613420000000
+    TabOrder = 1
+    OnExit = DateTime2Exit
+  end
+  object RzBitBtn1: TRzBitBtn
+    Left = 0
+    Top = 124
+    Width = 57
+    Caption = '&Sair'
+    TabOrder = 2
+  end
+  object TBtnOK: TRzBitBtn
+    Left = 91
+    Top = 124
+    Width = 57
+    Caption = '&OK'
+    TabOrder = 3
+  end
+end

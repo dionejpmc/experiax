@@ -1,0 +1,15 @@
+unit UClienteJuridico;
+
+interface
+uses UPessoaJuridica;
+type
+  TClienteJuridico = class(TPessoaJuridica)
+    private
+    protected
+    public
+
+  end;
+
+implementation
+
+end.

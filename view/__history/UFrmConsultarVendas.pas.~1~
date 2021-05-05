@@ -1,0 +1,24 @@
+unit UFrmConsultarCompras;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFrmConsultarPai, RzButton;
+
+type
+  TFrmConsultarCompras = class(TFrmConsultarPai)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmConsultarCompras: TFrmConsultarCompras;
+
+implementation
+
+{$R *.dfm}
+
+end.

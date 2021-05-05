@@ -1,0 +1,15 @@
+unit UClienteFisico;
+
+interface
+uses UPessoaFisica;
+ type TCliente = class(TPessoaFisica)
+   private
+   protected
+    IdClienteFisico:Integer;
+   public
+
+ end;
+
+implementation
+
+end.

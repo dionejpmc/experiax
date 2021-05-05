@@ -1,0 +1,31 @@
+program ProjectExperiax;
+
+{$APPTYPE CONSOLE}
+
+uses
+  SysUtils,
+  UInterface in 'UInterface.pas',
+  UAplica in 'UAplica.pas',
+  UCidade in 'model\UCidade.pas',
+  UEstado in 'model\UEstado.pas',
+  UPais in 'model\UPais.pas',
+  UCtrl in 'controll\UCtrl.pas',
+  UCtrlPais in 'controll\UCtrlPais.pas',
+  UDAO in 'dao\UDAO.pas',
+  UDAOPais in 'dao\UDAOPais.pas',
+  UDM in 'dbexperiax\UDM.pas' {DataModule1: TDataModule},
+  UFrmPai in 'view\UFrmPai.pas' {FormPai},
+  UFrmConsultarPai in 'view\UFrmConsultarPai.pas' {FrmConsultarPai},
+  UFrmCadastroPai in 'view\UFrmCadastroPai.pas' {FormCadastroPai};
+
+var UmaAplicacao:TAplicacao;
+begin
+  try
+    { TODO -oUser -cConsole Main : Insert code here }
+    UmaAplicacao:=TAplicacao.Create;
+    UmaAplicacao.Execute;
+    UmaAplicacao.Destroy;
+  except
+
+  end;
+end.

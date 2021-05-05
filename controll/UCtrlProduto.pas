@@ -1,0 +1,65 @@
+unit UCtrlProduto;
+
+interface
+uses UCtrl, UDaoProduto, DB;
+  type TCtrlProduto = class (TCtrl)
+    private
+    protected
+        UmaDaoProduto:TDaoProduto;
+    public
+            constructor Create;
+            destructor Destroy;
+
+            function Salvar(Objeto : TObject): string;      override;
+            function GetDs : TDataSource;                override;
+            function Carregar( Objeto : TObject): Tobject;  override;
+            function BuscarProduto(KeyId: Integer): Boolean;
+            function Buscar(KeyId : Integer;KeyStr:String): boolean;      override;
+            function Excluir(Objeto : TObject): string;     override;
+  end;
+
+implementation
+
+{ TCtrlProduto }
+
+function TCtrlProduto.Buscar(KeyId: Integer; KeyStr: String): boolean;
+begin
+   Result:= UmaDaoProduto.Buscar(KeyId,KeyStr);
+end;
+
+function TCtrlProduto.BuscarProduto(KeyId: Integer): Boolean;
+begin
+   Result:=UmaDaoProduto.BuscarProduto(KeyId);
+end;
+
+function TCtrlProduto.Carregar(Objeto: TObject): Tobject;
+begin
+   Result:= UmaDaoProduto.Carregar(Objeto);
+end;
+
+constructor TCtrlProduto.Create;
+begin
+  UmaDaoProduto:=TDaoProduto.Create;
+end;
+
+destructor TCtrlProduto.Destroy;
+begin
+  UmaDaoProduto.Destroy;
+end;
+
+function TCtrlProduto.Excluir(Objeto: TObject): string;
+begin
+  Result:=  UmaDaoProduto.Excluir(Objeto);
+end;
+
+function TCtrlProduto.GetDs: TDataSource;
+begin
+  Result:=  UmaDaoProduto.GetDs;
+end;
+
+function TCtrlProduto.Salvar(Objeto: TObject): string;
+begin
+  Result:=  UmaDaoProduto.Salvar(Objeto);
+end;
+
+end.
